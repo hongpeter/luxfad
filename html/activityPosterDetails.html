@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>活动海报详情</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
+    <style type="text/css">
+        body {
+            background: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="clear box1 bgfff shopCartTop">
+            <a href="javascript:history.back();" class="fl searchBack apdBack"></a>
+            <a href="javascript:;" class="homeMsg centerMsg fr">
+                <img src="../image/icon1.png" alt="" class="icon1" style="margin-top:4vw;">
+                <span class="redBlock"></span>
+            </a>
+            <a href="shoppingCart.html" class="fr sr_icon33" style="margin-right:4vw;">
+                <img src="../image/icon33.png" alt="">
+            </a>
+        </div>
+        <div class="bgfff box1">
+            <div class="activityTitle">活动标题</div>
+            <div class="activityIntroduce">活动介绍</div>
+            <div class="activityContent">大夫琦需要克格勃爱的代价本槈桂林桂林失琦城西皮肤白奔石材勃爱的代价本槈桂林桂林失琦城西皮肤白奔石材勃爱的代价本槈桂林桂林失琦城西皮肤白奔石材</div>
+        </div>
+        <div class="bgfff mgt2vw clear">
+            <div class="ta-c c434343 goodRecommendation">好货推荐</div>
+            <ul class="collectionList clear">
+                <li v-for="item in 10">
+                    <img src="../image/productImg8.jpg" alt="" class="productImg" />
+                    <div class="collectionItemBD">
+                        <div class="brand">品牌XXX</div>
+                        <div class="productName">中长袖白T恤中长袖白T恤中长袖白T恤</div>
+                        <div class="source clear">
+                            <span class="fl">来源网站 欧洲/现货</span>
+                            <img src="../image/icon15.png" alt="" class="fl icon15" />
+                        </div>
+                        <div class="clear">
+                            <div class="fl productPrice">$88.00</div>
+                            <a href="" class="fr collectionIcon"></a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/api.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script type="text/javascript">
+    // 在 #app 标签下渲染一个按钮组件
+    var app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                value: '不会买错的化妆品',
+                showPicker: false,
+                columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+                showClear: false,
+            };
+        },
+        methods: {
+            clear() {
+                this.value = '';
+            },
+            onConfirm(value) {
+                this.value = value;
+                this.showPicker = false;
+            },
+        },
+        watch: {
+            value() {
+                this.showClear = true;
+            },
+        },
+    });
+    apiready = function () {
+
+    };
+</script>
+
+</html>

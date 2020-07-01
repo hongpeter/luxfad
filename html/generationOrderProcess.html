@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>代下单流程及免责声明</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style>
+	</style>
+</head>
+
+<body>
+	<div class="" id="app">
+		<div class="clear box1 bgfff shopCartTop">
+			<a href="javascript:history.back();" class="fl searchBack apdBack"></a>
+			<div class="ta-c">代下单流程及免责声明</div>
+		</div>
+		<div class="box">
+			<div class="eop_list" v-for="item in 5">
+				<a href="javasctipt:" class="clear eop_item">
+					<img src="../image/icon16.png" alt="" class="eop_icon16 fl" />
+					<div class="fl eop_listTitle">适用于直运内地</div>
+				</a>
+				<div class="eop_content">适用于直运内地适用于直运内地适用于直运内地适用于直运内地适用于直运内地适用于直运内地适用于直运内地适用于直运内地
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script src="../script/languages.min.js"></script>
+<script type="text/javascript">
+	// 在 #app 标签下渲染一个按钮组件
+	var app = new Vue({
+		el: '#app',
+		data() {
+			return {
+
+			};
+		},
+		methods: {
+
+		},
+	});
+	$(".eop_item").click(function () {
+		if ($(this).siblings(".eop_content").css("display") == "none") {
+			$(this).siblings(".eop_content").slideDown();
+			$(this).find(".eop_icon16").addClass("active")
+		} else {
+			$(this).siblings(".eop_content").slideUp();
+			$(this).find(".eop_icon16").removeClass("active")
+		}
+
+	});
+	//vant.Toast('提示');
+	apiready = function () {
+
+	};
+
+</script>
+
+</html>

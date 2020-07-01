@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>评论</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style>
+	</style>
+</head>
+
+<body>
+	<div class="" id="app">
+		<div class="clear box1 bgfff shopCartTop">
+			<a href="javascript:history.back();" class="fl searchBack apdBack"></a>
+			<div class="ta-c">评论</div>
+			<a href="personalCenter.html" class="icon66Box fr">
+				<img src="../image/icon66.png" alt="" />
+			</a>
+		</div>
+		<div class="commentsTop clear box1">
+			<img src="../image/img2.jpg" alt="" class="fl commentsImg" />
+			<div class="commentsProductName">某某产品某某产品某某产品某某产品某某产品某某产品某某产品...</div>
+		</div>
+		<div class="box1 clear">
+			<div class="commentsLabel fl">描述相符：</div>
+			<div class="fr flex">
+				<a href="javascript:;" :class="['haoping',commentsLevel==1?'active':'']"
+					@click="setCommentsLevel(1)">好评</a>
+				<a href="javascript:;" :class="['zhongoing',commentsLevel==2?'active':'']"
+					@click="setCommentsLevel(2)">中评</a>
+				<a href="javascript:;" :class="['chaping',commentsLevel==3?'active':'']"
+					@click="setCommentsLevel(3)">差评</a>
+			</div>
+		</div>
+		<div class="box1">
+			<textarea name="" id="" cols="30" rows="10" class="commentsContent"></textarea>
+		</div>
+		<div class="box1 clear">
+			<div class="fr commentsTips">您的描述，可以帮助更多想买的人。</div>
+		</div>
+		<div class="box1 clear">
+			<a href="javascript:;" class="patBtn fl">
+				<img src="../image/icon67.png" alt="" />
+				<span>为宝贝拍买家秀</span>
+			</a>
+		</div>
+		<a href="javascript:;" class="commentBtn">
+			<span>发表评论</span>
+		</a>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script src="../script/languages.min.js"></script>
+<script type="text/javascript">
+	// 在 #app 标签下渲染一个按钮组件
+	var app = new Vue({
+		el: '#app',
+		data() {
+			return {
+				commentsLevel: 0,
+			};
+		},
+		methods: {
+			setCommentsLevel(value) {
+				this.commentsLevel = value
+			},
+		},
+	});
+	//vant.Toast('提示');
+	apiready = function () {
+
+	};
+
+</script>
+
+</html>

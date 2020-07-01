@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>新增收货地址</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style>
+	</style>
+</head>
+
+<body>
+	<div class="" id="app">
+		<div class="clear box1 bgfff shopCartTop">
+			<a href="javascript:history.back();" class="fl searchBack apdBack"></a>
+			<div class="ta-c">新增收货地址</div>
+		</div>
+		<div class="box1">
+			<div class="clear addAddressItem">
+				<div class="addAddressLabel fl">收件人&nbsp;&nbsp;&nbsp;</div>
+				<input type="text" class="addAddressIput fl" placeholder="请输入姓名" style="width:40vw;" />
+				<div class="fr">
+					<van-radio-group v-model="radio" direction="horizontal" class="vanRadioGroup">
+						<van-radio name="1" checked-color="#a8896d">男</van-radio>
+						<van-radio name="2" checked-color="#a8896d">女</van-radio>
+					</van-radio-group>
+				</div>
+			</div>
+			<div class=" clear addAddressItem">
+				<div class="addAddressLabel fl">手机号码</div>
+				<input type="text" class="addAddressIput fl" placeholder="请输入" />
+			</div>
+			<div class="clear addAddressItem">
+				<div class="addAddressLabel fl">固定电话</div>
+				<input type="text" class="addAddressIput fl" placeholder="请输入" />
+			</div>
+		</div>
+		<div class="articleInterval"></div>
+		<div class="box1">
+			<div class="clear addAddressItem">
+				<div class="addAddressLabel fl">所在地区</div>
+				<a href="javascript:;" class="fr inTheArea" @click="show=true">{{inTheArea}}</a>
+			</div>
+			<div class="clear addAddressItem">
+				<div class="addAddressLabel fl">详细地址</div>
+				<input type="text" class="addAddressIput fl" placeholder="请输入" />
+			</div>
+			<div class="clear addAddressItem">
+				<div class="addAddressLabel fl">邮政编码</div>
+				<input type="text" class="addAddressIput fl" placeholder="请输入" />
+			</div>
+			<div class="clear addAddressItem">
+				<div class="addAddressLabel fl">身份证号</div>
+				<input type="text" class="addAddressIput fl" placeholder="请输入" />
+			</div>
+			<div class="clear">
+				<div class="addAddressLabel fl">身份证照片</div>
+				<div class="fl addAddressTips">通过转运方式购买时需要，务必保证照片清晰</div>
+			</div>
+			<div class="addAddressUploadBox box1 clear">
+				<div class="aa_uploadBox fl">
+					<a href="javascript:;" class="aa_uploadMain">
+						<div class="aa_uploadBD">
+							<img src="../image/icon67.png" alt="" />
+							<div class="aa_uploadLabel">仅清关用</div>
+						</div>
+					</a>
+					<div class="aa_uploadFoot">正面</div>
+				</div>
+				<div class="aa_uploadBox fl">
+					<a href="javascript:;" class="aa_uploadMain">
+						<div class="aa_uploadBD">
+							<img src="../image/icon67.png" alt="" />
+							<div class="aa_uploadLabel">仅清关用</div>
+						</div>
+					</a>
+					<div class="aa_uploadFoot">背面</div>
+				</div>
+			</div>
+		</div>
+		<a href="javascript:;" class="commentBtn saveAddress">
+			<span>保存地址</span>
+		</a>
+		<van-popup v-model="show" position="bottom">
+			<van-area title="" :area-list="areaList" :columns-num="2" @confirm="areaConfirm" @cancel="areaCancel">
+			</van-area>
+		</van-popup>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script src="../script/languages.min.js"></script>
+<script type="text/javascript">
+	// 在 #app 标签下渲染一个按钮组件
+	var app = new Vue({
+		el: '#app',
+		data() {
+			return {
+				radio: '1',
+				show: false,
+				areaList: [],
+				inTheArea: '广东,广州市',
+			};
+		},
+		created() {
+			import('../script/area/area.js')
+				.then(data => {
+					console.log('data', data.default);
+					this.areaList = data.default;
+				})
+				.catch(error => {
+					/* Error handling */
+				})
+		},
+		methods: {
+			areaConfirm(data) {
+				console.log('areaConfirm_data', data);
+				if (data) {
+					this.inTheArea = data[0].name + ',' + data[1].name
+				}
+				this.show = false;
+			},
+			areaCancel() {
+				this.show = false;
+			},
+		},
+	});
+	//vant.Toast('提示');
+	apiready = function () {
+
+	};
+
+</script>
+
+</html>

@@ -1,66 +1,138 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>Hello APP</title>
-    <link rel="stylesheet" type="text/css" href="../css/api.css" />
-	<style>
-		#con{
-			margin: 10px;
-			font-size: 24px;
-		}
-		ul{
-			margin-bottom: 10px;
-		}
-		ul li{
-			margin: 5px 10px;
-			padding: 5px;
-			color: #000;
-			word-wrap: break-word;
-		}
-	</style>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+  <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+  <title>首页</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
+  <link rel="stylesheet" type="text/css" href="../css/api.css" />
+  <style>
+
+  </style>
 </head>
+
 <body>
-    <label id="con">Hello APP</label>
-	<div id='sys-info'></div>
+  <div class="" id="app">
+    <div class="box clear">
+      <a href="messageBox.html" class="homeMsg">
+        <img src="../image/icon1.png" alt="" class="icon1">
+        <span class="redBlock"></span>
+      </a>
+      <a href="javascript:;" class="fr language" @click="showPicker = true">{{language}}</a>
+      <a href="search.html" class="fr searchBtn"><img src="../image/icon2.png" alt=""></a>
+    </div>
+    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+      <van-swipe-item v-for="item in 4">
+        <a href="searchResult.html"><img src="../image/banner.jpg" alt=""></a>
+      </van-swipe-item>
+    </van-swipe>
+    <div class="clear homeNav">
+      <a href="searchResult.html">Luisaviaroma</a>
+      <a href="searchResult.html">Matchesfashion</a>
+      <a href="searchResult.html">Brownsfashion</a>
+      <a href="searchResult.html">Luisaviaroma</a>
+    </div>
+    <div class="clear" style="margin-top:2vw;">
+      <a href="searchResult.html" class="fl block" style="width:51%;"><img src="../image/productImg1.jpg" alt=""></a>
+      <a href="searchResult.html" class="fl block" style="width:49%;"><img src="../image/productImg2.jpg" alt=""></a>
+    </div>
+    <div class="" style="margin-top:2vw;">
+      <a href="searchResult.html" class="block" style="width:100%;"><img src="../image/productImg3.jpg" alt=""></a>
+    </div>
+    <div class="" style="margin-top:0vw;">
+      <a href="searchResult.html" class="block" style="width:100%;"><img src="../image/productImg4.jpg" alt=""></a>
+    </div>
+    <div class="" style="margin-top:0vw;">
+      <a href="searchResult.html" class="block" style="width:100%;"><img src="../image/productImg5.jpg" alt=""></a>
+    </div>
+    <div class="clear" style="margin-top:2vw;">
+      <a href="searchResult.html" class="fl block" style="width:47%;"><img src="../image/productImg6.jpg" alt=""></a>
+      <a href="searchResult.html" class="fl block" style="width:53%;"><img src="../image/productImg7.jpg" alt=""></a>
+    </div>
+    <div class="homeTag" data-lang-cn="猜你喜欢" data-lang-en="GUESS YOU LIKE">猜你喜欢
+      <!--{hk}}猜妳喜歡-->
+      <!--{en}GUESS YOU LIKE-->
+    </div>
+    <ul class="youLike clear">
+      <li v-for="(item,index) in 4" :key="index">
+        <a href="productDetail.html">
+          <img src="../image/productImg8.jpg" alt="">
+        </a>
+        <div class="proBrand">品牌XXX
+          <!--{hk}品牌-->
+          <!--{en}brand-->
+        </div>
+        <div class="proName">中长袖白T恤
+          <!--{hk}中長袖白T恤-->
+          <!--{en}The white long-sleeved T-shirt-->
+        </div>
+        <div class="proState">欧洲 现货
+          <!--{hk}歐洲 現貨-->
+          <!--{en}European spot-->
+        </div>
+        <div class="clear">
+          <div class="fl proPrice">$88.00</div>
+          <div class="proIsCollection fr"></div>
+        </div>
+      </li>
+    </ul>
+    <van-popup v-model="showPicker" round position="bottom">
+      <van-picker show-toolbar :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
+    </van-popup>
+  </div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script src="../script/translater/dist/translater.js"></script>
 <script type="text/javascript">
-    apiready = function(){
-		var ver = api.version;
-		var sType = api.systemType;
-		var sVer = api.systemVersion;
-		var id = api.deviceId;
-		var model = api.deviceModel;
-		var name = api.deviceName;
-		var cType = api.connectionType;
-		var winName = api.winName;
-		var winWidth = api.winWidth;
-		var winHeight = api.winHeight;
-		var frameName = api.frameName || '';
-		var frameWidth = api.frameWidth || '';
-		var frameHeight = api.frameHeight || '';
+  var tran = new Translater();
+  if (tran.getLang() === "default") tran.setLang('cn');
+  // 在 #app 标签下渲染一个按钮组件
+  var app = new Vue({
+    el: '#app',
+    data() {
+      return {
+        current: 0,
+        showPicker: false,
+        columns: ['简体中文', '繁体中文', 'ENGLISH'],
+        language: '简体中文',
+      };
+    },
+    created() {
+      this.language = window.localStorage.getItem("language");
+      if (this.language == undefined) {
+        this.language = '简体中文';
+      }
+    },
+    methods: {
+      onChange(index) {
+        this.current = index;
+      },
+      onConfirm(value) {
+        this.language = value;
+        this.showPicker = false;
+        console.log('tran', tran)
+        if (value == "简体中文") {
+          tran.setLang('cn');
+        } else if (value == 'ENGLISH') {
+          tran.setLang('en');
+        } else if (value == '繁体中文') {
+          tran.setLang('hk');
+        }
+        window.localStorage.setItem("language", value);
+        window.location.reload();
+      },
+    },
+  });
+  //vant.Toast('提示');
+  apiready = function () {
 
-		var str = '<ul>';
-		str += '<li>引擎版本信息: ' + ver + '</li>';
-		str += '<li>系统类型: ' + sType + '</li>';
-		str += '<li>系统版本: ' + sVer + '</li>';
-		str += '<li>设备标识: ' + id + '</li>';
-		str += '<li>设备型号: ' + model + '</li>';
-		str += '<li>设备名称: ' + name + '</li>';
-		str += '<li>网络状态: ' + cType + '</li>';
-		str += '<li>主窗口名字: ' + winName + '</li>';
-		str += '<li>主窗口宽度: ' + winWidth + '</li>';
-		str += '<li>主窗口高度: ' + winHeight + '</li>';
-		str += '<li>子窗口名字: ' + frameName + '</li>';
-		str += '<li>子窗口宽度: ' + frameWidth + '</li>';
-		str += '<li>子窗口高度: ' + frameHeight + '</li>';
-		str += '</ul>';
-
-		$api.byId('sys-info').innerHTML = str;
-
-    };
+  };
 </script>
+
 </html>

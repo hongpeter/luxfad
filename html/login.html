@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+  <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+  <title>登录</title>
+  <link rel="stylesheet" type="text/css" href="../css/api.css" />
+  <style type="text/css">
+    html,
+    body {
+      height: 100%;
+    }
+
+    .loginTop {
+      padding: 15vw 4vw 10vw;
+    }
+
+    .loginHello {
+      font-size: 2.4rem;
+      color: #434343;
+    }
+
+    .welcome {
+      font-size: 1.25rem;
+      color: #434343;
+    }
+
+    .loginMain {
+      width: 90%;
+      margin: 4vw auto 0;
+    }
+
+    .loginLabel {
+      color: #d4d4d4;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .loginInput {
+      outline: none;
+      border-bottom: 1px solid #f2f2f2;
+      width: 100%;
+      height: 14vw;
+    }
+
+    .loginpwdBox {
+      position: relative;
+    }
+
+    .hidePwd {
+      position: absolute;
+      right: 0;
+      top: 10vw;
+      width: 24px;
+      height: 24px;
+      background: url(../image/icon8.png) no-repeat center;
+      background-size: 100% auto;
+    }
+
+    .hidePwd.active {
+      background: url(../image/icon9.png) no-repeat center;
+      background-size: 100% auto;
+    }
+
+    .passwordInput {
+      margin-top: 5vw;
+    }
+
+    .forgotPassword {
+      color: #a8896d;
+      margin-top: 3vw;
+    }
+
+    .loginBtn {
+      display: block;
+      text-align: center;
+      height: 12vw;
+      line-height: 12vw;
+      background: #eee;
+      color: #434343;
+      border-radius: 2vw;
+      font-size: 1rem;
+      margin-top: 4vw;
+    }
+
+    .toRegisterBtn {
+      display: block;
+      text-align: center;
+      height: 12vw;
+      line-height: 12vw;
+      color: #434343;
+      border-radius: 2vw;
+      font-size: 1rem;
+      margin-top: 4vw;
+      border: 1px solid #e5e5e5;
+    }
+
+    .quickLoginText {
+      margin-top: 4vw;
+    }
+
+    .quickLoginBox {
+      justify-content: center;
+      margin-top: 4vw;
+    }
+
+    .quickLoginItem {
+      width: 12vw;
+      height: 12vw;
+      text-align: center;
+      border: 1px solid #e5e5e5;
+      border-radius: 50%;
+      margin: 0 2vw;
+      vertical-align: middle;
+    }
+
+    .quickLoginItem img {
+      height: 6vw;
+      margin: 3vw 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="loginTop bgeee">
+    <div class="loginHello">HELLO！</div>
+    <div class="welcome">欢迎来到LUXFAD，登录探索</div>
+  </div>
+  <div class="loginMain">
+    <div class="loginLabel">账户</div>
+    <input type="text" name="" value="" class="loginInput" placeholder="请填写手机号码" />
+    <div class="loginpwdBox">
+      <input type="password" name="" value="" class="loginInput passwordInput" placeholder="请输入密码" />
+      <a href="javascript:;" class="hidePwd"></a>
+    </div>
+    <div class="clear">
+      <a href="javascript:;" class="fr forgotPassword">忘记密码？</a>
+    </div>
+    <a href="javascript:;" class="loginBtn" onclick="login()">登录</a>
+    <a href="register.html" class="toRegisterBtn">新注册</a>
+    <div class="cd4d4d4 ta-c quickLoginText">快捷登录</div>
+    <div class="quickLoginBox flex">
+      <div class="quickLoginItem">
+        <a href="javascript:;"><img src="../image/icon5.png" alt="" /></a>
+      </div>
+      <div class="quickLoginItem">
+        <a href="javascript:;"><img src="../image/icon6.png" alt="" /></a>
+      </div>
+      <div class="quickLoginItem">
+        <a href="javascript:;"><img src="../image/icon7.png" alt="" /></a>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+  $(".hidePwd").click(function () {
+    if ($(this).hasClass("active")) {
+      $(this).removeClass("active");
+      $(".passwordInput").attr("type", "password");
+    } else {
+      $(this).addClass("active");
+      $(".passwordInput").attr("type", "text");
+    }
+
+  })
+  apiready = function () {
+
+  };
+  function login() {
+    console.log("login");
+  };
+</script>
+
+</html>
