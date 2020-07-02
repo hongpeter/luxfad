@@ -46,12 +46,15 @@
         }
 
         #footer {
+            position: fixed;
             background-color: #f6f6f6;
             width: 100%;
             color: #434343;
             text-align: center;
             padding: 10px 0;
             font-size: 0.75rem;
+            left: 0;
+            bottom: 0;
         }
 
         .ficon {
@@ -65,23 +68,20 @@
         <div id="header">
             <h1>LUXFAD</h1>
         </div>
-        <div id="main" class="flex-con">
-
-        </div>
         <div id="footer" class="flex">
-            <a class="flex1" onclick="navTo(1)">
+            <a class="flex1" onclick="navTo(0)">
                 <img src="./image/ficon1.png" alt="" class="ficon ficon1">
                 <div class="fText">首页</div>
             </a>
-            <a class="flex1" onclick="navTo(2)">
+            <a class="flex1" onclick="navTo(1)">
                 <img src="./image/ficon2.png" alt="" class="ficon ficon2">
                 <div class="fText">收藏</div>
             </a>
-            <a class="flex1" onclick="navTo(3)">
+            <a class="flex1" onclick="navTo(2)">
                 <img src="./image/ficon3.png" alt="" class="ficon ficon3">
                 <div class="fText">购物车</div>
             </a>
-            <a class="flex1" onclick="navTo(4)">
+            <a class="flex1" onclick="navTo(3)">
                 <img src="./image/ficon4.png" alt="" class="ficon ficon4">
                 <div class="fText">我的</div>
             </a>
@@ -98,88 +98,78 @@
         $api.fixStatusBar(header);
 
         var headerPos = $api.offset(header);
-        var main = $api.byId('main');
-        var mainPos = $api.offset(main);
-        api.openFrame({
-            name: 'main',
-            url: 'html/main.html',
-            bounces: true,
+        var footer_h = $api.offset(footer).h;
+        var body_h = api.winHeight;
+        api.openFrameGroup({
+            name: 'group1',
             rect: {
                 x: 0,
                 y: headerPos.h,
                 w: 'auto',
-                h: mainPos.h
-            }
+                h: body_h - footer_h - headerPos.h
+            },
+            frames: [{
+                name: 'frame1',
+                url: 'html/main.html',
+                bgColor: '#fff'
+            }, {
+                name: 'frame2',
+                url: 'html/myCollection.html',
+                bgColor: '#fff'
+            }, {
+                name: 'frame3',
+                url: 'html/shoppingCart.html',
+                bgColor: '#fff'
+            }, {
+                name: 'frame4',
+                url: 'html/personalCenter.html',
+                bgColor: '#fff'
+            }]
+        }, function (ret, err) {
+            var index = ret.index;
+            console.log('index', index);
+            setCurrentClass(index)
         });
         $api.attr($api.dom('.ficon1'), 'src', './image/ficon1-1.png');
+        setTimeout(() => {
+            var pageParam = api.pageParam;
+            console.log('pageParam', pageParam);
+            if (pageParam.index) {
+                console.log('pageParam.index', pageParam.index)
+                let index = pageParam.index;
+                api.setFrameGroupIndex({
+                    name: 'group1',
+                    index: pageParam.index,
+                    scroll: false
+                });
+                setCurrentClass(index)
+            }
+        }, 500);
     };
     function navTo(id) {
-        var header = $api.byId('header');
-        //适配iOS 7+，Android 4.4+状态栏
-        $api.fixStatusBar(header);
-        var headerPos = $api.offset(header);
-        var main = $api.byId('main');
-        var mainPos = $api.offset(main);
-        if (id == 1) {
-            api.openFrame({
-                name: 'main',
-                url: 'html/main.html',
-                bounces: true,
-                rect: {
-                    x: 0,
-                    y: headerPos.h,
-                    w: 'auto',
-                    h: mainPos.h
-                }
-            });
+        api.setFrameGroupIndex({
+            name: 'group1',
+            index: id,
+            scroll: false
+        });
+    };
+    function setCurrentClass(index) {
+        if (index == 0) {
             $api.attr($api.dom('.ficon1'), 'src', './image/ficon1-1.png');
             $api.attr($api.dom('.ficon2'), 'src', './image/ficon2.png');
             $api.attr($api.dom('.ficon3'), 'src', './image/ficon3.png');
             $api.attr($api.dom('.ficon4'), 'src', './image/ficon4.png');
-        } else if (id == 2) {
-            api.openFrame({
-                name: 'main',
-                url: 'html/myCollection.html',
-                bounces: true,
-                rect: {
-                    x: 0,
-                    y: headerPos.h,
-                    w: 'auto',
-                    h: mainPos.h
-                }
-            });
+        } else if (index == 1) {
             $api.attr($api.dom('.ficon1'), 'src', './image/ficon1.png');
             $api.attr($api.dom('.ficon2'), 'src', './image/ficon2-1.png');
             $api.attr($api.dom('.ficon3'), 'src', './image/ficon3.png');
             $api.attr($api.dom('.ficon4'), 'src', './image/ficon4.png');
-        } else if (id == 3) {
-            api.openFrame({
-                name: 'main',
-                url: 'html/shoppingCart.html',
-                bounces: true,
-                rect: {
-                    x: 0,
-                    y: headerPos.h,
-                    w: 'auto',
-                    h: mainPos.h
-                }
-            });
+        } else if (index == 2) {
             $api.attr($api.dom('.ficon1'), 'src', './image/ficon1.png');
             $api.attr($api.dom('.ficon2'), 'src', './image/ficon2.png');
             $api.attr($api.dom('.ficon3'), 'src', './image/ficon3-1.png');
             $api.attr($api.dom('.ficon4'), 'src', './image/ficon4.png');
-        } else if (id == 4) {
-            api.openFrame({
-                name: 'main',
-                url: 'html/personalCenter.html',
-                bounces: true,
-                rect: {
-                    x: 0,
-                    y: headerPos.h,
-                    w: 'auto',
-                    h: mainPos.h
-                }
-            });
+        } else if (index == 3) {
             $api.attr($api.dom('.ficon1'), 'src', './image/ficon1.png');
             $api.attr($api.dom('.ficon2'), 'src', './image/ficon2.png');
             $api.attr($api.dom('.ficon3'), 'src', './image/ficon3.png');

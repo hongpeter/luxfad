@@ -15,10 +15,10 @@
 
 <body>
 	<div class="" id="app">
-		<div class="clear box1 bgfff shopCartTop">
-			<a href="javascript:history.back();" class="fl searchBack apdBack"></a>
+		<div class="clear box1 bgfff shopCartTop" id="header">
+			<a href="javascript:;" class="fl searchBack apdBack" onclick="api.closeWin();"></a>
 			<div class="ta-c">消息盒子</div>
-			<a href="personalCenter.html" class="icon66Box fr">
+			<a href="javascript:;" class="icon66Box fr" onclick="openUrl('personalCenter.html', {})">
 				<img src="../image/icon66.png" alt="" />
 			</a>
 		</div>
@@ -56,7 +56,27 @@
 	});
 	//vant.Toast('提示');
 	apiready = function () {
-
+		var header = $api.byId('header');
+		//适配iOS 7+，Android 4.4+状态栏
+		$api.fixStatusBar(header);
+	};
+	function openUrl(url, pageParam) {
+		console.log('url', url);
+		console.log('pageParam', pageParam);
+		api.openWin({
+			name: 'messageBox',
+			url: url,
+			rect: {
+				x: 0,
+				y: 0,
+				w: 'auto',
+				h: 'auto'
+			},
+			pageParam: pageParam,
+			// pageParam: {
+			//   name: 'test'
+			// }
+		});
 	};
 
 </script>

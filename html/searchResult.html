@@ -16,8 +16,8 @@
 
 <body>
     <div id="app">
-        <div class="clear box1 mgt2vw">
-            <a href="javascript:history.back();" class="fl searchBack"></a>
+        <div class="clear box1 mgt2vw" id="header">
+            <a href="javascript:;" class="fl searchBack" onclick="api.closeWin();"></a>
             <div class="fl searchInputBox" style="width:74vw">
                 <input type="text" class="searchInput" v-model="value" />
                 <a href="javascript:;" class="searchDelete" @click="clear" v-show="value!=''"></a>
@@ -36,7 +36,7 @@
             </a>
         </div>
         <ul class="collectionList clear">
-            <li v-for="item in 10">
+            <li v-for="item in 10" onclick="openUrl('productDetail.html','{}')">
                 <img src="../image/productImg8.jpg" alt="" class="productImg" />
                 <div class="collectionItemBD">
                     <div class="brand">品牌XXX</div>
@@ -207,7 +207,27 @@
         },
     });
     apiready = function () {
-
+        var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar(header);
+    };
+    function openUrl(url, pageParam) {
+        console.log('url', url);
+        console.log('pageParam', pageParam);
+        api.openWin({
+            name: 'searchResult',
+            url: url,
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: pageParam,
+            // pageParam: {
+            //   name: 'test'
+            // }
+        });
     };
 </script>
 

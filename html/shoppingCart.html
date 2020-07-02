@@ -18,7 +18,7 @@
 
 <body>
     <div class="" id="app">
-        <div class="shopCartTop clear">
+        <div class="shopCartTop clear" id="header">
             <div class="fl shopCartTitle">购物车</div>
             <a href="jacascript:;" class="fr shopCartText" v-if="isEdit" @click="isEdit=false">完成</a>
             <a href="jacascript:;" class="fr shopCartText" v-else @click="isEdit=true">编辑</a>
@@ -117,7 +117,27 @@
     });
     //vant.Toast('提示');
     apiready = function () {
-
+        var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        //$api.fixStatusBar(header);
+    };
+    function openUrl(url, pageParam) {
+        console.log('url', url);
+        console.log('pageParam', pageParam);
+        api.openWin({
+            name: 'shoppingCart',
+            url: url,
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: pageParam,
+            // pageParam: {
+            //   name: 'test'
+            // }
+        });
     };
 
 </script>

@@ -18,11 +18,11 @@
 
 <body class="bgeee">
     <div class="" id="app">
-        <div class="shopCartTop productTop clear bgfff">
-            <a href="javascript:history.back()" class="productBack fl">
+        <div class="shopCartTop productTop clear bgfff" id="header">
+            <a href="javascript:;" class="productBack fl" onclick="api.closeWin();">
                 <img src="../image/icon32.png" alt="" />
             </a>
-            <div class="productTabs flex fl">
+            <div class="productTabs fl">
                 <a href="javascript:;" :class="[active==1?'active':'']" @click="active=1">商品</a>
                 <a href="javascript:;" :class="[active==2?'active':'']" @click="active=2">详情</a>
                 <a href="javascript:;" :class="[active==3?'active':'']" @click="active=3">评价</a>
@@ -30,11 +30,11 @@
             <a href="javasctipt:" class="fr icon34" @click="showShare = true">
                 <img src="../image/icon34.png" alt="">
             </a>
-            <a href="javasctipt:" class="fr icon33">
+            <a href="javasctipt:" class="fr icon33" onclick="openUrl('../index.html',{index:2})">
                 <img src="../image/icon33.png" alt="">
             </a>
         </div>
-        <div class="" style="padding-bottom:22vw;" v-show="active==1">
+        <div class="productDetailTabBox" style="padding-bottom:22vw;" v-show="active==1">
             <van-swipe class="my-swipe bgfff" :autoplay="3000" indicator-color="white">
                 <van-swipe-item v-for="item in 4">
                     <img src="../image/productImg10.jpg" alt="" />
@@ -60,7 +60,7 @@
                 <div>转运清关周期为5-15个工作日</div>
                 <div>转运清关周期为5-15个工作日</div>
             </div>
-            <div class="clear box1 bgfff mgt2vw">
+            <div class="clear box1 bgfff mgt2vw" onclick="openUrl('afterSalesPolicy.html',{})">
                 <div class="fl productTag">售后政策</div>
                 <a href="javascript:;" class="icon16 fr">
                     <img src="../image/icon16.png" alt="" />
@@ -89,11 +89,11 @@
                     <img src="../image/head.jpg" alt="" />
                 </div>
                 <div class="ta-c">
-                    <a href="" class="toAllComment">查看全部评价</a>
+                    <a href="javascript:;" class="toAllComment" @click="active=3">查看全部评价</a>
                 </div>
             </div>
         </div>
-        <div v-show="active==2" class="bgfff productDetailInfoBox">
+        <div v-show="active==2" class="bgfff productDetailInfoBox productDetailTabBox">
             <div class="box1 productDetailInfo">
                 <div class="productDetailTag">商品信息</div>
                 <div class="flex productDetailInfo">
@@ -116,7 +116,7 @@
                 <img src="../image/productImg2.jpg" alt="" />
             </div>
         </div>
-        <div v-show="active==3" class="clear bgfff productDetailComment">
+        <div v-show="active==3" class="clear bgfff productDetailComment productDetailTabBox">
             <div class="clear box1 bgfff">
                 <div class="fl productTag">商品评价
                     <sapn class="fs0d75rem">(256)</sapn>
@@ -155,7 +155,7 @@
         </div>
         <div :class="['productDetailFoot',active==1?'bgfff':'']">
             <div class="productDetailFootBox clear">
-                <a href="javascript:;" class="fl toCustomerService">客服</a>
+                <a href="javascript:;" class="fl toCustomerService" onclick="openUrl('customerService.html',{})">客服</a>
                 <a href="javascript:;" class="fr entrustBuyBtn" @click="show=true">委托购买</a>
             </div>
         </div>
@@ -194,7 +194,7 @@
                 </div>
 
             </div>
-            <a href="javascript:;" class="addToCart">加入购物车</a>
+            <a href="javascript:;" class="addToCart" onclick="openUrl('../index.html',{index:2})">加入购物车</a>
         </van-popup>
         <van-popup v-model="showPicker" round position="bottom">
             <van-picker show-toolbar :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
@@ -283,7 +283,28 @@
         }
     })
     apiready = function () {
-
+        var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar(header);
+    };
+    function openUrl(url, pageParam) {
+        console.log('url', url);
+        console.log('pageParam', pageParam);
+        console.log('pageParam', pageParam.index);
+        api.openWin({
+            name: 'productDetail',
+            url: url,
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: pageParam,
+            // pageParam: {
+            //   name: 'test'
+            // }
+        });
     };
 
 </script>

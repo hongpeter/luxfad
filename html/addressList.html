@@ -15,12 +15,12 @@
 
 <body>
 	<div class="" id="app">
-		<div class="clear box1 bgfff shopCartTop">
-			<a href="javascript:history.back();" class="fl searchBack apdBack"></a>
+		<div class="clear box1 bgfff shopCartTop" id="header">
+			<a href="javascript:;" class="fl searchBack apdBack" onclick="api.closeWin();"></a>
 			<div class="ta-c">地址列表</div>
 		</div>
 		<div class="addressList">
-			<a class="box1 clear mso_noAddress addressItem" href="" v-for="item in 5">
+			<a class="box1 clear mso_noAddress addressItem" v-for="item in 5" onclick="openUrl('addAddress.html','{}')">
 				<dl class="mso_address">
 					<dt>
 						<span>某某某</span>12345678901
@@ -51,7 +51,27 @@
 	});
 	//vant.Toast('提示');
 	apiready = function () {
-
+		var header = $api.byId('header');
+		//适配iOS 7+，Android 4.4+状态栏
+		$api.fixStatusBar(header);
+	};
+	function openUrl(url, pageParam) {
+		console.log('url', url);
+		console.log('pageParam', pageParam);
+		api.openWin({
+			name: 'addressList',
+			url: url,
+			rect: {
+				x: 0,
+				y: 0,
+				w: 'auto',
+				h: 'auto'
+			},
+			pageParam: pageParam,
+			// pageParam: {
+			//   name: 'test'
+			// }
+		});
 	};
 
 </script>

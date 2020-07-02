@@ -18,13 +18,14 @@
 
 <body>
     <div id="app">
-        <div class="clear box1 bgfff shopCartTop">
-            <a href="javascript:history.back();" class="fl searchBack apdBack"></a>
-            <a href="javascript:;" class="homeMsg centerMsg fr">
+        <div class="clear box1 bgfff shopCartTop" id="header">
+            <a href="javascript:;" class="fl searchBack apdBack" onclick="api.closeWin();"></a>
+            <a href="javascript:;" class="homeMsg centerMsg fr" onclick="openUrl('messageBox.html',{})">
                 <img src="../image/icon1.png" alt="" class="icon1" style="margin-top:4vw;">
                 <span class="redBlock"></span>
             </a>
-            <a href="shoppingCart.html" class="fr sr_icon33" style="margin-right:4vw;">
+            <a href="javascript:;" class="fr sr_icon33" style="margin-right:4vw;"
+                onclick="openUrl('../index.html', {index:2})">
                 <img src="../image/icon33.png" alt="">
             </a>
         </div>
@@ -36,7 +37,7 @@
         <div class="bgfff mgt2vw clear">
             <div class="ta-c c434343 goodRecommendation">好货推荐</div>
             <ul class="collectionList clear">
-                <li v-for="item in 10">
+                <li v-for="item in 10" onclick="openUrl('productDetail.html','{}')">
                     <img src="../image/productImg8.jpg" alt="" class="productImg" />
                     <div class="collectionItemBD">
                         <div class="brand">品牌XXX</div>
@@ -87,7 +88,27 @@
         },
     });
     apiready = function () {
-
+        var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar(header);
+    };
+    function openUrl(url, pageParam) {
+        console.log('url', url);
+        console.log('pageParam', pageParam);
+        api.openWin({
+            name: 'activityPosterDetails',
+            url: url,
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: pageParam,
+            // pageParam: {
+            //   name: 'test'
+            // }
+        });
     };
 </script>
 
