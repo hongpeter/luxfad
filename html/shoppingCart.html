@@ -24,32 +24,35 @@
             <a href="jacascript:;" class="fr shopCartText" v-else @click="isEdit=true">编辑</a>
         </div>
         <div class="cartList">
-            <div class="cartItem" v-for="item in 2">
+            <div class="cartItem" v-for="(item,index) in cartList">
                 <div class="cartItemTop clear">
-                    <van-checkbox v-model="checked" checked-color="#333333">
-                        <span class="cartItemName">网站：Lusia</span>
+                    <van-checkbox v-model="item.checked" checked-color="#333333"
+                        @click="cartItemChecked(item.checked,index)" :data-index="index">
+                        <span class="cartItemName">网站：{{item.platform}}</span>
                     </van-checkbox>
                 </div>
                 <ul class="cartItemList">
-                    <li v-for="i in 2">
+                    <li v-for="i in item.list">
                         <van-swipe-cell>
                             <div class="cartItemBd clear">
-                                <van-checkbox v-model="checked" checked-color="#333333" class="fl cartCheckbox">
+                                <van-checkbox v-model="i.checked" checked-color="#333333" class="fl cartCheckbox"
+                                    @click="cartItemListChecked()">
                                 </van-checkbox>
-                                <img src="../image/productImg9.jpg" alt="" class="fl cartImg" />
+                                <!-- <div class="fl cartImgBox"><img :src="i.img" alt="" class="cartImg" /></div> -->
+                                <van-image class="fl" fit="cover" width="28vw" height="28vw" :src="i.img"></van-image>
                                 <div class="fl cartProductBd">
-                                    <div class="cartProductName">商品名称商品名称商品名称商品名称</div>
+                                    <div class="cartProductName">{{i.name}}</div>
                                     <div class="cartProductInfo">
-                                        <span>颜色：white</span>
-                                        <span>尺码：40IT</span>
+                                        <span v-for="v in i.sku">{{v}}</span>
                                     </div>
-                                    <div class="cartReceivingWay">收货方式：香港面交</div>
+                                    <div class="cartReceivingWay">收货方式：{{i.receive_way}}</div>
                                     <div class="clear">
-                                        <div class="cartProductPrice fl">港币 500.00</div>
+                                        <div class="cartProductPrice fl">￥ {{i.price}}</div>
                                         <div class="flex fr cartStepper">
-                                            <a href="javascript:;" class="cartStepperBtn">-</a>
-                                            <input type="number" class="cartStepperInput" v-model="value" />
-                                            <a href="javascript:;" class="cartStepperBtn">+</a>
+                                            <a href="javascript:;" class="cartStepperBtn"
+                                                @click="i.count>1?i.count--:1">-</a>
+                                            <input type="number" class="cartStepperInput" v-model="i.count" />
+                                            <a href="javascript:;" class="cartStepperBtn" @click="i.count++">+</a>
                                         </div>
                                     </div>
                                 </div>
@@ -68,36 +71,37 @@
                 </ul>
             </div>
         </div>
-        <div class="cartStatistical">
+        <div class="cartStatistical" v-show="subtotalShow&&!isEdit">
             <div class="clear">
-                <div class="fl">1件商品标价小计：</div>
-                <div class="fr">HK$ 210.00</div>
+                <div class="fl">{{totalCount}}件商品标价小计：</div>
+                <div class="fr">HK$ {{totalPrice}}</div>
             </div>
             <div class="clear">
                 <div class="fl">限时折扣：</div>
-                <div class="fr">-HK$ 210.00</div>
+                <div class="fr">-HK$ {{totalDiscount}}</div>
             </div>
             <div class="clear">
                 <div class="fl">运费：</div>
-                <div class="fr">HK$ 210.00</div>
+                <div class="fr">HK$ {{totalFreight}}</div>
             </div>
             <div class="clear">
                 <div class="fl">小计：</div>
-                <div class="fr">HK$ 210.00</div>
+                <div class="fr">HK$ {{subtotal}}</div>
             </div>
         </div>
         <div class="clear cartFoot">
-            <van-checkbox v-model="checked" checked-color="#333333" class="fl selectAll">全选</van-checkbox>
+            <van-checkbox v-model="checked" checked-color="#333333" class="fl selectAll" @click="selectAll(checked)">全选
+            </van-checkbox>
             <a href="javascript:;" class="cartFootBtn fr" v-if="!isEdit">结算</a>
             <a href="javascript:;" class="cartFootBtn fr" v-if="isEdit">删除</a>
-            <div class="fr cartTotalPrice" v-if="!isEdit">总价：<span>0</span></div>
-            <div class="fr cartTotalQty" v-if="!isEdit">共 0 件</div>
-
+            <div class="fr cartTotalPrice" v-if="!isEdit">总价：<span>{{subtotal}}</span></div>
+            <div class="fr cartTotalQty" v-if="!isEdit">共 {{totalCount}} 件</div>
         </div>
     </div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script type="text/javascript">
@@ -108,37 +112,124 @@
             return {
                 checked: false,
                 value: 1,
-                isEdit: false
+                isEdit: false,
+                cartList: [],
+                subtotalShow: false,
+                totalCount: 0,
+                totalPrice: 0,
+                totalDiscount: 0,
+                totalFreight: 0,
+                subtotal: 0,
             };
         },
+        created() {
+            this.getCart();
+        },
         methods: {
-
+            selectAll(checked) {
+                console.log('selectAll', checked);
+                this.cartList.forEach(i => {
+                    i.checked = checked;
+                    i.list.forEach(v => {
+                        v.checked = checked;
+                    })
+                });
+                this.getSubtotal();
+            },
+            cartItemChecked(checked, index) {
+                console.log('cartItemChecked', checked);
+                console.log('cartItemChecked', index);
+                this.cartList[index].list.forEach(i => {
+                    i.checked = checked;
+                });
+                this.getSubtotal();
+            },
+            cartItemListChecked() {
+                this.getSubtotal();
+            },
+            getSubtotal() {
+                console.log('getSubtotal', this.cartList)
+                this.totalCount = 0;
+                this.totalPrice = 0;
+                this.totalDiscount = 0;
+                this.totalFreight = 0;
+                this.subtotal = 0;
+                this.cartList.forEach(i => {
+                    i.list.forEach(v => {
+                        if (v.checked) {
+                            //console.log('v', v)
+                            this.totalCount = Number(this.totalCount) + Number(v.count);
+                            this.totalPrice = Number(this.totalPrice) + Number(v.count) * Number(v.price);
+                        }
+                    })
+                });
+                this.subtotal = this.totalPrice - this.totalDiscount + this.totalFreight;
+                if (this.totalCount == 0) {
+                    this.subtotalShow = false;
+                } else {
+                    this.subtotalShow = true;
+                }
+            },
+            getCart() {
+                let _this = this;
+                request("GET", requestUrl + "/App/Product/CartList", '', function (data) {
+                    console.log('getCart', JSON.stringify(data));
+                    if (data.success) {
+                        console.log('getCart', JSON.stringify(data.data));
+                        let arr = [];
+                        data.data.forEach(i => {
+                            arr.push(i.platform);
+                        });
+                        var f = arr.filter(function (element, index, self) {
+                            return self.indexOf(element) === index;
+                        });
+                        console.log('addcart-f', f);
+                        f.forEach(i => {
+                            let list = [];
+                            data.data.forEach(v => {
+                                v.checked = false;
+                                if (i == v.platform) {
+                                    list.push(v);
+                                }
+                            });
+                            _this.cartList.push({
+                                platform: i,
+                                checked: false,
+                                list: list,
+                            })
+                        });
+                        console.log('_this.cartList', _this.cartList)
+                        //_this.cartList = data.data;
+                    }
+                })
+            },
         },
     });
     //vant.Toast('提示');
     apiready = function () {
         var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
-        //$api.fixStatusBar(header);
+        $api.fixStatusBar(header);
+        app.getCart();
     };
-    function openUrl(url, pageParam) {
-        console.log('url', url);
-        console.log('pageParam', pageParam);
-        api.openWin({
-            name: 'shoppingCart',
-            url: url,
-            rect: {
-                x: 0,
-                y: 0,
-                w: 'auto',
-                h: 'auto'
-            },
-            pageParam: pageParam,
-            // pageParam: {
-            //   name: 'test'
-            // }
-        });
-    };
+    // function openUrl(url, pageParam) {
+    //     console.log('url', url);
+    //     console.log('pageParam', pageParam);
+    //     api.openWin({
+    //         name: 'shoppingCart',
+    //         url: url,
+    //         rect: {
+    //             x: 0,
+    //             y: 0,
+    //             w: 'auto',
+    //             h: 'auto'
+    //         },
+    //         pageParam: pageParam,
+    //         // pageParam: {
+    //         //   name: 'test'
+    //         // }
+    //     });
+    // };
 
 </script>
 

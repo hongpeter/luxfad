@@ -131,7 +131,7 @@
   </div>
   <div class="loginMain">
     <div class="loginLabel">账户</div>
-    <input type="text" name="" value="" class="loginInput" placeholder="请填写手机号码" />
+    <input type="text" name="" value="" class="loginInput phoneInput" placeholder="请填写手机号码" />
     <div class="loginpwdBox">
       <input type="password" name="" value="" class="loginInput passwordInput" placeholder="请输入密码" />
       <a href="javascript:;" class="hidePwd"></a>
@@ -140,7 +140,7 @@
       <a href="javascript:;" class="fr forgotPassword">忘记密码？</a>
     </div>
     <a href="javascript:;" class="loginBtn" onclick="login()">登录</a>
-    <a href="register.html" class="toRegisterBtn">新注册</a>
+    <a href="javascript:;" class="toRegisterBtn" onclick="openUrl('register.html',{})">新注册</a>
     <div class="cd4d4d4 ta-c quickLoginText">快捷登录</div>
     <div class="quickLoginBox flex">
       <div class="quickLoginItem">
@@ -156,6 +156,7 @@
   </div>
 </body>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript">
   $(".hidePwd").click(function () {
@@ -193,6 +194,44 @@
   };
   function login() {
     console.log("login");
+    let isLogin = true;
+    if ($(".phoneInput").val() == "") {
+      alert("登录帐号不能为空！");
+      isLogin = false;
+    } else if ($(".passwordInput").val() == "") {
+      alert("登录密码不能为空！");
+      isLogin = false;
+    }
+    if (isLogin) {
+      let d = {
+        username: $(".phoneInput").val(),
+        password: $(".passwordInput").val(),
+        type: "0",
+      }
+      console.log('d', d);
+      $.ajax({
+        type: "POST",
+        url: requestUrl + "/App/Users/Login",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(d),
+        success: function (data) {
+          console.log('Login', JSON.stringify(data));
+          if (data.success) {
+            alert("登录成功！");
+            localStorage.setItem("fToken", data.data.fToken);
+            document.cookie = "fToken=" + data.data.fToken;
+            api.setGlobalData({
+              key: 'fToken',
+              value: data.data.fToken
+            });
+            openUrl('../index.html', { index: 3 })
+          } else {
+            alert(data.msg);
+          }
+        },
+      });
+    }
   };
 </script>
 

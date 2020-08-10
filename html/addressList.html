@@ -20,12 +20,13 @@
 			<div class="ta-c">地址列表</div>
 		</div>
 		<div class="addressList">
-			<a class="box1 clear mso_noAddress addressItem" v-for="item in 5" onclick="openUrl('addAddress.html','{}')">
+			<a class="box1 clear mso_noAddress addressItem" v-for="item in data"
+				@click="openUrl('addAddress.html',{id:item.id})">
 				<dl class="mso_address">
 					<dt>
-						<span>某某某</span>12345678901
+						<span>{{item.receive_name}}</span>{{item.receive_phone}}
 					</dt>
-					<dd>广东省广州市天河区下跌个股分化库鲁哟</dd>
+					<dd>{{item.area}}{{item.address}}</dd>
 				</dl>
 			</a>
 		</div>
@@ -33,6 +34,7 @@
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
@@ -42,11 +44,26 @@
 		el: '#app',
 		data() {
 			return {
-
+				data: [],
 			};
 		},
+		created() {
+			this.getAddressList();
+		},
 		methods: {
-
+			openUrl(url, pageParam) {
+				openUrl(url, pageParam)
+			},
+			getAddressList() {
+				let _this = this;
+				request("GET", requestUrl + "/App/Users/AddressList", '', function (data) {
+					console.log('getAddressList', data);
+					if (data.success) {
+						_this.data = data.data;
+						console.log('_this.data', _this.data);
+					}
+				})
+			},
 		},
 	});
 	//vant.Toast('提示');
@@ -55,24 +72,24 @@
 		//适配iOS 7+，Android 4.4+状态栏
 		$api.fixStatusBar(header);
 	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'addressList',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
+	// function openUrl(url, pageParam) {
+	// 	console.log('url', url);
+	// 	console.log('pageParam', pageParam);
+	// 	api.openWin({
+	// 		name: 'addressList',
+	// 		url: url,
+	// 		rect: {
+	// 			x: 0,
+	// 			y: 0,
+	// 			w: 'auto',
+	// 			h: 'auto'
+	// 		},
+	// 		pageParam: pageParam,
+	// 		// pageParam: {
+	// 		//   name: 'test'
+	// 		// }
+	// 	});
+	// };
 
 </script>
 

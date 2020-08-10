@@ -17,14 +17,11 @@
 <body>
     <div id="app">
         <div class="clear box1 mgt2vw" id="header">
-            <<<<<<< HEAD <a href="javascript:;" class="fl searchBack" onclick="api.closeWin();"></a>
-                =======
-                <a href="javascript:history.back();" class="fl searchBack"></a>
-                >>>>>>> 4c85fccc9b3bb2ddaa1c36350dfb8f117990dd96
-                <div class="fl searchInputBox">
-                    <input type="text" class="searchInput" v-model="value" />
-                    <a href="javascript:;" class="searchDelete" @click="clear" v-show="value!=''"></a>
-                </div>
+            <a href="javascript:;" class="fl searchBack" onclick="api.closeWin();"></a>
+            <div class="fl searchInputBox">
+                <input type="text" class="searchInput" v-model="value" />
+                <a href="javascript:;" class="searchDelete" @click="clear" v-show="value!=''"></a>
+            </div>
         </div>
         <div class="clear box1 mgt2vw">
             <div class="fl searchTag">最近搜索</div>

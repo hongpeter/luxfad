@@ -36,29 +36,31 @@
         </div>
         <div class="productDetailTabBox" style="padding-bottom:22vw;" v-show="active==1">
             <van-swipe class="my-swipe bgfff" :autoplay="3000" indicator-color="white">
-                <van-swipe-item v-for="item in 4">
-                    <img src="../image/productImg10.jpg" alt="" />
+                <van-swipe-item v-for="(item,index) in detail.imgs" :key="index">
+                    <img :src="item==''?'../image/productImg10.jpg':item" alt="" />
                 </van-swipe-item>
             </van-swipe>
-            <div class="productBrandName box1 bgfff">prade（品牌名）</div>
+            <div class="productBrandName box1 bgfff">{{detail.brand}}</div>
             <div class="clear box1 bgfff">
-                <div class="fl productName">A-line denim mini dress（商品名）</div>
-                <a href="javascript:;" class="productLike fr">45</a>
+                <div class="fl productName">{{detail.name}}</div>
+                <a href="javascript:;" :class="['productLike','fr',detail.is_collect?'active':'']"
+                    @click.stop="setCollect(detail.id, !detail.is_collect)">{{detail.collect_count}}</a>
             </div>
-            <div class="clear box1 productPrice bgfff">原价：<span class="lineThrough">£199.00</span> 折扣价：£150.00</div>
+            <div class="clear box1 productPrice bgfff">原价：<span class="lineThrough">{{detail.price}}</span>
+                折扣价：{{detail.discount_price}}</div>
             <div class="clear box1 c434343 fs1rem bgfff">约合港币<span class="ca8896d">HK$2225.9</span></div>
-            <div class="clear box1 c434343 fs1rem bgfff pdb2vw">来自：Luisa 欧洲现货</div>
-            <div class="clear box1 bgfff mgt2vw">
+            <div class="clear box1 c434343 fs1rem bgfff pdb2vw">来自：{{detail.platform}}</div>
+            <div class="clear box1 bgfff mgt2vw productTagBox">
                 <div class="fl productTag">到货说明</div>
                 <a href="javascript:;" class="icon36 fr ">
                     <img src="../image/icon36.png" alt="" />
                 </a>
             </div>
             <div class="clear box1 bgfff pdb2vw c434343 arrivalInstructions">
-                <div>欧洲转运至内地需7-15天</div>
-                <div>欧洲转运至内地需7-15天</div>
-                <div>转运清关周期为5-15个工作日</div>
-                <div>转运清关周期为5-15个工作日</div>
+                <div v-for="(item,index) in specificationList" :key="index" class="instructionsItem">
+                    <div>{{item.title}}</div>
+                    <div class="instructionsContent">{{item.content}}</div>
+                </div>
             </div>
             <div class="clear box1 bgfff mgt2vw" onclick="openUrl('afterSalesPolicy.html',{})">
                 <div class="fl productTag">售后政策</div>
@@ -98,22 +100,21 @@
                 <div class="productDetailTag">商品信息</div>
                 <div class="flex productDetailInfo">
                     <div class="productDetailInfoLabel">品牌名</div>
-                    <div class="productDetailInfoText">prade</div>
+                    <div class="productDetailInfoText">{{detail.brand}}</div>
                 </div>
                 <div class="flex productDetailInfo">
                     <div class="productDetailInfoLabel">商品名</div>
-                    <div class="productDetailInfoText">A-line denim mini dress</div>
+                    <div class="productDetailInfoText">{{detail.name}}</div>
                 </div>
                 <div class="flex productDetailInfo">
                     <div class="productDetailInfoLabel">商品描述</div>
-                    <div class="productDetailInfoText">
-                        具体商品描述内容具体商品描述内容具体商品描述内容具体商品描述内容具体商品描述内容具体商品描述内容具体商品描述内容具体商品描述内容具体商品描述内容</div>
+                    <div class="productDetailInfoText">{{detail.detail}}</div>
                 </div>
                 <div class="productDetailTag" style="margin-top:2vw;">商品图片</div>
             </div>
             <div class="productDetailInfoImg clear">
-                <img src="../image/productImg1.jpg" alt="" />
-                <img src="../image/productImg2.jpg" alt="" />
+                <img v-for="(item,index) in detail.imgs" :key="index" :src="item==''?'../image/productImg10.jpg':item"
+                    alt="" />
             </div>
         </div>
         <div v-show="active==3" class="clear bgfff productDetailComment productDetailTabBox">
@@ -162,19 +163,24 @@
         <van-popup v-model="show" round position="bottom" closeable>
             <div class="box1">
                 <div class="clear productPopupTop">
-                    <img src="../image/productImg9.jpg" alt="" class="productDetsilImg fl" />
+                    <img :src="gDetail.img" alt="" class="productDetsilImg fl" />
                     <div class="fl productInfo">
-                        <div>prade（品牌名）</div>
-                        <div>A-line denim mini dress（商品名）</div>
-                        <div class="cc9c9c9">已选：白色，40码</div>
-                        <div class="unitPrice">£150.00 约合港币HK$2225.9</div>
+                        <div>{{gDetail.brand}}</div>
+                        <div>{{gDetail.name}}</div>
+                        <div class="cc9c9c9">已选：{{gDetail.selected}}</div>
+                        <div class="unitPrice">￥{{gDetail.price}} 约合港币HK$2225.9</div>
                     </div>
                 </div>
                 <div class="clear">
                     <div class="fl productDetailLabel">收货方式</div>
                     <a href="javascript:;" class="courierSelect fr" @click="showPicker = true">{{courier}}</a>
                 </div>
-                <div class="clear">
+                <div class="clear" v-for="(item,index) in detail.skus" :key="index">
+                    <div class="fl productDetailLabel">{{item.name}}</div>
+                    <a href="javascript:;" class="courierSelect fr border0"
+                        @click="skusSelect(item,index)">{{item.sName}}</a>
+                </div>
+                <!-- <div class="clear">
                     <div class="fl productDetailLabel">颜色</div>
                     <a href="javascript:;" class="courierSelect fr border0"
                         @click="showColorPicker = true">{{color}}</a>
@@ -182,7 +188,7 @@
                 <div class="clear">
                     <div class="fl productDetailLabel">尺码</div>
                     <a href="javascript:;" class="courierSelect fr border0" @click="showSizePicker = true">{{size}}</a>
-                </div>
+                </div> -->
                 <div class="clear">
                     <div class="fl productDetailLabel">库存数量</div>
                     <div class="flex fr cartStepper productDetailStepper">
@@ -194,13 +200,14 @@
                 </div>
 
             </div>
-            <a href="javascript:;" class="addToCart" onclick="openUrl('../index.html',{index:2})">加入购物车</a>
+            <a href="javascript:;" class="addToCart" @click="addCart()">加入购物车</a>
         </van-popup>
         <van-popup v-model="showPicker" round position="bottom">
             <van-picker show-toolbar :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
         </van-popup>
         <van-popup v-model="showColorPicker" round position="bottom">
-            <van-picker show-toolbar :columns="columns" @cancel="showColorPicker = false" @confirm="colorOnConfirm" />
+            <van-picker show-toolbar :columns="colorColumns" @cancel="showColorPicker = false" value-key="name"
+                @confirm="colorOnConfirm" />
         </van-popup>
         <van-popup v-model="showSizePicker" round position="bottom">
             <van-picker show-toolbar :columns="columns" @cancel="showSizePicker = false" @confirm="sizeOnConfirm" />
@@ -209,10 +216,18 @@
     </div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script type="text/javascript">
+    function gtQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    var id = gtQueryString("id");
+    console.log('id', id);
     // 在 #app 标签下渲染一个按钮组件
     var app = new Vue({
         el: '#app',
@@ -223,8 +238,16 @@
                 taiguo: false,
                 show: false,
                 showPicker: false,
-                columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
-                courier: '快递物流',
+                columns: [
+                    {
+                        id: 0,
+                        text: '香港面交'
+                    }, {
+                        id: 1,
+                        text: '物流快递'
+                    }
+                ],
+                courier: '香港面交',
                 color: '白色',
                 size: '40DK',
                 qty: 1,
@@ -240,9 +263,43 @@
                     { name: '分享海报', icon: 'poster' },
                     { name: '二维码', icon: 'qrcode' },
                 ],
+                detail: {},
+                colorColumns: [],
+                skusIndex: 0,
+                gDetail: {},
+                skuIds: [],
+                goodsId: id,
+                count: 1,
+                receiveWay: 0,
+                specificationList: [],
             };
         },
+        created() {
+            this.getSpecificationList();
+            this.getDetail(id);
+        },
         methods: {
+            //设置收藏
+            setCollect(id, is_collect) {
+                console.log('setCollect', is_collect);
+                console.log('setCollect', id);
+                let _this = this;
+                let d = {
+                    id: id,
+                    is_collect: is_collect,
+                };
+                request("POST", requestUrl + "/App/Product/Collect", JSON.stringify(d), function (data) {
+                    console.log('设置收藏', data);
+                    alert(data.msg);
+                    _this.getDetail(id);
+                })
+            },
+            skusSelect(item, index) {
+                console.log('skusSelect', item);
+                this.colorColumns = item.children;
+                this.showColorPicker = true;
+                this.skusIndex = index;
+            },
             onSelect(option) {
                 vant.Toast(option.name);
                 this.showShare = false;
@@ -252,12 +309,25 @@
                 this.commentActive = type;
             },
             onConfirm(value) {
-                this.courier = value;
+                console.log('onConfirm', value)
+                this.courier = value.text;
                 this.showPicker = false;
             },
             colorOnConfirm(value) {
+                console.log('colorOnConfirm', value)
                 this.color = value;
                 this.showColorPicker = false;
+                this.detail.skus[this.skusIndex].sId = value.id;
+                this.detail.skus[this.skusIndex].sName = value.name;
+                let sArr = [];
+                let sIdArr = [];
+                this.detail.skus.forEach(i => {
+                    sArr.push(i.sName);
+                    sIdArr.push(i.sId);
+                });
+                this.skuIds = sIdArr;
+                this.gDetail.selected = sArr.toString();
+                this.getGoods();
             },
             sizeOnConfirm(value) {
                 this.size = value;
@@ -271,41 +341,147 @@
             add() {
                 this.qty++;
             },
+            getDetail(id) {
+                let _this = this;
+                let d = {
+                    id: id,
+                }
+                request("POST", requestUrl + "/App/Product/Detail", JSON.stringify(d), function (data) {
+                    console.log('getDetail', data);
+                    if (data.success) {
+                        console.log('getDetail', data.data);
+                        if (data.data) {
+                            _this.gDetail.brand = data.data.brand;
+                            _this.gDetail.name = data.data.name;
+                            _this.gDetail.price = data.data.price;
+                            _this.gDetail.selected = '';
+                            if (data.data.imgs.length > 0) {
+                                _this.gDetail.img = data.data.imgs[0];
+                            }
+                            let sArr = [];
+                            let sIdArr = [];
+                            if (data.data.skus.length > 0) {
+                                data.data.skus.forEach(i => {
+                                    i.sId = "";
+                                    i.sName = "";
+                                    if (i.children.length > 0) {
+                                        i.sId = i.children[0].id;
+                                        i.sName = i.children[0].name;
+                                        sArr.push(i.children[0].name);
+                                        sIdArr.push(i.children[0].id);
+                                    }
+                                });
+                                _this.gDetail.selected = sArr.toString();
+                                _this.skuIds = sIdArr;
+                            }
+                            _this.detail = data.data;
+                        }
+
+                    }
+                })
+            },
+            //获取app商品详情
+            getGoods() {
+                let _this = this;
+                console.log('this.skuIds', this.skuIds)
+                let d = {
+                    "product_id": id,
+                    "sku_ids": this.skuIds
+                };
+                request("POST", requestUrl + "/App/Product/Goods", JSON.stringify(d), function (data) {
+                    console.log('getDetail', data);
+                    if (data.success) {
+                        console.log('getGoods', data.data);
+                        let res = data.data
+                        if (res) {
+                            _this.gDetail.price = res.discount_price;
+                            if (res.img.length > 0) {
+                                _this.gDetail.img = res.img[0]
+                            }
+                        }
+                    }
+                })
+            },
+            //获取说明列表
+            getSpecificationList() {
+                let _this = this;
+                let d = {
+                    type: 0,
+                };
+                request("POST", requestUrl + "/App/Users/SpecificationList", JSON.stringify(d), function (data) {
+                    console.log('获取说明列表', data);
+                    if (data.success) {
+                        _this.specificationList = data.data;
+                        console.log('获取说明列表', _this.specificationList);
+                    }
+                })
+            },
+            //加入购物车
+            addCart() {
+                let isOne = true;
+                let _this = this;
+                let d = {
+                    goods: this.goodsId,
+                    count: this.count,
+                    receive_way: this.receiveWay,
+                };
+                if (isOne) {
+                    isOne = false;
+                    request("POST", requestUrl + "/App/Product/AddCart", JSON.stringify(d), function (data) {
+                        console.log('AddCart', data);
+                        isOne = true
+                        if (data.success) {
+                            _this.$toast.success("成功加入购物车！");
+                            openUrl('../index.html', { index: 2 })
+                        }
+                    })
+                }
+
+            },
         },
     });
-    $(".icon36").click(function () {
+    $(".productTagBox").click(function () {
         if ($(this).hasClass("active")) {
             $(this).removeClass("active");
-            $(".arrivalInstructions").removeClass("active");
+            $(".instructionsContent").slideUp("slow");
         } else {
             $(this).addClass("active");
-            $(".arrivalInstructions").addClass("active");
+            $(".instructionsContent").slideDown("slow");
         }
     })
     apiready = function () {
         var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
         $api.fixStatusBar(header);
+        setTimeout(() => {
+            var pageParam = api.pageParam;
+            console.log('pageParam', pageParam);
+            if (pageParam.id) {
+                console.log('pageParam.id', pageParam.id)
+                id = pageParam.id;
+                app.getDetail(id);
+            }
+        }, 500);
     };
-    function openUrl(url, pageParam) {
-        console.log('url', url);
-        console.log('pageParam', pageParam);
-        console.log('pageParam', pageParam.index);
-        api.openWin({
-            name: 'productDetail',
-            url: url,
-            rect: {
-                x: 0,
-                y: 0,
-                w: 'auto',
-                h: 'auto'
-            },
-            pageParam: pageParam,
-            // pageParam: {
-            //   name: 'test'
-            // }
-        });
-    };
+    // function openUrl(url, pageParam) {
+    //     console.log('url', url);
+    //     console.log('pageParam', pageParam);
+    //     console.log('pageParam', pageParam.index);
+    //     api.openWin({
+    //         name: 'productDetail',
+    //         url: url,
+    //         rect: {
+    //             x: 0,
+    //             y: 0,
+    //             w: 'auto',
+    //             h: 'auto'
+    //         },
+    //         pageParam: pageParam,
+    //         // pageParam: {
+    //         //   name: 'test'
+    //         // }
+    //     });
+    // };
 
 </script>
 

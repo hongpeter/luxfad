@@ -22,40 +22,41 @@
 		<div class="box1">
 			<div class="clear addAddressItem">
 				<div class="addAddressLabel fl">收件人&nbsp;&nbsp;&nbsp;</div>
-				<input type="text" class="addAddressIput fl" placeholder="请输入姓名" style="width:40vw;" />
+				<input v-model="data.receive_name" type="text" class="addAddressIput fl" placeholder="请输入姓名"
+					style="width:40vw;" />
 				<div class="fr">
-					<van-radio-group v-model="radio" direction="horizontal" class="vanRadioGroup">
-						<van-radio name="1" checked-color="#a8896d">男</van-radio>
-						<van-radio name="2" checked-color="#a8896d">女</van-radio>
+					<van-radio-group v-model="data.gender" direction="horizontal" class="vanRadioGroup">
+						<van-radio :name="0" checked-color="#a8896d">男</van-radio>
+						<van-radio :name="1" checked-color="#a8896d">女</van-radio>
 					</van-radio-group>
 				</div>
 			</div>
 			<div class=" clear addAddressItem">
 				<div class="addAddressLabel fl">手机号码</div>
-				<input type="text" class="addAddressIput fl" placeholder="请输入" />
+				<input v-model="data.receive_phone" type="number" class="addAddressIput fl" placeholder="请输入" />
 			</div>
 			<div class="clear addAddressItem">
 				<div class="addAddressLabel fl">固定电话</div>
-				<input type="text" class="addAddressIput fl" placeholder="请输入" />
+				<input v-model="data.telephone" type="number" class="addAddressIput fl" placeholder="请输入" />
 			</div>
 		</div>
 		<div class="articleInterval"></div>
 		<div class="box1">
 			<div class="clear addAddressItem">
 				<div class="addAddressLabel fl">所在地区</div>
-				<a href="javascript:;" class="fr inTheArea" @click="show=true">{{inTheArea}}</a>
+				<a href="javascript:;" class="fr inTheArea" @click="show=true">{{data.area}}</a>
 			</div>
 			<div class="clear addAddressItem">
 				<div class="addAddressLabel fl">详细地址</div>
-				<input type="text" class="addAddressIput fl" placeholder="请输入" />
+				<input v-model="data.address" type="text" class="addAddressIput fl" placeholder="请输入" />
 			</div>
 			<div class="clear addAddressItem">
 				<div class="addAddressLabel fl">邮政编码</div>
-				<input type="text" class="addAddressIput fl" placeholder="请输入" />
+				<input v-model="data.postcode" type="number" class="addAddressIput fl" placeholder="请输入" />
 			</div>
 			<div class="clear addAddressItem">
 				<div class="addAddressLabel fl">身份证号</div>
-				<input type="text" class="addAddressIput fl" placeholder="请输入" />
+				<input v-model="data.id_card_num" type="text" class="addAddressIput fl" placeholder="请输入" />
 			</div>
 			<div class="clear">
 				<div class="addAddressLabel fl">身份证照片</div>
@@ -67,6 +68,9 @@
 						<div class="aa_uploadBD">
 							<img src="../image/icon67.png" alt="" />
 							<div class="aa_uploadLabel">仅清关用</div>
+							<van-image class="uploadImage" fit="cover" :src="data.id_card_photo"
+								v-show="data.id_card_photo!=''"></van-image>
+							<input type="file" id="image" @change="fileChange(1)" class="uploadFile" />
 						</div>
 					</a>
 					<div class="aa_uploadFoot">正面</div>
@@ -76,27 +80,41 @@
 						<div class="aa_uploadBD">
 							<img src="../image/icon67.png" alt="" />
 							<div class="aa_uploadLabel">仅清关用</div>
+							<van-image class="uploadImage" fit="cover" :src="data.id_card_photo_reverse"
+								v-show="data.id_card_photo_reverse!=''"></van-image>
+							<input type="file" id="image2" @change="fileChange(2)" class="uploadFile" />
 						</div>
 					</a>
 					<div class="aa_uploadFoot">背面</div>
 				</div>
 			</div>
 		</div>
-		<a href="javascript:;" class="commentBtn saveAddress">
+		<a href="javascript:;" class="commentBtn saveAddress" @click="saveAddress()">
 			<span>保存地址</span>
 		</a>
 		<van-popup v-model="show" position="bottom">
-			<van-area title="" :area-list="areaList" :columns-num="2" @confirm="areaConfirm" @cancel="areaCancel">
+			<van-area title="" :area-list="areaList" :columns-num="3" @confirm="areaConfirm" @cancel="areaCancel">
 			</van-area>
 		</van-popup>
 	</div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
 <script type="text/javascript">
+	function gtQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]); return null;
+	}
+	var id = gtQueryString("id");
+	console.log('id', id);
+	if (id == null) {
+		id = 0;
+	}
 	// 在 #app 标签下渲染一个按钮组件
 	var app = new Vue({
 		el: '#app',
@@ -105,7 +123,22 @@
 				radio: '1',
 				show: false,
 				areaList: [],
-				inTheArea: '广东,广州市',
+				data: {
+					address: "",
+					area: "广东省汕头市龙湖区",
+					gender: 0,
+					id: id,
+					id_card_num: "",
+					id_card_photo: "",
+					id_card_photo_reverse: "",
+					postcode: 0,
+					receive_name: "",
+					receive_phone: "",
+					telephone: "",
+				},
+				file_name: '',
+				file_name2: '',
+				isSave: true,
 			};
 		},
 		created() {
@@ -117,17 +150,138 @@
 				.catch(error => {
 					/* Error handling */
 				})
+			this.getAddressDetail();
 		},
 		methods: {
 			areaConfirm(data) {
 				console.log('areaConfirm_data', data);
 				if (data) {
-					this.inTheArea = data[0].name + ',' + data[1].name
+					this.data.area = data[0].name + data[1].name + data[2].name
 				}
 				this.show = false;
 			},
 			areaCancel() {
 				this.show = false;
+			},
+			getAddressDetail() {
+				let _this = this;
+				let d = {
+					id: id,
+				};
+				if (id != 0 || id != '0') {
+					request("POST", requestUrl + "/App/Users/AddressDetail", JSON.stringify(d), function (data) {
+						console.log('getAddressDetail', data);
+						if (data.success) {
+							_this.data = data.data;
+							console.log('_this.data', _this.data);
+						}
+					})
+				}
+
+			},
+			saveAddress() {
+				let _this = this;
+				console.log('typeof', typeof this.data.id)
+				if (this.data.id == 0 || this.data.id == '0') {
+					delete this.data.id;
+					if (this.isSave) {
+						this.isSave = false;
+						request("POST", requestUrl + "/App/Users/AddAddress", JSON.stringify(this.data), function (data) {
+							console.log('AddAddress', data);
+							_this.isSave = true;
+							if (data.success) {
+								alert("新增成功！");
+								openUrl('../addressList.html', {})
+							}
+						})
+					}
+				} else {
+					if (this.isSave) {
+						this.isSave = false;
+						request("POST", requestUrl + "/App/Users/EditAddress", JSON.stringify(this.data), function (data) {
+							console.log('EditAddress', data);
+							_this.isSave = true;
+							if (data.success) {
+								alert("修改成功！");
+								openUrl('../addressList.html', {})
+							}
+						})
+					}
+				}
+			},
+			GetSign() {
+				let _this = this;
+				request("GET", requestUrl + "/App/AppImage/GetSign", '', function (data) {
+					console.log('GetSign', data);
+					let html = '';
+					if (data.success) {
+						_this.sign = data.data.sign;
+					}
+				})
+			},
+			fileChange(type) {
+				let _this = this;
+				console.log('type', type)
+				console.log('files', $("#image")[0])
+				console.log('files', $("#image")[0].files)
+				console.log('files[0]', $("#image")[0].files[0])
+				var reader = new FileReader();
+				var AllowImgFileSize = 512 * 1024; //上传图片最大值(单位字节)（ 2 M = 2097152 B ）超过2M上传失败
+				var file = '';
+				if (type == 1) {
+					file = $("#image")[0].files[0];
+					_this.file_name = file.name;
+				} else {
+					file = $("#image2")[0].files[0];
+					_this.file_name2 = file.name;
+				}
+				var imgUrlBase64;
+				if (file) {
+					//将文件以Data URL形式读入页面  
+					imgUrlBase64 = reader.readAsDataURL(file);
+					reader.onload = function (e) {
+						//var ImgFileSize = reader.result.substring(reader.result.indexOf(",") + 1).length;//截取base64码部分（可选可不选，需要与后台沟通）
+						if (AllowImgFileSize != 0 && AllowImgFileSize < reader.result.length) {
+							alert('上传失败，请上传不大于512kb的图片！');
+							return;
+						} else {
+							//执行上传操作
+							console.log('reader.result', reader.result);
+							if (type == 1) {
+								_this.data.id_card_photo = reader.result;
+							} else {
+								_this.data.id_card_photo_reverse = reader.result;
+							}
+							_this.uploadImg(type)
+						}
+					}
+				}
+			},
+			uploadImg(type) {
+				let _this = this;
+				console.log('this', this);
+				request("GET", requestUrl + "/App/AppImage/GetSign", '', function (data0) {
+					console.log('GetSign', data0);
+					let html = '';
+					if (data0.success) {
+						let d = {
+							file_name: type == 1 ? _this.file_name : _this.file_name2,
+							img: type == 1 ? _this.data.id_card_photo : _this.data.id_card_photo_reverse,
+							sign: data0.data.sign
+						}
+						request("POST", requestUrl + "/App/AppImage/UploadImg", JSON.stringify(d), function (data) {
+							console.log('uploadImg', data);
+							if (data.success) {
+								if (type == 1) {
+									_this.data.id_card_photo = data.data.url;
+								} else {
+									_this.data.id_card_photo_reverse = data.data.url;
+								}
+
+							}
+						})
+					}
+				})
 			},
 		},
 	});

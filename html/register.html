@@ -115,46 +115,54 @@
 <body>
 	<div id="app">
 		<div class="regHd clear bgeee" id="header">
-			<a href="javascript:;" class="back">返回</a>
+			<a href="javascript:;" class="back" onclick="api.closeWin();">返回</a>
 		</div>
 		<div class="regTop bgeee clear">
 			<a href="javascript:;" class="active">注册新用户<span></span></a>
-			<a href="retrievePassword.html" class="">找回密码<span></span></a>
+			<a href="javascript:;" class="" onclick="openUrl('retrievePassword.html',{})">找回密码<span></span></a>
 		</div>
 		<div class="regBd">
 			<div class="regBox clear">
 				<a href="javascript:;" class="fl regSelect" @click="showPicker = true">{{value}}</a>
 				<div class="regItem">
-					<input type="text" class="regInput" placeholder="手机号码" />
+					<input type="text" class="regInput phone" placeholder="手机号码" />
 				</div>
 			</div>
 			<div class="regBox clear">
 				<div class="regItem">
-					<input type="text" class="regInput" placeholder="验证码" />
+					<input type="text" class="regInput code" placeholder="验证码" />
 				</div>
-				<button class="sendBtn fr" onclick="settime(this)">发送验证码</button>
+				<button class="sendBtn fr" onclick="SendCode(this)">发送验证码</button>
 			</div>
 			<div class="regBox clear">
 				<div class="regItem">
-					<input type="password" class="regInput" placeholder="请设置密码" />
+					<input type="password" class="regInput password" placeholder="请设置密码" />
 				</div>
 			</div>
 			<div class="regBox clear">
 				<div class="regItem">
-					<input type="password" class="regInput" placeholder="请确认密码" />
+					<input type="password" class="regInput password1" placeholder="请确认密码" />
 				</div>
 			</div>
 			<div class="clear">
 				<a href="javascript:;" class="agree" onclick="setAgree(this)">我已阅读并同意XX条款</a>
 			</div>
-			<a href="" class="regBtn">注册</a>
+			<a href="javascript:;" class="regBtn" onclick="register(this)">注册</a>
 		</div>
-		<van-popup v-model="showPicker" round position="bottom">
-			<van-picker show-toolbar :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
+		<van-popup v-model="showPicker" position="bottom" :style="{ height: '100vh' }">
+			<!-- <van-picker show-toolbar :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" /> -->
+			<van-index-bar :index-list="indexList" @select="barSelect">
+				<div v-for="(item,index) in columns" :key="index">
+					<van-index-anchor :index="item.index"></van-index-anchor>
+					<van-cell :title="j.country" v-for="(j,jIndex) in item.list" :key="jIndex" @click="barClick(j)">
+					</van-cell>
+				</div>
+			</van-index-bar>
 		</van-popup>
 	</div>
 </body>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script type="text/javascript" src="../script/api.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
@@ -166,7 +174,8 @@
 			return {
 				value: '+86',
 				showPicker: false,
-				columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+				columns: [],
+				indexList: [],
 			};
 		},
 		methods: {
@@ -177,6 +186,46 @@
 				this.value = value;
 				this.showPicker = false;
 			},
+			barSelect(index) {
+				console.log('barSelect-index', index);
+			},
+			barClick(item) {
+				console.log('barClick-item', item);
+				this.value = '+' + item.code;
+				this.showPicker = false;
+			},
+			getCountry() {
+				let _this = this;
+				$.ajax({
+					type: "GET",
+					url: requestUrl + "/App/DropItem/Country",
+					dataType: "json",
+					contentType: "application/json",
+					data: '',
+					success: function (data) {
+						console.log('Country', data);
+						if (data.success) {
+							let msg = JSON.parse(data.msg);
+							console.log('Country-msg', msg);
+							_this.columns = [];
+							_this.indexList = [];
+							for (var index in msg) {
+								//console.log(msg[index]);
+								//console.log(index);
+								_this.indexList.push(index);
+								_this.columns.push({
+									index: index,
+									list: msg[index]
+								})
+							}
+							console.log('_this.columns', _this.columns)
+						}
+					},
+				});
+			},
+		},
+		created() {
+			this.getCountry();
 		},
 	});
 	apiready = function () {
@@ -188,11 +237,7 @@
 		console.log('url', url);
 		console.log('pageParam', pageParam);
 		api.openWin({
-<<<<<<< HEAD
 			name: 'register',
-=======
-			name: 'main',
->>>>>>> 4c85fccc9b3bb2ddaa1c36350dfb8f117990dd96
 			url: url,
 			rect: {
 				x: 0,
@@ -233,6 +278,70 @@
 			settime(obj);
 		}, 1000);
 	};
+	console.log('requestUrl', requestUrl);
+	function SendCode(obj) {
+		$.ajax({
+			type: "GET",
+			url: requestUrl + "/App/Users/SendCode?username=" + $(".phone").val(),
+			dataType: "json",
+			contentType: "application/json",
+			data: '',
+			success: function (data) {
+				settime(obj);
+				console.log('SendCode', data);
+				alert(data.msg)
+			},
+		});
+	};
+	function register(obj) {
+		let isReg = true;
+		if ($(".phone").val() == "") {
+			alert("手机号码不能为空！");
+			isReg = false;
+		} else if ($(".password").val() == "") {
+			alert("密码不能为空！");
+			isReg = false;
+		} else if ($(".password1").val() == "") {
+			alert("确认密码不能为空！");
+			isReg = false;
+		} else if ($(".code").val() == "") {
+			alert("验证码不能为空！");
+			isReg = false;
+		} else if ($(".password").val() != $(".password1").val()) {
+			alert("两次输入的密码不对应！")
+			isReg = false;
+		} else if (!$(".agree").hasClass("active")) {
+			alert("请阅读并同意XX条款")
+			isReg = false;
+		}
+		if (isReg) {
+			let d = {
+				username: $(".phone").val(),
+				password: $(".password").val(),
+				country: "中国",
+				code: $(".code").val(),
+			}
+			console.log('d', d);
+			$.ajax({
+				type: "POST",
+				url: requestUrl + "/App/Users/Register",
+				dataType: "json",
+				contentType: "application/json",
+				data: JSON.stringify(d),
+				success: function (data) {
+					console.log('Register', JSON.stringify(data));
+					localStorage.setItem("fToken", data.data.token);
+					document.cookie = "fToken=" + data.data.token;
+					api.setGlobalData({
+						key: 'fToken',
+						value: data.data.token
+					});
+					alert(data.msg)
+				},
+			});
+		}
+
+	}
 </script>
 
 </html>

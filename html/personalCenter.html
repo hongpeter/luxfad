@@ -24,10 +24,10 @@
             </a>
         </div>
         <div class="centerHead clear">
-            <img src="../image/head.jpg" alt="" class="fl headImg" />
+            <div class="headImgBox fl"><img src="../image/head.jpg" alt="" class="fl headImg" /></div>
             <dl class="centerDl fl">
-                <dt>Lisa</dt>
-                <dd>ID 6685362</dd>
+                <dt id="userName">Lisa</dt>
+                <dd id="">ID <span id="userId"></span></dd>
             </dl>
             <a href="javascript:;" class="fr" onclick="openUrl('setUp.html',{})"><img src="../image/icon18.png" alt=""
                     class="icon18" /></a>
@@ -109,6 +109,7 @@
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script type="text/javascript">
@@ -130,7 +131,7 @@
     apiready = function () {
         var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
-        //$api.fixStatusBar(header);
+        $api.fixStatusBar(header);
     };
     function openUrl(url, pageParam) {
         console.log('url', url);
@@ -150,7 +151,18 @@
             // }
         });
     };
-
+    function getUserInfo() {
+        request("GET", requestUrl + "/App/Users/UserInfo", '', function (data) {
+            console.log('getUserInfo', JSON.stringify(data));
+            let html = '';
+            if (data.success) {
+                $("#userName").html(data.data.nick_name);
+                $("#userId").html(data.data.uesrname);
+                $(".headImg").attr('src', data.data.head)
+            }
+        })
+    };
+    getUserInfo()
 </script>
 
 </html>

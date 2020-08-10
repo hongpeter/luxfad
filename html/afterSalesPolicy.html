@@ -20,15 +20,14 @@
 			<div class="ta-c">售后政策</div>
 		</div>
 		<div class="box1 clear">
-			<div class="asp_title">售后政策:</div>
-			<div class="asp_content">
-				售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策售后政策
-			</div>
+			<div class="asp_title">{{data.title}}:</div>
+			<div class="asp_content">{{data.content}}</div>
 		</div>
 	</div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
@@ -38,11 +37,33 @@
 		el: '#app',
 		data() {
 			return {
-
+				data: {
+					title: '',
+					content: '',
+				},
 			};
 		},
+		created() {
+			this.getSpecificationList();
+		},
 		methods: {
+			//获取售后政策
+			getSpecificationList() {
+				let _this = this;
+				let d = {
+					type: 1,
+				};
+				request("POST", requestUrl + "/App/Users/SpecificationList", JSON.stringify(d), function (data) {
+					console.log('售后政策', data);
+					if (data.success) {
+						if (data.data.length > 0) {
+							_this.data = data.data[0];
+						}
+						console.log('售后政策', _this.data);
+					}
 
+				})
+			},
 		},
 	});
 	//vant.Toast('提示');

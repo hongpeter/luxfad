@@ -16,6 +16,7 @@
 
 <body>
   <div class="" id="app">
+    <!-- 头部 -->
     <div class="box clear" id="header">
       <a class="homeMsg" onclick="openUrl('messageBox.html',{})">
         <img src="../image/icon1.png" alt="" class="icon1">
@@ -25,68 +26,71 @@
       <a href="javascript:;" onclick="openUrl('search.html',{})" class="fr searchBtn"><img src="../image/icon2.png"
           alt=""></a>
     </div>
+    <!-- 轮播 -->
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item v-for="item in 4">
-        <a onclick="openUrl('activityPosterDetails.html',{})"><img src="../image/banner.jpg" alt=""></a>
+      <van-swipe-item v-for="(item,index) in swipe" :key="index" v-if="item.img!=null&&item.img!=''">
+        <a href="javascript:;" @click="openUrl('activityPosterDetails.html',{id:item.id})">
+          <van-image width="100vw" height="45vw" fit="cover" :src="item.img"></van-image>
+        </a>
       </van-swipe-item>
     </van-swipe>
-    <div class="clear homeNav">
-      <a onclick="openUrl('activityPosterDetails.html','{}')">Luisaviaroma</a>
-      <a onclick="openUrl('activityPosterDetails.html','{}')">Matchesfashion</a>
-      <a onclick="openUrl('activityPosterDetails.html','{}')">Brownsfashion</a>
-      <a onclick="openUrl('activityPosterDetails.html','{}')">Luisaviaroma</a>
+    <!-- 平台 -->
+    <div class="homeNavBox">
+      <div class="clear homeNav">
+        <!-- <a onclick="openUrl('activityPosterDetails.html','{}')">Luisaviaroma</a>
+        <a onclick="openUrl('activityPosterDetails.html','{}')">Matchesfashion</a>
+        <a onclick="openUrl('activityPosterDetails.html','{}')">Brownsfashion</a>
+        <a onclick="openUrl('activityPosterDetails.html','{}')">Luisaviaroma</a> -->
+      </div>
     </div>
-    <div class="clear" style="margin-top:2vw;">
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="fl block" style="width:51%;"><img
-          src="../image/productImg1.jpg" alt=""></a>
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="fl block" style="width:49%;"><img
-          src="../image/productImg2.jpg" alt=""></a>
+    <!-- 广告图 -->
+    <div class="clear" style="margin-top:0vw;" v-for="(item,index) in poster" :key="index"
+      v-if="item.img!=null&&item.img!=''">
+      <a @click="openUrl('activityPosterDetails.html',{id:item.id})" class="fl block" style="width:100%;">
+        <!-- <img src="../image/productImg1.jpg" alt=""/> -->
+        <van-image width="100vw" height="45vw" fit="cover" :src="item.img" style="display: block;"></van-image>
+      </a>
     </div>
-    <div class="" style="margin-top:2vw;">
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="block" style="width:100%;"><img
-          src="../image/productImg3.jpg" alt=""></a>
-    </div>
-    <div class="" style="margin-top:0vw;">
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="block" style="width:100%;"><img
-          src="../image/productImg4.jpg" alt=""></a>
-    </div>
-    <div class="" style="margin-top:0vw;">
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="block" style="width:100%;"><img
-          src="../image/productImg5.jpg" alt=""></a>
-    </div>
-    <div class="clear" style="margin-top:2vw;">
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="fl block" style="width:47%;"><img
-          src="../image/productImg6.jpg" alt=""></a>
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="fl block" style="width:53%;"><img
-          src="../image/productImg7.jpg" alt=""></a>
-    </div>
-    <div class="homeTag" data-lang-cn="猜你喜欢" data-lang-en="GUESS YOU LIKE">猜你喜欢
-      <!--{hk}猜妳喜歡-->
-      <!--{en}GUESS YOU LIKE-->
-    </div>
-    <ul class="youLike clear">
-      <li v-for="(item,index) in 4" :key="index">
-        <a onclick="openUrl('productDetail.html',{})">
-          <img src="../image/productImg8.jpg" alt="">
+    <!-- 栏目 -->
+    <div v-for="(item,index) in column" :key="index">
+      <div class="clear homeTagBox">
+        <div class="homeTag fl">{{item.title}}
+          <!--{hk}猜妳喜歡-->
+          <!--{en}GUESS YOU LIKE-->
+        </div>
+        <a href="javascript:;" class="fr c7d7d7d homeTagLink"
+          @click="openUrl('activityPosterDetails.html',{id:item.id})">
+          <span>共{{item.products.length}}款</span>
+          <van-icon name="arrow"></van-icon>
         </a>
-        <div class="proBrand">品牌XXX
-          <!--{hk}品牌-->
-          <!--{en}brand-->
-        </div>
-        <div class="proName">中长袖白T恤
-          <!--{hk}中長袖白T恤-->
-          <!--{en}The white long-sleeved T-shirt-->
-        </div>
-        <div class="proState">欧洲 现货
-          <!--{hk}歐洲 現貨-->
-          <!--{en}European spot-->
-        </div>
-        <div class="clear">
-          <div class="fl proPrice">$88.00</div>
-          <div class="proIsCollection fr"></div>
-        </div>
-      </li>
-    </ul>
+      </div>
+      <ul class="youLike clear">
+        <li v-for="(i,iIndex) in item.products" :key="iIndex">
+          <a @click="openUrl('productDetail.html',{id:i.id})">
+            <!-- <img :src="i.main_photo" alt="" /> -->
+            <van-image width="19vw" height="32vw" fit="cover" :src="i.main_photo" style="display: block;">
+            </van-image>
+          </a>
+          <div class="proBrand">{{i.brand}}
+            <!--{hk}品牌-->
+            <!--{en}brand-->
+          </div>
+          <div class="proName">{{i.name}}
+            <!--{hk}中長袖白T恤-->
+            <!--{en}The white long-sleeved T-shirt-->
+          </div>
+          <div class="proState">{{i.platform}}
+            <!--{hk}歐洲 現貨-->
+            <!--{en}European spot-->
+          </div>
+          <div class="clear">
+            <div class="fl proPrice">￥{{i.price}}</div>
+            <div :class="['proIsCollection','fr',i.is_collect?'active':'']"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- 语言选择picker -->
     <van-popup v-model="showPicker" round position="bottom">
       <van-picker show-toolbar :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
     </van-popup>
@@ -94,6 +98,7 @@
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/translater/dist/translater.js"></script>
@@ -109,6 +114,9 @@
         showPicker: false,
         columns: ['简体中文', '繁体中文', 'ENGLISH'],
         language: '简体中文',
+        swipe: [],
+        poster: [],
+        column: [],
       };
     },
     created() {
@@ -116,8 +124,12 @@
       if (this.language == undefined) {
         this.language = '简体中文';
       }
+      this.getMainPoster();
     },
     methods: {
+      openUrl(url, pageParam) {
+        openUrl(url, pageParam)
+      },
       onChange(index) {
         this.current = index;
       },
@@ -135,32 +147,68 @@
         window.localStorage.setItem("language", value);
         window.location.reload();
       },
+      getMainPoster() {
+        let _this = this;
+        request("GET", requestUrl + "/App/Poster/MainPoster", '', function (data) {
+          console.log('getMainPoster', JSON.stringify(data));
+          if (data.success) {
+            if (data.data.Swipe.length > 0) {
+              _this.swipe = data.data.Swipe;
+              console.log('swipe', JSON.stringify(_this.swipe));
+            }
+            if (data.data.Poster.length > 0) {
+              _this.poster = data.data.Poster;
+              console.log('poster', JSON.stringify(_this.poster));
+            }
+            if (data.data.Column.length > 0) {
+              _this.column = data.data.Column;
+              console.log('column', JSON.stringify(_this.column));
+            }
+          }
+        })
+      },
     },
   });
-  function openUrl(url, pageParam) {
-    console.log('url', url);
-    console.log('pageParam', pageParam);
-    api.openWin({
-      name: 'main',
-      url: url,
-      rect: {
-        x: 0,
-        y: 0,
-        w: 'auto',
-        h: 'auto'
-      },
-      pageParam: pageParam,
-      // pageParam: {
-      //   name: 'test'
-      // }
-    });
-  };
+  // function openUrl(url, pageParam) {
+  //   console.log('url', url);
+  //   console.log('pageParam', pageParam);
+  //   api.openWin({
+  //     name: 'main',
+  //     url: url,
+  //     rect: {
+  //       x: 0,
+  //       y: 0,
+  //       w: 'auto',
+  //       h: 'auto'
+  //     },
+  //     pageParam: pageParam,
+  //     // pageParam: {
+  //     //   name: 'test'
+  //     // }
+  //   });
+  // };
   //vant.Toast('提示');
   apiready = function () {
     var header = $api.byId('header');
     //适配iOS 7+，Android 4.4+状态栏
-    //$api.fixStatusBar(header);
+    $api.fixStatusBar(header);
   };
+  //网站(平台)下拉框信息
+  function getPlatform() {
+    request("GET", requestUrl + "/App/DropItem/Platform", '', function (data) {
+      console.log('getPlatform', JSON.stringify(data));
+      let html = '';
+      if (data.success) {
+        if (data.data.length > 0) {
+          data.data.forEach(i => {
+            html += `<a onclick="openUrl('activityPosterDetails.html',{id:${i.id}})">${i.name}</a>`;
+          });
+        }
+        $(".homeNav").html(html);
+      }
+    });
+  };
+  getPlatform();
 </script>
 
 </html>

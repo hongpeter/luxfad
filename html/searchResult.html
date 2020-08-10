@@ -16,42 +16,50 @@
 
 <body>
     <div id="app">
+        <van-overlay :show="showOverlay" @click="showOverlay = false">
+            <van-loading size="24px" vertical style="margin-top:10vh;">加载中...</van-loading>
+        </van-overlay>
         <div class="clear box1 mgt2vw" id="header">
             <a href="javascript:;" class="fl searchBack" onclick="api.closeWin();"></a>
             <div class="fl searchInputBox" style="width:74vw">
-                <input type="text" class="searchInput" v-model="value" />
+                <input type="text" class="searchInput" v-model="value" @input="search" />
                 <a href="javascript:;" class="searchDelete" @click="clear" v-show="value!=''"></a>
             </div>
-            <a href="shoppingCart.html" class="fr sr_icon33">
+            <a href="javascript:;" class="fr sr_icon33" onclick="openUrl('shoppingCart.html','{}')">
                 <img src="../image/icon33.png" alt="">
             </a>
         </div>
         <div class="bgf6f6f6 flex searchResultTop">
-            <a href="javascript:;">综合</a>
-            <a href="javascript:;" class="priceAsc">价格</a>
-            <a href="javascript:;" class="priceDesc">价格</a>
-            <a href="javascript:;">新品</a>
-            <a href="javascript:;" class="fwb screeningBtn" @click="showScreening=!showScreening">
+            <a href="javascript:;" @click="setSort(0)">综合</a>
+            <a href="javascript:;" class="priceAsc" @click="setSort(1)">价格</a>
+            <a href="javascript:;" class="priceDesc" @click="setSort(2)">价格</a>
+            <a href="javascript:;" @click="setSort(3)">新品</a>
+            <a href="javascript:;" class="fwb screeningBtn" @click="screening">
                 <span>筛选</span>
             </a>
         </div>
-        <ul class="collectionList clear">
-            <li v-for="item in 10" onclick="openUrl('productDetail.html','{}')">
-                <img src="../image/productImg8.jpg" alt="" class="productImg" />
-                <div class="collectionItemBD">
-                    <div class="brand">品牌XXX</div>
-                    <div class="productName">中长袖白T恤中长袖白T恤中长袖白T恤</div>
-                    <div class="source clear">
-                        <span class="fl">来源网站 欧洲/现货</span>
-                        <img src="../image/icon15.png" alt="" class="fl icon15" />
+        <!-- <van-pull-refresh v-model="isLoading" @refresh="onRefresh"></van-pull-refresh> -->
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+            <ul class="collectionList clear">
+                <li v-for="item in list" @click="openUrlVue('productDetail.html','{id:item.id}')">
+                    <img :src="item.main_photo==''?'../image/productImg8.jpg':item.main_photo" alt="productImg"
+                        class="productImg" />
+                    <div class="collectionItemBD">
+                        <div class="brand">{{item.brand}}</div>
+                        <div class="productName">{{item.name}}</div>
+                        <div class="source clear">
+                            <span class="fl">{{item.platform}}</span>
+                            <img src="../image/icon15.png" alt="" class="fl icon15" @click="setCollect(id,)" />
+                        </div>
+                        <div class="clear">
+                            <div class="fl productPrice">${{item.price}}</div>
+                            <a href="javascript:;" :class="['fr','collectionIcon',item.is_collect?'active':'']"
+                                @click.stop="setCollect(item.id, !item.is_collect)"></a>
+                        </div>
                     </div>
-                    <div class="clear">
-                        <div class="fl productPrice">$88.00</div>
-                        <a href="" class="fr collectionIcon"></a>
-                    </div>
-                </div>
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </van-list>
         <div class="screeningPopup" v-show="showScreening">
             <div class="screeningPopupLeft fl">
                 <ul class="sr_screeningNav">
@@ -71,20 +79,22 @@
             </div>
             <div class="screeningPopupRight fr">
                 <div class="" v-show="leftActive==1">
-                    <div class="screeningRightTabs clear">
-                        <a href="javascript:;" :class="[tabActive==1?'active':'']" @click="topScreening(1)">网站1</a>
-                        <a href="javascript:;" :class="[tabActive==2?'active':'']" @click="topScreening(2)">网站2</a>
-                        <a href="javascript:;" :class="[tabActive==3?'active':'']" @click="topScreening(3)">香港现货</a>
+                    <div class="screeningRightTabsBox">
+                        <div class="screeningRightTabs clear">
+                            <a href="javascript:;" v-for="(item,index) in pacList"
+                                :class="[tabActive==index?'active':'']" @click="topScreening(index)">{{item.name}}</a>
+                        </div>
                     </div>
                     <div class="sr_cateBox clear">
-                        <div v-for="item in 3">
-                            <div class="sr_cateName">服装</div>
+                        <div v-for="item in pacItem.category">
+                            <div class="sr_cateName">{{item.name}}</div>
                             <div class="clear">
-                                <a href="javascript:;" class="sr_cateItem fl" v-for="i in 6">
+                                <a href="javascript:;" class="sr_cateItem fl" v-for="i in item.children"
+                                    @click="pacClick(i)">
                                     <div class="sr_cateItemImg">
-                                        <img src="../image/icon41.png" alt="" />
+                                        <img :src="i.icon==''?'../image/icon41.png':i.icon" alt="" />
                                     </div>
-                                    <div class="sr_cateItemName">全部服装</div>
+                                    <div class="sr_cateItemName">{{i.name}}</div>
                                 </a>
                             </div>
                         </div>
@@ -94,64 +104,35 @@
                     <div class="sr_brandCateHd">
                         <div class="sr_brandCateTop clear">
                             <a href="" class="sr_brandCateSearch fl"></a>
-                            <input type="text" placeholder="快速搜索品牌" class="sr_brandCateInput fl" />
+                            <input type="text" placeholder="快速搜索品牌" class="sr_brandCateInput fl" @input="brandCateInput"
+                                v-model="brandInput" />
                         </div>
                     </div>
                     <div class="sr_brandListBox">
-                        <van-index-bar class="vanIndexBar">
-                            <van-index-anchor index="A" class="active"></van-index-anchor>
-                            <a class="sr_brandItem">A fdfs dfdf</a>
-                            <a class="sr_brandItem">A fdfs dfdf</a>
-                            <a class="sr_brandItem">A fdfs dfdf</a>
-                            <a class="sr_brandItem">A fdfs dfdf</a>
-                            <a class="sr_brandItem">A fdfs dfdf</a>
-                        </van-index-bar>
-                        <van-index-bar class="vanIndexBar">
-                            <van-index-anchor index="B" class="active"></van-index-anchor>
-                            <a class="sr_brandItem">B fdfs dfdf</a>
-                            <a class="sr_brandItem">B fdfs dfdf</a>
-                            <a class="sr_brandItem">B fdfs dfdf</a>
-                            <a class="sr_brandItem">B fdfs dfdf</a>
-                            <a class="sr_brandItem">B fdfs dfdf</a>
-                        </van-index-bar>
-                        <van-index-bar class="vanIndexBar">
-                            <van-index-anchor index="Z" class="active"></van-index-anchor>
-                            <a class="sr_brandItem">Z fdfs dfdf</a>
-                            <a class="sr_brandItem">Z fdfs dfdf</a>
-                            <a class="sr_brandItem">Z fdfs dfdf</a>
-                            <a class="sr_brandItem">Z fdfs dfdf</a>
-                            <a class="sr_brandItem">Z fdfs dfdf</a>
+                        <van-index-bar class="vanIndexBar" :index-list="indexList">
+                            <div v-for="(item,index) in brandList" :key="index">
+                                <van-index-anchor :index="item.index" class="active"></van-index-anchor>
+                                <a :class="['sr_brandItem',i.check?'active':'']" v-for="(i,idx) in item.list" :key="idx"
+                                    @click="brandSetActive(index,idx,item,i)">{{i.name}}</a>
+                            </div>
                         </van-index-bar>
                     </div>
                     <div class="sr_brandCateFt">
-                        <a href="javascript:;" class="sr_brandClear">清除</a>
-                        <a href="javascript:;" class="sr_brandSure">确定</a>
+                        <a href="javascript:;" class="sr_brandClear" @click="clearBrandActive">清除</a>
+                        <a href="javascript:;" class="sr_brandSure" @click="sureBrandActive">确定</a>
                     </div>
                 </div>
                 <div v-show="leftActive==3" class="">
                     <div class="accordingPriceList">
-                        <a href="javascript:;" :class="[accordingPrice==1?'active':'']"
-                            @click="setAccordingPrice(1)">不限价格</a>
-                        <a href="javascript:;" :class="[accordingPrice==2?'active':'']"
-                            @click="setAccordingPrice(2)">500以下</a>
-                        <a href="javascript:;" :class="[accordingPrice==3?'active':'']"
-                            @click="setAccordingPrice(3)">500-2000</a>
-                        <a href="javascript:;" :class="[accordingPrice==4?'active':'']"
-                            @click="setAccordingPrice(4)">2000-5000</a>
-                        <a href="javascript:;" :class="[accordingPrice==5?'active':'']"
-                            @click="setAccordingPrice(5)">5000-10000</a>
-                        <a href="javascript:;" :class="[accordingPrice==6?'active':'']"
-                            @click="setAccordingPrice(6)">10000以上</a>
+                        <a href="javascript:;" v-for="(item, index) in priceList" :key="index"
+                            :class="[accordingPrice==item.id?'active':'']"
+                            @click="setAccordingPrice(item.id)">{{item.name}}</a>
                     </div>
                 </div>
                 <div v-show="leftActive==4" class="">
                     <div class="accordingPriceList">
-                        <a href="javascript:;" :class="[discount==1?'active':'']" @click="setDiscount(1)">不限折扣</a>
-                        <a href="javascript:;" :class="[discount==2?'active':'']" @click="setDiscount(2)">九折以下</a>
-                        <a href="javascript:;" :class="[discount==3?'active':'']" @click="setDiscount(3)">八折以下</a>
-                        <a href="javascript:;" :class="[discount==4?'active':'']" @click="setDiscount(4)">七折以下</a>
-                        <a href="javascript:;" :class="[discount==5?'active':'']" @click="setDiscount(5)">六折以下</a>
-                        <a href="javascript:;" :class="[discount==6?'active':'']" @click="setDiscount(6)">五折以下</a>
+                        <a href="javascript:;" v-for="(item, index) in discountList" :key="index"
+                            :class="[discount==item.id?'active':'']" @click="setDiscount(item.id)">{{item.name}}</a>
                     </div>
                 </div>
             </div>
@@ -159,6 +140,7 @@
     </div>
 </body>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script type="text/javascript" src="../script/api.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
@@ -168,30 +150,87 @@
         el: '#app',
         data() {
             return {
-                value: '白T恤',
+                value: '',
                 showPicker: false,
                 columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
                 showClear: false,
                 leftActive: 1,
-                tabActive: 1,
-                accordingPrice: 1,
-                discount: 1,
+                tabActive: 0,
+                accordingPrice: 0,
+                discount: 0,
                 showScreening: false,
+                pacList: [],
+                pacItem: {
+                    category: [],
+                    name: '',
+                },
+                brandList: [],
+                brandInput: '',
+                indexList: [],
+                priceList: [],
+                discountList: [],
+                brands: [],
+                categorys: [],
+                sort: 0,
+                pageNum: 1,
+                pageSize: 10,
+                isLoading: false,
+                showOverlay: false,
+                list: [],
+                loading: false,
+                finished: false,
             };
         },
         methods: {
+            openUrlVue(url, pageParam) {
+                openUrl(url, pageParam)
+            },
+            //设置收藏
+            setCollect(id, is_collect) {
+                this.showOverlay = true;
+                let _this = this;
+                let d = {
+                    id: id,
+                    is_collect: is_collect,
+                };
+                request("POST", requestUrl + "/App/Product/Collect", JSON.stringify(d), function (data) {
+                    console.log('设置收藏', data);
+                    _this.showOverlay = false;
+                    _this.list = [];
+                    _this.getList(this.pageNum, this.pageSize);
+                    alert(data.msg);
+                })
+            },
+            //搜索
+            search() {
+                this.refresh();
+            },
+            //设置排序
+            setSort(value) {
+                this.sort = value;
+                this.refresh();
+            },
+            //设置折扣
             setDiscount(value) {
                 this.discount = value;
+                this.refresh();
             },
+            //设置价格区间
             setAccordingPrice(value) {
                 this.accordingPrice = value;
+                this.refresh();
             },
+            //左侧点击
             leftScreening(value) {
                 this.leftActive = value;
             },
+            //搜网站及分类下拉框头部点击
             topScreening(value) {
                 this.tabActive = value;
+                console.log('this.pacList[value]', this.pacList[value]);
+                this.pacItem = this.pacList[value];
             },
+            //清除搜索文本
             clear() {
                 this.value = '';
             },
@@ -199,6 +238,217 @@
                 this.value = value;
                 this.showPicker = false;
             },
+            //筛选点击事件
+            screening() {
+                if (this.showScreening) {
+                    this.showScreening = false;
+                } else {
+                    this.showScreening = true;
+                    this.leftActive = 1;
+                    //this.abActive = 0;
+                    this.getPlatformAndCategory()
+                }
+            },
+            //分类点击
+            pacClick(item) {
+                console.log('pacClick', item);
+                this.categorys = [];
+                this.categorys.push(item.id);
+                this.refresh();
+            },
+            //搜网站及分类下拉框
+            getPlatformAndCategory() {
+                let _this = this;
+                $.ajax({
+                    type: "GET",
+                    url: requestUrl + "/App/DropItem/PlatformAndCategory",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: '',
+                    success: function (data) {
+                        console.log('PlatformAndCategory', data);
+                        if (data.success) {
+                            _this.pacList = data.data
+                            if (data.data.length > 0) {
+                                _this.pacItem = data.data[0];
+                            } else { }
+                        }
+
+                    },
+                });
+            },
+            //按品牌下拉框信息
+            getBrand(name) {
+                let _this = this;
+                _this.indexList = [];
+                _this.brandList = [];
+                $.ajax({
+                    type: "GET",
+                    url: requestUrl + "/App/DropItem/Brand?name=" + name,
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: '',
+                    success: function (data) {
+                        console.log('getBrand', data);
+                        if (data.success) {
+                            _this.brandList = [];
+                            for (var index in data.data) {
+                                //console.log(msg[index]);
+                                //console.log(index);
+                                data.data[index].forEach(i => {
+                                    i.check = false;
+                                });
+                                _this.indexList.push(index);
+                                _this.brandList.push({
+                                    index: index,
+                                    list: data.data[index]
+                                })
+                            }
+                            console.log('_this.brandList', _this.brandList)
+                        }
+                    },
+                });
+            },
+            //快速搜索品牌
+            brandCateInput() {
+                console.log('brandInput', this.brandInput);
+                this.getBrand(this.brandInput);
+            },
+            //品牌选中
+            brandSetActive(index, idx, item, i) {
+                console.log('brandSetActive-index', index)
+                console.log('brandSetActive-idx', idx)
+                console.log('brandSetActive-item', item)
+                console.log('brandSetActive-i', i);
+                if (i.check) {
+                    i.check = false;
+                } else {
+                    i.check = true;
+                }
+            },
+            //清除品牌选中
+            clearBrandActive() {
+                this.brandList.forEach(i => {
+                    i.list.forEach(v => {
+                        v.check = false;
+                    })
+                })
+            },
+            //选择品牌
+            sureBrandActive() {
+                let activeList = [];
+                this.brandList.forEach(i => {
+                    i.list.forEach(v => {
+                        if (v.check) {
+                            activeList.push(v.id)
+                        }
+                    })
+                });
+                console.log('activeList', activeList);
+                this.brands = activeList;
+                this.refresh();
+            },
+            //按价格下拉框信息
+            getPrice() {
+                let _this = this;
+                $.ajax({
+                    type: "GET",
+                    url: requestUrl + "/App/DropItem/Price",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: '',
+                    success: function (data) {
+                        console.log('getPrice', data);
+                        if (data.success) {
+                            _this.priceList = data.data
+                        }
+                    },
+                });
+            },
+            //按折扣下拉框信息
+            getDiscount() {
+                let _this = this;
+                $.ajax({
+                    type: "GET",
+                    url: requestUrl + "/App/DropItem/Discount",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: '',
+                    success: function (data) {
+                        console.log('getDiscount', data);
+                        if (data.success) {
+                            _this.discountList = data.data
+                        }
+                    },
+                });
+            },
+            onRefresh() {
+                this.pageNum = this.pageNum + 1
+                this.getList(this.pageNum, this.pageSize);
+            },
+            //下拉到底事件
+            onLoad() {
+                this.pageNum = this.pageNum + 1
+                this.getList(this.pageNum, this.pageSize);
+            },
+            //加载
+            refresh() {
+                this.showScreening = false;
+                this.list = [];
+                this.pageNum = 1;
+                this.getList(this.pageNum, this.pageSize);
+            },
+            //获取app商品列表
+            getList(page_num, page_size) {
+                this.loading = true;
+                this.isLoading = true;
+                this.showOverlay = true;
+                let _this = this;
+                let d = {
+                    name: this.value,
+                    brands: this.brands,
+                    categorys: this.categorys,
+                    price: this.accordingPrice,
+                    discount: this.discount,
+                    sort: this.sort,
+                    page: {
+                        page_num: page_num,
+                        page_size: page_size,
+                        whereString: {
+                            SQL: "",
+                            Arguments: [
+                                {}
+                            ]
+                        }
+                    }
+                };
+                request("POST", requestUrl + "/App/Product/List", JSON.stringify(d), function (data) {
+                    console.log('getList', data);
+                    _this.isLoading = false;
+                    _this.showOverlay = false;
+                    if (data.success) {
+                        console.log('getList', data.data.data);
+                        setTimeout(() => {
+                            _this.loading = false;
+                        }, 500);
+                        if (data.data.data.length > 0) {
+                            data.data.data.forEach(i => {
+                                _this.list.push(i)
+                            });
+                        } else {
+                            _this.finished = true;
+                        }
+
+                    }
+                })
+            },
+        },
+        created() {
+            this.getPlatformAndCategory();
+            this.getBrand('');
+            this.getPrice();
+            this.getDiscount();
+            this.getList(this.pageNum, this.pageSize);
         },
         watch: {
             value() {

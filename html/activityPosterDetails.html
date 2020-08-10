@@ -26,29 +26,32 @@
             </a>
             <a href="javascript:;" class="fr sr_icon33" style="margin-right:4vw;"
                 onclick="openUrl('../index.html', {index:2})">
-                <img src="../image/icon33.png" alt="">
+                <img src="../image/icon33.png" alt="" />
             </a>
         </div>
-        <div class="bgfff box1">
-            <div class="activityTitle">活动标题</div>
+        <div class="bgfff box1 clear">
+            <div class="activityTitle">{{data.title}}</div>
             <div class="activityIntroduce">活动介绍</div>
-            <div class="activityContent">大夫琦需要克格勃爱的代价本槈桂林桂林失琦城西皮肤白奔石材勃爱的代价本槈桂林桂林失琦城西皮肤白奔石材勃爱的代价本槈桂林桂林失琦城西皮肤白奔石材</div>
+            <div class="activityContent">{{data.content}}</div>
         </div>
         <div class="bgfff mgt2vw clear">
             <div class="ta-c c434343 goodRecommendation">好货推荐</div>
             <ul class="collectionList clear">
-                <li v-for="item in 10" onclick="openUrl('productDetail.html','{}')">
-                    <img src="../image/productImg8.jpg" alt="" class="productImg" />
+                <li v-for="item in data.products" @click="openUrl('productDetail.html',{})">
+                    <!-- <img src="../image/productImg8.jpg" alt="" class="productImg" /> -->
+                    <van-image class="productImg" height="65vw" fit="cover" :src="item.main_photo"
+                        style="display: block;">
+                    </van-image>
                     <div class="collectionItemBD">
-                        <div class="brand">品牌XXX</div>
-                        <div class="productName">中长袖白T恤中长袖白T恤中长袖白T恤</div>
+                        <div class="brand">{{item.brand}}</div>
+                        <div class="productName">{{item.name}}</div>
                         <div class="source clear">
-                            <span class="fl">来源网站 欧洲/现货</span>
+                            <span class="fl">来源网站 {{item.platform}}</span>
                             <img src="../image/icon15.png" alt="" class="fl icon15" />
                         </div>
                         <div class="clear">
-                            <div class="fl productPrice">$88.00</div>
-                            <a href="" class="fr collectionIcon"></a>
+                            <div class="fl productPrice">￥{{item.price}}</div>
+                            <a href="" :class="['fr','collectionIcon',item.is_collect?'active':'']"></a>
                         </div>
                     </div>
                 </li>
@@ -56,11 +59,19 @@
         </div>
     </div>
 </body>
-<script type="text/javascript" src="../script/jquery.js"></script>
 <script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script type="text/javascript">
+    function gtQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    var id = gtQueryString("id");
+    console.log('id', id);
     // 在 #app 标签下渲染一个按钮组件
     var app = new Vue({
         el: '#app',
@@ -70,15 +81,31 @@
                 showPicker: false,
                 columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
                 showClear: false,
+                data: {},
             };
         },
+        created() {
+
+        },
         methods: {
+            openUrl(url, pageParam) {
+                openUrl(url, pageParam)
+            },
             clear() {
                 this.value = '';
             },
             onConfirm(value) {
                 this.value = value;
                 this.showPicker = false;
+            },
+            getPosterDetail() {
+                let _this = this;
+                request("GET", requestUrl + "/App/Poster/PosterDetail?id=" + id, '', function (data) {
+                    console.log('getPosterDetail', data);
+                    if (data.success) {
+                        _this.data = data.data;
+                    }
+                })
             },
         },
         watch: {
@@ -91,25 +118,34 @@
         var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
         $api.fixStatusBar(header);
+        setTimeout(() => {
+            var pageParam = api.pageParam;
+            console.log('pageParam', pageParam);
+            if (pageParam.id) {
+                console.log('pageParam.id', pageParam.id)
+                id = pageParam.id;
+                app.getPosterDetail();
+            }
+        }, 500);
     };
-    function openUrl(url, pageParam) {
-        console.log('url', url);
-        console.log('pageParam', pageParam);
-        api.openWin({
-            name: 'activityPosterDetails',
-            url: url,
-            rect: {
-                x: 0,
-                y: 0,
-                w: 'auto',
-                h: 'auto'
-            },
-            pageParam: pageParam,
-            // pageParam: {
-            //   name: 'test'
-            // }
-        });
-    };
+    // function openUrl(url, pageParam) {
+    //     console.log('url', url);
+    //     console.log('pageParam', pageParam);
+    //     api.openWin({
+    //         name: 'activityPosterDetails',
+    //         url: url,
+    //         rect: {
+    //             x: 0,
+    //             y: 0,
+    //             w: 'auto',
+    //             h: 'auto'
+    //         },
+    //         pageParam: pageParam,
+    //         // pageParam: {
+    //         //   name: 'test'
+    //         // }
+    //     });
+    // };
 </script>
 
 </html>

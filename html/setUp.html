@@ -23,32 +23,45 @@
 			<div class="setUpItem clear">
 				<div class="fl">头像</div>
 				<a href="javascript:;" class="fr setUpHeadBox">
-					<img src="../image/head.jpg" alt="" class="setUpHead" />
+					<img src="../image/head.jpg" alt="" class="setUpHead" v-if="head==''" />
+					<img :src="head" alt="" class="setUpHead" v-else />
+					<input type="file" id="image" @change="fileChange" />
 				</a>
 			</div>
 			<div class="setUpItem clear">
 				<div class="fl">账号</div>
-				<a href="javascript:;" class="fr setUpRight">12345678901</a>
+				<a href="javascript:;" class="fr setUpRight" @click="editName()">{{userName}}</a>
 			</div>
 			<div class="setUpItem clear">
 				<div class="fl">性别</div>
-				<a href="javascript:;" class="fr setUpRight">男</a>
+				<a href="javascript:;" class="fr setUpRight" @click="showGenderPicker=true">{{gender}}</a>
 			</div>
 			<div class="setUpItem clear">
 				<div class="fl">生日</div>
-				<a href="javascript:;" class="fr setUpRight">2020-01-01</a>
+				<a href="javascript:;" class="fr setUpRight" @click="editBirthday">{{birthday}}</a>
 			</div>
 			<a href="javascript:;" class="setUpItem clear">
 				<div class="fl">修改密码</div>
 			</a>
 		</div>
-		<a href="javascript:;" class="commentBtn logOutBtn">
+		<a href="javascript:;" class="commentBtn logOutBtn" onclick="logout()">
 			<span>退出登录</span>
 		</a>
+		<van-dialog v-model="showNameDialog" title="修改账号" show-cancel-button @confirm="nameDialogConfirm">
+			<van-field v-model="userNamecopy" label="账号" placeholder="请输入账号" />
+		</van-dialog>
+		<van-popup v-model="showGenderPicker" round position="bottom">
+			<van-picker show-toolbar :columns="columns" @cancel="showGenderPicker = false" @confirm="onConfirm" />
+		</van-popup>
+		<van-popup v-model="showDatePicker" round position="bottom">
+			<van-datetime-picker v-model="currentDate" type="date" title="选择年月日" :min-date="minDate" :max-date="maxDate"
+				@confirm="dateConfirm" :formatter="dateFormatter" />
+		</van-popup>
 	</div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
@@ -58,11 +71,143 @@
 		el: '#app',
 		data() {
 			return {
-
+				userName: '',
+				showNameDialog: false,
+				userNamecopy: '',
+				showGenderPicker: false,
+				columns: ["男", "女"],
+				gender: '男',
+				showDatePicker: false,
+				minDate: new Date(1970, 0, 1),
+				maxDate: new Date(2050, 10, 1),
+				currentDate: '',
+				birthday: new Date().toLocaleDateString(),
+				head: '',
+				sign: '',
 			};
 		},
+		created() {
+			this.getUserInfo();
+			this.GetSign();
+		},
 		methods: {
-
+			editName() {
+				this.showNameDialog = true;
+				this.userNamecopy = this.userName;
+			},
+			nameDialogConfirm() {
+				console.log('nameDialogConfirm');
+				this.userName = this.userNamecopy;
+				this.saveEdit();
+			},
+			onConfirm(value) {
+				this.gender = value;
+				this.showGenderPicker = false;
+				this.saveEdit();
+			},
+			dateConfirm(value) {
+				console.log('dateConfirm', value);
+				console.log('dateConfirm', value.toLocaleDateString());
+				this.birthday = value.toLocaleDateString();
+				this.showDatePicker = false;
+				this.saveEdit();
+			},
+			dateFormatter(type, val) {
+				if (type === 'month') {
+					return `${val}`;
+				} else if (type === 'day') {
+					return `${val}`;
+				}
+				return val;
+			},
+			editBirthday() {
+				this.showDatePicker = true;
+				this.currentDate = new Date(this.birthday);
+			},
+			getUserInfo() {
+				let _this = this;
+				request("GET", requestUrl + "/App/Users/UserInfo", '', function (data) {
+					console.log('getUserInfo', data);
+					let html = '';
+					if (data.success) {
+						_this.userName = data.data.nick_name;
+						_this.gender = data.data.gender;
+						_this.head = data.data.head;
+						_this.birthday = new Date(data.data.birthday).toLocaleDateString();
+					}
+				})
+			},
+			saveEdit() {
+				let username = '';
+				let birthday = new Date(this.birthday).getTime();
+				let d = {
+					username: username,
+					nick_name: this.userName,
+					gender: this.gender,
+					head: this.head,
+					birthday: birthday
+				}
+				request("POST", requestUrl + "/App/Users/Edit", JSON.stringify(d), function (data) {
+					console.log('saveEdit', data);
+					let html = '';
+					if (data.success) {
+						alert("设置成功！")
+					}
+				})
+			},
+			GetSign() {
+				let _this = this;
+				request("GET", requestUrl + "/App/AppImage/GetSign", '', function (data) {
+					console.log('GetSign', data);
+					let html = '';
+					if (data.success) {
+						_this.sign = data.data.sign;
+					}
+				})
+			},
+			fileChange() {
+				let _this = this;
+				console.log('files', $("#image")[0])
+				console.log('files', $("#image")[0].files)
+				console.log('files[0]', $("#image")[0].files[0])
+				var reader = new FileReader();
+				var AllowImgFileSize = 512 * 1024; //上传图片最大值(单位字节)（ 2 M = 2097152 B ）超过2M上传失败
+				var file = $("#image")[0].files[0];
+				_this.file_name = file.name;
+				var imgUrlBase64;
+				if (file) {
+					//将文件以Data URL形式读入页面  
+					imgUrlBase64 = reader.readAsDataURL(file);
+					reader.onload = function (e) {
+						//var ImgFileSize = reader.result.substring(reader.result.indexOf(",") + 1).length;//截取base64码部分（可选可不选，需要与后台沟通）
+						if (AllowImgFileSize != 0 && AllowImgFileSize < reader.result.length) {
+							alert('上传失败，请上传不大于512kb的图片！');
+							return;
+						} else {
+							//执行上传操作
+							console.log('reader.result', reader.result);
+							_this.head = reader.result;
+							_this.uploadImg()
+						}
+					}
+				}
+			},
+			uploadImg() {
+				let _this = this;
+				console.log('this', this);
+				let d = {
+					file_name: this.file_name,
+					img: this.head,
+					sign: this.sign
+				}
+				request("POST", requestUrl + "/App/AppImage/UploadImg", JSON.stringify(d), function (data) {
+					console.log('uploadImg', data);
+					if (data.success) {
+						_this.head = data.data.url;
+						_this.saveEdit()
+					}
+				})
+			},
 		},
 	});
 	//vant.Toast('提示');
@@ -89,7 +234,15 @@
 			// }
 		});
 	};
-
+	function logout() {
+		localStorage.removeItem("fToken");
+		document.cookie = "fToken=''";
+		api.setGlobalData({
+			key: 'fToken',
+			value: ''
+		});
+		openUrl('login.html', {})
+	};
 </script>
 
 </html>

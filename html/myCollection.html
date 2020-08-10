@@ -18,89 +18,150 @@
 	<div class="" id="app">
 		<div class="collectionTop clear" id="header">
 			<div class="collectionText c434343 fl">我的收藏</div>
-			<a class="searchBtn fr" href="search.html"><img src="../image/icon2.png" alt="" /></a>
+			<a class="searchBtn fr" href="javascript:;"><img src="../image/icon2.png" alt=""
+					onclick="openUrl('search.html',{})" /></a>
 		</div>
 		<div class="collectionNav flex">
 			<div class="collectionNavItem flex1">
-				<a href="javscript:;" class="selectText">网站</a>
-				<ul class="collectionSelectList">
+				<a href="javascript:;" class="selectText">网站</a>
+				<ul class="collectionSelectList" id="platformList">
+					<!-- <li>1111111</li>
 					<li>1111111</li>
 					<li>1111111</li>
-					<li>1111111</li>
-					<li>1111111</li>
+					<li>1111111</li> -->
 				</ul>
 			</div>
 			<div class="collectionNavItem flex1">
-				<a href="javscript:;" class="selectText">品牌</a>
-				<ul class="collectionSelectList">
+				<a href="javascript:;" class="selectText">品牌</a>
+				<ul class="collectionSelectList" id="brandList">
+					<!-- <li>1111111</li>
 					<li>1111111</li>
 					<li>1111111</li>
-					<li>1111111</li>
-					<li>1111111</li>
+					<li>1111111</li> -->
 				</ul>
 			</div>
 		</div>
-		<ul class="collectionList">
-			<li v-for="item in 10" onclick="openUrl('productDetail.html','{}')">
-				<img src="../image/productImg8.jpg" alt="" class="productImg" />
+		<ul class="collectionList clear">
+			<li v-for="item in list" @click="openUrlVue('productDetail.html',{id:item.id})">
+				<img :src="item.main_photo==''?'../image/productImg8.jpg':item.main_photo" alt="productImg"
+					class="productImg" />
 				<div class="collectionItemBD">
-					<div class="brand">品牌XXX</div>
-					<div class="productName">中长袖白T恤中长袖白T恤中长袖白T恤</div>
+					<div class="brand">{{item.brand}}</div>
+					<div class="productName">{{item.name}}</div>
 					<div class="source clear">
-						<span class="fl">来源网站 欧洲/现货</span>
+						<span class="fl">{{item.platform}}</span>
 						<img src="../image/icon15.png" alt="" class="fl icon15" />
 					</div>
 					<div class="clear">
-						<div class="fl productPrice">$88.00</div>
-						<a href="" class="fr collectionIcon"></a>
+						<div class="fl productPrice">${{item.price}}</div>
+						<a href="javascript:;" class="fr collectionIcon active" @click.stop="setCollect(item.id)"></a>
 					</div>
 				</div>
 			</li>
 		</ul>
+		<van-overlay :show="showOverlay" @click="showOverlay = false">
+			<van-loading size="24px" vertical style="margin-top:10vh;">加载中...</van-loading>
+		</van-overlay>
 	</div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
 <script type="text/javascript">
+	let token = localStorage.getItem("fToken");
 	// 在 #app 标签下渲染一个按钮组件
 	var app = new Vue({
 		el: '#app',
 		data() {
 			return {
-
+				list: [],
+				loading: false,
+				finished: false,
+				pageNum: 1,
+				pageSize: 10,
+				showOverlay: false,
 			};
 		},
+		created() {
+			this.getCollectList();
+		},
 		methods: {
+			openUrlVue(url, pageParam) {
+				openUrl(url, pageParam)
+			},
+			//下拉到底事件
+			onLoad() {
+				this.getCollectList();
+			},
+			//获取收藏列表
+			getCollectList() {
+				this.showOverlay = true;
+				let _this = this;
+				let d = {}
+				request("POST", requestUrl + "/App/Product/CollectList", JSON.stringify(d), function (data) {
+					console.log('getCollectList', data);
+					_this.showOverlay = false;
+					if (data.success) {
+						console.log('getCollectList', data.data);
+						if (data.data.length > 0) {
+							_this.list = data.data
+							// data.data.forEach(i => {
+							// 	_this.list.push(i)
+							// });
+						} else {
+							_this.finished = true;
+						}
 
+					}
+				})
+			},
+			//取消收藏
+			setCollect(id) {
+				this.showOverlay = true;
+				let _this = this;
+				let d = {
+					id: id,
+					is_collect: false,
+				};
+				request("POST", requestUrl + "/App/Product/Collect", JSON.stringify(d), function (data) {
+					console.log('取消收藏', data);
+					_this.showOverlay = false;
+					_this.getCollectList();
+					alert(data.msg);
+					if (data.success) {
+
+					}
+				})
+			},
 		},
 	});
 	//vant.Toast('提示');
 	apiready = function () {
 		var header = $api.byId('header');
 		//适配iOS 7+，Android 4.4+状态栏
-		//$api.fixStatusBar(header);
+		$api.fixStatusBar(header);
 	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'myCollection',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
+	// function openUrl(url, pageParam) {
+	// 	console.log('url', url);
+	// 	console.log('pageParam', pageParam);
+	// 	api.openWin({
+	// 		name: 'myCollection',
+	// 		url: url,
+	// 		rect: {
+	// 			x: 0,
+	// 			y: 0,
+	// 			w: 'auto',
+	// 			h: 'auto'
+	// 		},
+	// 		pageParam: pageParam,
+	// 		// pageParam: {
+	// 		//   name: 'test'
+	// 		// }
+	// 	});
+	// };
 	$(".collectionSelectList li").click(function () {
 		$(this).addClass("active").siblings().removeClass("active");
 		$(this).parent().siblings(".selectText").html($(this).html());
@@ -116,6 +177,56 @@
 		}
 
 	});
+	//品牌下拉框信息
+	function getBrand(name, platform) {
+		let _this = this;
+		request("GET", requestUrl + "/App/DropItem/Brand?name=" + name + "&platform=" + platform, '', function (data) {
+			console.log('getBrand', data);
+			let html = '';
+			if (data.success) {
+				for (var index in data.data) {
+					//console.log(msg[index]);
+					//console.log(index);
+					data.data[index].forEach(i => {
+						html += `<li onclick="setSelect(this,${i.id},1)" data-id="${i.id}">${i.name}</li>`;
+					});
+				}
+				$("#brandList").html(html);
+			}
+		})
+	};
+	function setSelect(_this, id, type) {
+		$(_this).addClass("active").siblings().removeClass("active");
+		$(_this).parent().siblings(".selectText").html($(_this).html());
+		$(_this).parent().hide();
+		if (type == 0) {
+			getBrand('', id);
+		}
+	};
+	//网站(平台)下拉框信息
+	function getPlatform() {
+		$.ajax({
+			type: "GET",
+			url: requestUrl + "/App/DropItem/Platform",
+			dataType: "json",
+			contentType: "application/json",
+			data: '',
+			success: function (data) {
+				console.log('getPlatform', data);
+				let html = '';
+				if (data.success) {
+					if (data.data.length > 0) {
+						getBrand('', data.data[0].id);
+						data.data.forEach(i => {
+							html += `<li onclick="setSelect(this,${i.id},0)" data-id="${i.id}">${i.name}</li>`;
+						});
+					}
+					$("#platformList").html(html);
+				}
+			},
+		});
+	};
+	getPlatform();
 </script>
 
 </html>
