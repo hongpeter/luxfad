@@ -7,7 +7,7 @@
     <author email="developer@apicloud.com" href="http://www.apicloud.com">peter</author>
 
     <content src="index.html" />
-	<content src="app.json" />
+	<!-- <content src="app.json" /> -->
 
     <access origin="*" />
 

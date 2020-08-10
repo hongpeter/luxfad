@@ -288,8 +288,8 @@ img {
 }
 
 .ficonBox {
-	width: 6vw;
-	height: 6vw;
+	width: 30px;
+	height: 30px;
 	margin: 0 auto;
 }
 
@@ -665,6 +665,7 @@ a.c7d7d7d,
 
 .cartList {
 	background: #f7f7f7;
+	min-height: 90vh;
 }
 
 .cartItem {
