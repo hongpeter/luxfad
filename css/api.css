@@ -268,6 +268,80 @@ img {
 	position: relative;
 }
 
+/*index.hrml--start*/
+
+
+#footer {
+	position: fixed;
+	background-color: #f6f6f6;
+	width: 100%;
+	color: #434343;
+	text-align: center;
+	padding: 10px 0;
+	font-size: 0.75rem;
+	left: 0;
+	bottom: 0;
+}
+
+#footer a {
+	display: block;
+}
+
+.ficonBox {
+	width: 6vw;
+	height: 6vw;
+	margin: 0 auto;
+}
+
+.ficonBox.ficon1 {
+	background: url(../image/ficon1.png) no-repeat center;
+	background-size: 6vw auto;
+}
+
+.ficonBox.ficon1.active {
+	background: url(../image/ficon1-1.png) no-repeat center;
+	background-size: 6vw auto;
+}
+
+.ficonBox.ficon2 {
+	background: url(../image/ficon2.png) no-repeat center;
+	background-size: 6vw auto;
+}
+
+.ficonBox.ficon2.active {
+	background: url(../image/ficon2-1.png) no-repeat center;
+	background-size: 6vw auto;
+}
+
+.ficonBox.ficon3 {
+	background: url(../image/ficon3.png) no-repeat center;
+	background-size: 6vw auto;
+}
+
+.ficonBox.ficon3.active {
+	background: url(../image/ficon3-1.png) no-repeat center;
+	background-size: 6vw auto;
+}
+
+.ficonBox.ficon4 {
+	background: url(../image/ficon4.png) no-repeat center;
+	background-size: 6vw auto;
+}
+
+.ficonBox.ficon4.active {
+	background: url(../image/ficon4-1.png) no-repeat center;
+	background-size: 6vw auto;
+}
+
+.fText {
+	margin-top: 2vw;
+}
+
+.ficon {
+	width: 10vw;
+}
+
+/*index.hrml--end*/
 /*首页--start*/
 .skip {
 	display: block;

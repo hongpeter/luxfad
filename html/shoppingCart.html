@@ -23,54 +23,57 @@
             <a href="jacascript:;" class="fr shopCartText" v-if="isEdit" @click="isEdit=false">完成</a>
             <a href="jacascript:;" class="fr shopCartText" v-else @click="isEdit=true">编辑</a>
         </div>
-        <div class="cartList">
-            <div class="cartItem" v-for="(item,index) in cartList">
-                <div class="cartItemTop clear">
-                    <van-checkbox v-model="item.checked" checked-color="#333333"
-                        @click="cartItemChecked(item.checked,index)" :data-index="index">
-                        <span class="cartItemName">网站：{{item.platform}}</span>
-                    </van-checkbox>
-                </div>
-                <ul class="cartItemList">
-                    <li v-for="i in item.list">
-                        <van-swipe-cell>
-                            <div class="cartItemBd clear">
-                                <van-checkbox v-model="i.checked" checked-color="#333333" class="fl cartCheckbox"
-                                    @click="cartItemListChecked()">
-                                </van-checkbox>
-                                <!-- <div class="fl cartImgBox"><img :src="i.img" alt="" class="cartImg" /></div> -->
-                                <van-image class="fl" fit="cover" width="28vw" height="28vw" :src="i.img"></van-image>
-                                <div class="fl cartProductBd">
-                                    <div class="cartProductName">{{i.name}}</div>
-                                    <div class="cartProductInfo">
-                                        <span v-for="v in i.sku">{{v}}</span>
-                                    </div>
-                                    <div class="cartReceivingWay">收货方式：{{i.receive_way}}</div>
-                                    <div class="clear">
-                                        <div class="cartProductPrice fl">￥ {{i.price}}</div>
-                                        <div class="flex fr cartStepper">
-                                            <a href="javascript:;" class="cartStepperBtn"
-                                                @click="i.count>1?i.count--:1">-</a>
-                                            <input type="number" class="cartStepperInput" v-model="i.count" />
-                                            <a href="javascript:;" class="cartStepperBtn" @click="i.count++">+</a>
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+            <div class="cartList">
+                <div class="cartItem" v-for="(item,index) in cartList">
+                    <div class="cartItemTop clear">
+                        <van-checkbox v-model="item.checked" checked-color="#333333"
+                            @click="cartItemChecked(item.checked,index)" :data-index="index">
+                            <span class="cartItemName">网站：{{item.platform}}</span>
+                        </van-checkbox>
+                    </div>
+                    <ul class="cartItemList">
+                        <li v-for="i in item.list">
+                            <van-swipe-cell>
+                                <div class="cartItemBd clear">
+                                    <van-checkbox v-model="i.checked" checked-color="#333333" class="fl cartCheckbox"
+                                        @click="cartItemListChecked()">
+                                    </van-checkbox>
+                                    <!-- <div class="fl cartImgBox"><img :src="i.img" alt="" class="cartImg" /></div> -->
+                                    <van-image class="fl" fit="cover" width="28vw" height="28vw" :src="i.img">
+                                    </van-image>
+                                    <div class="fl cartProductBd">
+                                        <div class="cartProductName">{{i.name}}</div>
+                                        <div class="cartProductInfo">
+                                            <span v-for="v in i.sku">{{v}}</span>
+                                        </div>
+                                        <div class="cartReceivingWay">收货方式：{{i.receive_way}}</div>
+                                        <div class="clear">
+                                            <div class="cartProductPrice fl">￥ {{i.price}}</div>
+                                            <div class="flex fr cartStepper">
+                                                <a href="javascript:;" class="cartStepperBtn"
+                                                    @click="i.count>1?i.count--:1">-</a>
+                                                <input type="number" class="cartStepperInput" v-model="i.count" />
+                                                <a href="javascript:;" class="cartStepperBtn" @click="i.count++">+</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <template #right>
-                                <div class="cartDeleteBox">
-                                    <a href="javascript:;" class="cartDelete">
-                                        <img src="../image/icon17.png" alt="" />
-                                        <div>删除</div>
-                                    </a>
-                                </div>
+                                <template #right>
+                                    <div class="cartDeleteBox">
+                                        <a href="javascript:;" class="cartDelete">
+                                            <img src="../image/icon17.png" alt="" />
+                                            <div>删除</div>
+                                        </a>
+                                    </div>
 
-                            </template>
-                        </van-swipe-cell>
-                    </li>
-                </ul>
+                                </template>
+                            </van-swipe-cell>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
+        </van-pull-refresh>
         <div class="cartStatistical" v-show="subtotalShow&&!isEdit">
             <div class="clear">
                 <div class="fl">{{totalCount}}件商品标价小计：</div>
@@ -120,12 +123,18 @@
                 totalDiscount: 0,
                 totalFreight: 0,
                 subtotal: 0,
+                isLoading: false,
             };
         },
         created() {
             this.getCart();
         },
         methods: {
+            onRefresh() {
+                this.cartList = [];
+                this.getCart();
+                this.isLoading = true;
+            },
             selectAll(checked) {
                 console.log('selectAll', checked);
                 this.cartList.forEach(i => {
@@ -172,8 +181,10 @@
             },
             getCart() {
                 let _this = this;
+                this.cartList = [];
                 request("GET", requestUrl + "/App/Product/CartList", '', function (data) {
                     console.log('getCart', JSON.stringify(data));
+                    _this.isLoading = false;
                     if (data.success) {
                         console.log('getCart', JSON.stringify(data.data));
                         let arr = [];
@@ -198,7 +209,7 @@
                                 list: list,
                             })
                         });
-                        console.log('_this.cartList', _this.cartList)
+                        console.log('_this.cartList', JSON.stringify(_this.cartList))
                         //_this.cartList = data.data;
                     }
                 })

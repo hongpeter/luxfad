@@ -220,6 +220,8 @@
 <script type="text/javascript" src="../script/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script src="../H5WX-QQ-WB-Share/H5WX-QQ-WB-Share.js"></script>
+<script src="../H5WX-QQ-WB-Share/libs/api.extend.js"></script>
 <script type="text/javascript">
     function gtQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -258,10 +260,11 @@
                 showShare: false,
                 options: [
                     { name: '微信', icon: 'wechat' },
+                    { name: 'QQ', icon: 'qq' },
                     { name: '微博', icon: 'weibo' },
-                    { name: '复制链接', icon: 'link' },
-                    { name: '分享海报', icon: 'poster' },
-                    { name: '二维码', icon: 'qrcode' },
+                    // { name: '复制链接', icon: 'link' },
+                    // { name: '分享海报', icon: 'poster' },
+                    // { name: '二维码', icon: 'qrcode' },
                 ],
                 detail: {},
                 colorColumns: [],
@@ -295,14 +298,23 @@
                 })
             },
             skusSelect(item, index) {
+
                 console.log('skusSelect', item);
                 this.colorColumns = item.children;
                 this.showColorPicker = true;
                 this.skusIndex = index;
             },
             onSelect(option) {
-                vant.Toast(option.name);
+                //{ name: '微信', icon: 'wechat' },{ name: 'QQ', icon: 'qq' },{ name: '微博', icon: 'weibo' }
+                console.log('onSelect', option)
                 this.showShare = false;
+                if (option.icon == "wechat") {
+                    wxSessionShare()
+                } else if (option.icon == "qq") {
+                    QFriend()
+                } else if (option.icon == "weibo") {
+                    weibo()
+                }
             },
             comment(type) {
                 console.log('comment', type);

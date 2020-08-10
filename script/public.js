@@ -45,3 +45,54 @@ function openUrl(url, pageParam) {
         // }
     });
 }
+wxSessionShare = function () {
+    var H5WXQQWBShareType = 'session';
+    var H5WXQQWBShareTitle = '微信好友';
+    var H5WXQQWBShareDescription = 'description';
+    var H5WXQQWBShareImgurl = '../H5WX-QQ-WB-Share/image/wx-share.png';
+    var H5WXQQWBShareUrl = 'https://www.apicloud.com/';
+    $H5WXQQWBShare.wxShare(H5WXQQWBShareType, H5WXQQWBShareTitle, H5WXQQWBShareDescription, H5WXQQWBShareImgurl,
+        H5WXQQWBShareUrl);
+}
+
+wxTimelineShare = function () {
+    var H5WXQQWBShareType = 'timeline';
+    var H5WXQQWBShareTitle = '微信朋友圈';
+    var H5WXQQWBShareDescription = 'description';
+    var H5WXQQWBShareImgurl = '../H5WX-QQ-WB-Share/image/timeline.png';
+    var H5WXQQWBShareUrl = 'https://www.apicloud.com/';
+    $H5WXQQWBShare.wxShare(H5WXQQWBShareType, H5WXQQWBShareTitle, H5WXQQWBShareDescription, H5WXQQWBShareImgurl,
+        H5WXQQWBShareUrl);
+}
+
+QFriend = function () {
+    var H5WXQQWBShareType = 'QFriend';
+    var H5WXQQWBShareitle = 'QQ朋友';
+    var H5WXQQWBShareDescription = 'description';
+    var H5WXQQWBShareImgurl =
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574316643090&di=f21979ef445826d4f547d8b20088b456&imgtype=0&src=http%3A%2F%2Fpic2.cxtuku.com%2F00%2F16%2F04%2Fb163c9e46800.jpg';
+    var H5WXQQWBShareUrl = 'https://www.apicloud.com/';
+    $H5WXQQWBShare.QQShare(H5WXQQWBShareType, H5WXQQWBShareTitle, H5WXQQWBShareDescription, H5WXQQWBShareImgurl,
+        H5WXQQWBShareUrl);
+}
+
+QZone = function () {
+    var H5WXQQWBShareType = 'QZone';
+    var H5WXQQWBShareTitle = 'QQ空间';
+    var H5WXQQWBShareDescription = 'description';
+    var H5WXQQWBShareImgurl =
+        'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574316643090&di=f21979ef445826d4f547d8b20088b456&imgtype=0&src=http%3A%2F%2Fpic2.cxtuku.com%2F00%2F16%2F04%2Fb163c9e46800.jpg';
+    var H5WXQQWBShareUrl = 'https://www.apicloud.com/';
+    $H5WXQQWBShare.QQShare(H5WXQQWBShareType, H5WXQQWBShareTitle, H5WXQQWBShareDescription, H5WXQQWBShareImgurl,
+        H5WXQQWBShareUrl);
+}
+
+weibo = function () {
+    var weiboText = '111111111111';
+    var H5WXQQWBShareTitle = 'QQ朋友';
+    var H5WXQQWBShareDescription = 'description';
+    var H5WXQQWBShareImgurl = '../H5WX-QQ-WB-Share/image/timeline.png';
+    var H5WXQQWBShareUrl = 'https://www.apicloud.com/';
+    $H5WXQQWBShare.weibo(weiboText, H5WXQQWBShareTitle, H5WXQQWBShareDescription, H5WXQQWBShareImgurl,
+        H5WXQQWBShareUrl);
+}
