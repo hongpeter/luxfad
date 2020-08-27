@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE HTML>
 <html>
 
@@ -21,26 +20,28 @@
 			<div class="ta-c">申请售后</div>
 		</div>
 		<div class="aas_top clear box">
-			<div class="aas_hd">
-				<img src="../image/img2.jpg" alt="" class="fl commentsImg" />
+			<div class="aas_hd flex">
+				<!-- <img :src="../image/img2.jpg" alt="" class="fl commentsImg" /> -->
+				<van-image width="20vw" height="20vw" fit="cover" :src="data.main_photo" class="commentsImg fl">
+				</van-image>
 				<div>
-					<div class="commentsProductName">某某产品某某产品某某产品某某产品某某产品某某产品某某产品...</div>
-					<div class="aas_colorClass">颜色分类：白色短袖</div>
+					<div class="commentsProductName">{{data.name}}</div>
+					<div class="aas_colorClass">{{data.sku}}</div>
 				</div>
 			</div>
 		</div>
 		<div class="box">
-			<a class="setUpItem clear" href="javascript:;">
+			<a class="setUpItem clear" href="javascript:;" onclick="openUrl('applyRefund.html',{})">
 				<div class="fl">退款（无需退货）</div>
 			</a>
 		</div>
 		<div class="box">
-			<a class="setUpItem clear" href="javascript:;">
+			<a class="setUpItem clear" href="javascript:;" onclick="openUrl('applyRefundReturn.html',{})">
 				<div class="fl">退货退款</div>
 			</a>
 		</div>
 		<div class="box">
-			<a class="setUpItem clear" href="javascript:;">
+			<a class="setUpItem clear" href="javascript:;" onclick="openUrl('applyReplacement.html',{})">
 				<div class="fl">换货</div>
 			</a>
 		</div>
@@ -48,20 +49,42 @@
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
 <script type="text/javascript">
+	function gtQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]); return null;
+	}
+	var id = gtQueryString("id");
+	console.log('id', id);
 	// 在 #app 标签下渲染一个按钮组件
 	var app = new Vue({
 		el: '#app',
 		data() {
 			return {
-
+				data: {},
 			};
 		},
+		created() {
+			this.getItemDetail();
+		},
 		methods: {
-
+			//申请售后的订单明细
+			getItemDetail() {
+				let _this = this;
+				let url = 'App/AfterSale/ItemDetail';
+				request("GET", requestUrl + url + "?order_item_id=" + id, '', function (data) {
+					console.log('申请售后的订单明细', data);
+					if (data.success) {
+						_this.data = data.data;
+						console.log('申请售后的订单明细', _this.data);
+					}
+				})
+			},
 		},
 	});
 	//vant.Toast('提示');
@@ -69,120 +92,16 @@
 		var header = $api.byId('header');
 		//适配iOS 7+，Android 4.4+状态栏
 		$api.fixStatusBar(header);
+		setTimeout(() => {
+			var pageParam = api.pageParam;
+			console.log('pageParam', pageParam);
+			if (pageParam.id) {
+				console.log('pageParam.id', pageParam.id)
+				id = pageParam.id;
+				app.getItemDetail(id);
+			}
+		}, 500);
 	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'applyAfterSales',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
-
 </script>
 
-=======
-<!DOCTYPE HTML>
-<html>
-
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport"
-		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-	<title>申请售后</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
-	<link rel="stylesheet" type="text/css" href="../css/api.css" />
-	<style>
-	</style>
-</head>
-
-<body>
-	<div class="" id="app">
-		<div class="clear box1 bgfff shopCartTop" id="header">
-			<a href="javascript:history.back();" class="fl searchBack apdBack"></a>
-			<div class="ta-c">申请售后</div>
-		</div>
-		<div class="aas_top clear box">
-			<div class="aas_hd">
-				<img src="../image/img2.jpg" alt="" class="fl commentsImg" />
-				<div>
-					<div class="commentsProductName">某某产品某某产品某某产品某某产品某某产品某某产品某某产品...</div>
-					<div class="aas_colorClass">颜色分类：白色短袖</div>
-				</div>
-			</div>
-		</div>
-		<div class="box">
-			<a class="setUpItem clear" href="javascript:;">
-				<div class="fl">退款（无需退货）</div>
-			</a>
-		</div>
-		<div class="box">
-			<a class="setUpItem clear" href="javascript:;">
-				<div class="fl">退货退款</div>
-			</a>
-		</div>
-		<div class="box">
-			<a class="setUpItem clear" href="javascript:;">
-				<div class="fl">换货</div>
-			</a>
-		</div>
-	</div>
-</body>
-<script type="text/javascript" src="../script/api.js"></script>
-<script type="text/javascript" src="../script/jquery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
-<script src="../script/languages.min.js"></script>
-<script type="text/javascript">
-	// 在 #app 标签下渲染一个按钮组件
-	var app = new Vue({
-		el: '#app',
-		data() {
-			return {
-
-			};
-		},
-		methods: {
-
-		},
-	});
-	//vant.Toast('提示');
-	apiready = function () {
-		var header = $api.byId('header');
-		//适配iOS 7+，Android 4.4+状态栏
-		$api.fixStatusBar(header);
-	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'main',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
-
-</script>
-
->>>>>>> 谢谢谢谢谢谢
 </html>

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE HTML>
 <html>
 
@@ -19,59 +18,80 @@
 		<div class="clear box1 bgfff shopCartTop" id="header">
 			<!-- <a href="javascript:history.back();" class="fl searchBack apdBack"></a> -->
 			<div class="fl shopCartTitle">订单</div>
-			<a href="messageBox.html" class="homeMsg centerMsg fr">
+			<a href="javascript:;" class="homeMsg centerMsg fr" onclick="openUrl('messageBox.html',{})">
 				<img src="../image/icon1.png" alt="" class="icon1">
 				<span class="redBlock"></span>
 			</a>
 			<!-- <div class="ta-c">我的订单</div> -->
 		</div>
 		<div class="clear orderListNav">
-			<a href="javascript:;" :class="[active==1?'active':'']" @click="tabChange(1)">全部</a>
-			<a href="javascript:;" :class="[active==2?'active':'']" @click="tabChange(2)">待付款</a>
-			<a href="javascript:;" :class="[active==3?'active':'']" @click="tabChange(3)">待发货</a>
-			<a href="javascript:;" :class="[active==4?'active':'']" @click="tabChange(4)">待收货</a>
-			<a href="javascript:;" :class="[active==5?'active':'']" @click="tabChange(5)">待评价</a>
+			<a href="javascript:;" :class="[active==-1?'active':'']" @click="tabChange(-1)">全部</a>
+			<a href="javascript:;" :class="[active==0?'active':'']" @click="tabChange(0)">待付款</a>
+			<a href="javascript:;" :class="[active==4?'active':'']" @click="tabChange(4)">待发货</a>
+			<a href="javascript:;" :class="[active==5?'active':'']" @click="tabChange(5)">待收货</a>
+			<a href="javascript:;" :class="[active==6?'active':'']" @click="tabChange(6)">待评价</a>
+			<a href="javascript:;" :class="[active==8?'active':'']" @click="tabChange(8)">售后</a>
 		</div>
 		<div class="clear box1">
-			<input type="text" class="orderInput" placeholder="搜索所有订单" />
+			<input type="text" class="orderInput" placeholder="搜索所有订单" v-model="order_sn" @input="searchInput" />
 		</div>
-		<ul class="orderList">
-			<li v-for="item in 5">
-				<div class="clear ol_top box1">
-					<div class="fl">Lusia</div>
-					<div class="fr">已发货</div>
-					<div class="fr ce60012">待付款</div>
-				</div>
-				<div class="clear box1 ol_bd">
-					<img src="../image/productImg9.jpg" alt="" class="ol_img fl" />
-					<div class="fl ol_info">
-						<div class="clear">
-							<div class="fl ol_brand">prade</div>
-							<div class="fr ol-price ca8896d">HK$3000.00</div>
+		<van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+			<ul class="orderList">
+				<li v-for="(item,index) in orderList" :key="index" v-if="item.order_item.length>0">
+					<div class="order_sn">订单号：{{item.order_sn}}</div>
+					<div v-for="(i,iIndex) in item.order_item" :key="iIndex" class="order_item">
+						<div class="clear ol_top box1">
+							<div class="fl">{{i.platform}}</div>
+							<div class="fr" :class="{ce60012:i.status=='待付款'}">{{i.status}}</div>
+							<!-- <div class="fr ce60012">待付款</div> -->
 						</div>
-						<div class="clear">
-							<div class="fl ol_name">A-line denim mini dress</div>
-							<div class="fr ol_qty">X1</div>
+						<div class="clear box1 ol_bd" @click="openUrl('orderDetails.html',{id:i.id,type:active})">
+							<!-- <img :src="i.main_photo" alt="" class="ol_img fl" /> -->
+							<van-image width="25vw" height="25vw" fit="cover" :src="i.main_photo" class="ol_img fl">
+							</van-image>
+							<div class="fl ol_info">
+								<div class="clear">
+									<div class="fl ol_brand">{{i.brand}}</div>
+									<div class="fr ol-price ca8896d">{{i.price}}</div>
+								</div>
+								<div class="clear">
+									<div class="fl ol_name">{{i.name}}</div>
+									<div class="fr ol_qty">X{{i.count}}</div>
+								</div>
+								<div class="ol_spec cc9c9c9">
+									<span v-for="v in i.sku">{{v}}&nbsp;&nbsp;</span>
+								</div>
+								<div class="ol_way cc9c9c9">收货方式：{{i.receive_way}}</div>
+							</div>
 						</div>
-						<div class="ol_spec cc9c9c9">已选：白色，40码</div>
-						<div class="ol_way cc9c9c9">收货方式：快递物流</div>
+						<div class="clear box1 ol_total">
+							<div class="fr">共 {{i.count}} 件商品 合计港币<span class="ca8896d">{{i.price+i.freight}}</span>（含运费
+								{{i.freight}}）</div>
+						</div>
+						<div class="clear box1 ol_foot">
+							<a href="javascript:;" class="fr ol_btn" v-show="i.status=='已发货'">确认收货</a>
+							<a href="javascript:;" class="fr ol_btn ol_btn1"
+								@click.stop="openUrl('orderDetails.html',{id:i.id,type:active})"
+								v-show="i.status=='已发货'">查看物流</a>
+							<a href="javascript:;" class="fr ol_btn mgr2vw" v-show="i.status=='未付款'"
+								@click.stop="openUrl('makeSureOrder.html',{orderId:i.id,type:'1'})">立即支付</a>
+							<a href="javascript:;" class="fr ol_btn ol_btn1" v-show="i.status=='未付款'">取消订单</a>
+						</div>
 					</div>
-				</div>
-				<div class="clear box1 ol_total">
-					<div class="fr">共 1 件商品 合计港币<span class="ca8896d">HK$3300.00</span>（含运费 HK$300.00）</div>
-				</div>
-				<div class="clear box1 ol_foot">
-					<a href="javascript:;" class="fr ol_btn">确认收货</a>
-					<a href="logisticDetails.html" class="fr ol_btn ol_btn1">查看物流</a>
-					<!-- <a href="javascript:;" class="fr ol_btn mgr2vw">立即支付</a>
-					<a href="javascript:;" class="fr ol_btn ol_btn1">取消订单</a> -->
-				</div>
-			</li>
-		</ul>
+					<div class="clear box1 ol_total bgeee">
+						<div class="fr">合计港币<span class="ca8896d">{{item.amount+item.freight}}</span>（含运费
+							{{item.freight}}）</div>
+					</div>
+					<div style="height:4vw;background: #fff;"></div>
+				</li>
+			</ul>
+		</van-list>
+
 	</div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
@@ -81,12 +101,75 @@
 		el: '#app',
 		data() {
 			return {
-				active: 1,
+				active: -1,
+				pageNum: 1,
+				orderList: [],
+				loading: false,
+				finished: false,
+				isLoad: true,
+				order_sn: '',
 			};
 		},
+		created() {
+			//this.getList();
+		},
 		methods: {
+			searchInput(value) {
+				//console.log('searchInput', value)
+				console.log('searchInput', this.order_sn);
+				this.orderList = [];
+				this.getList();
+			},
+			onLoad() {
+				this.pageNum = this.pageNum + 1;
+				this.getList();
+			},
 			tabChange(value) {
 				this.active = value;
+				this.pageNum = 1;
+				this.orderList = [];
+				this.order_sn = '';
+				this.getList();
+			},
+			opemUrl(url, pageParam) {
+				openUrl(url, pageParam)
+			},
+			getList() {
+				let _this = this;
+				let d = {
+					status: this.active,
+					order_sn: this.order_sn,
+					page: {
+						page_num: this.pageNum,
+						page_size: 10,
+						whereString: {
+							SQL: "",
+							Arguments: [
+								{}
+							]
+						}
+					}
+				};
+				_this.loading = true;
+				let url = "App/Order/List";
+				if (this.active == 8) {
+					url = "App/AfterSale/List";
+				}
+				request("POST", requestUrl + url, JSON.stringify(d), function (data) {
+					console.log('获取订单列表', data);
+					_this.loading = false;
+					if (data.success) {
+						if (data.data.data.length > 0) {
+							data.data.data.forEach(i => {
+								_this.orderList.push(i)
+							});
+						} else {
+							_this.finished = true;
+						}
+						console.log('获取订单列表', JSON.stringify(_this.orderList));
+
+					}
+				})
 			},
 		},
 	});
@@ -95,146 +178,17 @@
 		var header = $api.byId('header');
 		//适配iOS 7+，Android 4.4+状态栏
 		$api.fixStatusBar(header);
-	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'orderList',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
+		setTimeout(() => {
+			var pageParam = api.pageParam;
+			console.log('pageParam', pageParam);
+			if (pageParam.active) {
+				console.log('pageParam.active', pageParam.active)
+				app.active = pageParam.active;
+			}
+			app.getList();
+		}, 500);
 	};
 
 </script>
 
-=======
-<!DOCTYPE HTML>
-<html>
-
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport"
-		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-	<title>我的订单</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
-	<link rel="stylesheet" type="text/css" href="../css/api.css" />
-	<style>
-	</style>
-</head>
-
-<body>
-	<div class="" id="app">
-		<div class="clear box1 bgfff shopCartTop" id="header">
-			<!-- <a href="javascript:history.back();" class="fl searchBack apdBack"></a> -->
-			<div class="fl shopCartTitle">订单</div>
-			<a href="messageBox.html" class="homeMsg centerMsg fr">
-				<img src="../image/icon1.png" alt="" class="icon1">
-				<span class="redBlock"></span>
-			</a>
-			<!-- <div class="ta-c">我的订单</div> -->
-		</div>
-		<div class="clear orderListNav">
-			<a href="javascript:;" :class="[active==1?'active':'']" @click="tabChange(1)">全部</a>
-			<a href="javascript:;" :class="[active==2?'active':'']" @click="tabChange(2)">待付款</a>
-			<a href="javascript:;" :class="[active==3?'active':'']" @click="tabChange(3)">待发货</a>
-			<a href="javascript:;" :class="[active==4?'active':'']" @click="tabChange(4)">待收货</a>
-			<a href="javascript:;" :class="[active==5?'active':'']" @click="tabChange(5)">待评价</a>
-		</div>
-		<div class="clear box1">
-			<input type="text" class="orderInput" placeholder="搜索所有订单" />
-		</div>
-		<ul class="orderList">
-			<li v-for="item in 5">
-				<div class="clear ol_top box1">
-					<div class="fl">Lusia</div>
-					<div class="fr">已发货</div>
-					<div class="fr ce60012">待付款</div>
-				</div>
-				<div class="clear box1 ol_bd">
-					<img src="../image/productImg9.jpg" alt="" class="ol_img fl" />
-					<div class="fl ol_info">
-						<div class="clear">
-							<div class="fl ol_brand">prade</div>
-							<div class="fr ol-price ca8896d">HK$3000.00</div>
-						</div>
-						<div class="clear">
-							<div class="fl ol_name">A-line denim mini dress</div>
-							<div class="fr ol_qty">X1</div>
-						</div>
-						<div class="ol_spec cc9c9c9">已选：白色，40码</div>
-						<div class="ol_way cc9c9c9">收货方式：快递物流</div>
-					</div>
-				</div>
-				<div class="clear box1 ol_total">
-					<div class="fr">共 1 件商品 合计港币<span class="ca8896d">HK$3300.00</span>（含运费 HK$300.00）</div>
-				</div>
-				<div class="clear box1 ol_foot">
-					<a href="javascript:;" class="fr ol_btn">确认收货</a>
-					<a href="logisticDetails.html" class="fr ol_btn ol_btn1">查看物流</a>
-					<!-- <a href="javascript:;" class="fr ol_btn mgr2vw">立即支付</a>
-					<a href="javascript:;" class="fr ol_btn ol_btn1">取消订单</a> -->
-				</div>
-			</li>
-		</ul>
-	</div>
-</body>
-<script type="text/javascript" src="../script/api.js"></script>
-<script type="text/javascript" src="../script/jquery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
-<script src="../script/languages.min.js"></script>
-<script type="text/javascript">
-	// 在 #app 标签下渲染一个按钮组件
-	var app = new Vue({
-		el: '#app',
-		data() {
-			return {
-				active: 1,
-			};
-		},
-		methods: {
-			tabChange(value) {
-				this.active = value;
-			},
-		},
-	});
-	//vant.Toast('提示');
-	apiready = function () {
-		var header = $api.byId('header');
-		//适配iOS 7+，Android 4.4+状态栏
-		$api.fixStatusBar(header);
-	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'main',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
-
-</script>
-
->>>>>>> 谢谢谢谢谢谢
 </html>

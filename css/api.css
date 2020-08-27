@@ -269,7 +269,14 @@ img {
 }
 
 /*index.hrml--start*/
-
+.my_swipe.van-swipe {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 1000;
+}
 
 #footer {
 	position: fixed;
@@ -281,6 +288,7 @@ img {
 	font-size: 0.75rem;
 	left: 0;
 	bottom: 0;
+	overflow: hidden;
 }
 
 #footer a {
@@ -288,8 +296,8 @@ img {
 }
 
 .ficonBox {
-	width: 30px;
-	height: 30px;
+	width: 25px;
+	height: 25px;
 	margin: 0 auto;
 }
 
@@ -334,11 +342,12 @@ img {
 }
 
 .fText {
-	margin-top: 2vw;
+	margin-top: 1vw;
 }
 
 .ficon {
-	width: 10vw;
+	margin-top: 2vw;
+	width: 6vw;
 }
 
 /*index.hrml--end*/
@@ -1752,7 +1761,8 @@ a.c7d7d7d,
 	left: 0;
 	bottom: 0;
 	z-index: 100;
-	border-top: 5px solid #f6f6f6
+	border-top: 5px solid #f6f6f6;
+	background: #fff;
 }
 
 .vanCheckbox,
@@ -1794,12 +1804,15 @@ a.c7d7d7d,
 
 .mso_address {
 	padding-bottom: 2vw;
+	max-width: 75vw;
 }
 
 .mso_address dt {
 	font-size: 1.125rem;
 	color: #434343;
 	line-height: 8vw;
+	max-height: 16vw;
+	overflow: hidden;
 }
 
 .mso_address dt span {
@@ -1869,6 +1882,36 @@ a.c7d7d7d,
 	background: #a8896d;
 	margin: 2vw auto;
 	line-height: 12vw;
+}
+
+.getCode {
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 10;
+	background: #434343;
+	text-align: center;
+	line-height: 10vw;
+	font-size: 0.875em;
+	color: #fff;
+	display: block;
+	width: 20vw;
+}
+
+.mskAddrBox {
+	padding-top: 10vw;
+	max-height: 84vh;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.mskAddrItem {
+	padding: 0 4vw;
+	border-bottom: 1px solid #eee;
+}
+
+.mskAddrItem .van-radio {
+	margin-right: 2vw;
 }
 
 /*确认订单--end*/
@@ -2178,14 +2221,16 @@ a.c7d7d7d,
 
 .patBtn {
 	display: block;
-	width: 30vw;
+	/* width: 30vw; */
 	text-align: center;
 	border: 1px dashed #eee;
 	border-radius: 2vw;
-	padding: 2vw 0;
+	padding: 2vw;
+	position: relative;
+	margin-right: 2vw;
 }
 
-.patBtn img {
+.patBtn>img {
 	width: 8vw;
 }
 
@@ -2219,6 +2264,10 @@ a.c7d7d7d,
 /*评论--end*/
 
 /*收货地址--start*/
+.addressList {
+	min-height: 90vh;
+}
+
 .addressItem {
 	display: block;
 	border-bottom: 1px solid #eee;
@@ -2418,6 +2467,16 @@ a.c7d7d7d,
 
 .uploadDoc {
 	width: 20vw;
+	margin-right: 2vw;
+}
+
+.uploadDelete {
+	position: absolute;
+	right: -5px;
+	top: -5px;
+	z-index: 10;
+	width: 16px;
+	height: 16px;
 }
 
 .uploadFile {
@@ -2599,13 +2658,13 @@ a.c7d7d7d,
 	background: #f6f6f6;
 	height: 10vw;
 	line-height: 10vw;
-	padding: 0 4vw;
+	/* padding: 0 4vw; */
+	display: flex;
 }
 
 .orderListNav a {
 	display: block;
-	float: left;
-	width: 20%;
+	flex: 1;
 	text-align: center;
 }
 
@@ -2630,6 +2689,16 @@ a.c7d7d7d,
 
 .orderList li {
 	box-shadow: 0 0 5px 2px #eee;
+}
+
+.order_sn {
+	padding: 2vw;
+	background: #eee;
+}
+
+.order_item {
+	box-shadow: 0 0 5px 2px #eee;
+	padding-bottom: 1vw;
 }
 
 .ol_top {
@@ -2689,3 +2758,61 @@ a.c7d7d7d,
 }
 
 /*订单--end*/
+.logisticsDetailItem dt {
+	max-height: 100vh;
+	font-size: 0.9rem;
+}
+
+/*退款详情--start*/
+.afterMsg {
+	position: absolute;
+	right: 4vw;
+	top: 0;
+	z-index: 10;
+}
+
+.bge4dcce {
+	background: #e4dcce;
+}
+
+.aRefundTop {
+	background: #e4dcce;
+	padding: 4vw;
+}
+
+.bb0 {
+	border-bottom: 0;
+}
+
+.aRefundMsg {
+	font-size: 2rem;
+	color: #81511c;
+}
+
+.c362e2b {
+	font-size: 0.8rem;
+	color: #362e2b;
+}
+
+.icon83Box {
+	margin-left: 10vw;
+}
+
+.icon83 {
+
+	width: 20vw;
+}
+
+.pad04 {
+	padding: 0 4vw;
+}
+
+.aRefundHead {
+	line-height: 12vw;
+}
+
+.bgf8f8f8 {
+	background: #f8f8f8;
+}
+
+/*退款详情--end*/

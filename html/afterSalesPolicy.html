@@ -72,25 +72,6 @@
 		//适配iOS 7+，Android 4.4+状态栏
 		$api.fixStatusBar(header);
 	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'afterSalesPolicy',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
-
 </script>
 
 </html>

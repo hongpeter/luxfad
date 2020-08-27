@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE HTML>
 <html>
 
@@ -143,7 +142,7 @@
 	apiready = function () {
 		var header = $api.byId('header');
 		//适配iOS 7+，Android 4.4+状态栏
-		$api.fixStatusBar(header);
+		//$api.fixStatusBar(header);
 	};
 	// function openUrl(url, pageParam) {
 	// 	console.log('url', url);
@@ -230,126 +229,4 @@
 	getPlatform();
 </script>
 
-=======
-<!DOCTYPE HTML>
-<html>
-
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport"
-		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-	<title>我的收藏</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
-	<link rel="stylesheet" type="text/css" href="../css/api.css" />
-	<style>
-
-	</style>
-</head>
-
-<body>
-	<div class="" id="app">
-		<div class="collectionTop clear" id="header">
-			<div class="collectionText c434343 fl">我的收藏</div>
-			<a class="searchBtn fr" href="search.html"><img src="../image/icon2.png" alt="" /></a>
-		</div>
-		<div class="collectionNav flex">
-			<div class="collectionNavItem flex1">
-				<a href="javscript:;" class="selectText">网站</a>
-				<ul class="collectionSelectList">
-					<li>1111111</li>
-					<li>1111111</li>
-					<li>1111111</li>
-					<li>1111111</li>
-				</ul>
-			</div>
-			<div class="collectionNavItem flex1">
-				<a href="javscript:;" class="selectText">品牌</a>
-				<ul class="collectionSelectList">
-					<li>1111111</li>
-					<li>1111111</li>
-					<li>1111111</li>
-					<li>1111111</li>
-				</ul>
-			</div>
-		</div>
-		<ul class="collectionList">
-			<li v-for="item in 10">
-				<img src="../image/productImg8.jpg" alt="" class="productImg" />
-				<div class="collectionItemBD">
-					<div class="brand">品牌XXX</div>
-					<div class="productName">中长袖白T恤中长袖白T恤中长袖白T恤</div>
-					<div class="source clear">
-						<span class="fl">来源网站 欧洲/现货</span>
-						<img src="../image/icon15.png" alt="" class="fl icon15" />
-					</div>
-					<div class="clear">
-						<div class="fl productPrice">$88.00</div>
-						<a href="" class="fr collectionIcon"></a>
-					</div>
-				</div>
-			</li>
-		</ul>
-	</div>
-</body>
-<script type="text/javascript" src="../script/api.js"></script>
-<script type="text/javascript" src="../script/jquery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
-<script src="../script/languages.min.js"></script>
-<script type="text/javascript">
-	// 在 #app 标签下渲染一个按钮组件
-	var app = new Vue({
-		el: '#app',
-		data() {
-			return {
-
-			};
-		},
-		methods: {
-
-		},
-	});
-	//vant.Toast('提示');
-	apiready = function () {
-		var header = $api.byId('header');
-		//适配iOS 7+，Android 4.4+状态栏
-		$api.fixStatusBar(header);
-	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'main',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
-	$(".collectionSelectList li").click(function () {
-		$(this).addClass("active").siblings().removeClass("active");
-		$(this).parent().siblings(".selectText").html($(this).html());
-		$(this).parent().hide();
-	});
-	$(".selectText").click(function () {
-		let dispaly = $(this).siblings(".collectionSelectList").css("display")
-		//console.log('dispaly', dispaly);
-		if (dispaly == "none") {
-			$(this).siblings(".collectionSelectList").show();
-		} else {
-			$(this).siblings(".collectionSelectList").hide();
-		}
-
-	});
-</script>
-
->>>>>>> 谢谢谢谢谢谢
 </html>

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE HTML>
 <html>
 
@@ -69,6 +68,7 @@
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
@@ -91,140 +91,6 @@
 		//适配iOS 7+，Android 4.4+状态栏
 		$api.fixStatusBar(header);
 	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'customerService',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
-
 </script>
 
-=======
-<!DOCTYPE HTML>
-<html>
-
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport"
-		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-	<title>客服</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
-	<link rel="stylesheet" type="text/css" href="../css/api.css" />
-	<style>
-		html,
-		body {
-			background: #f6f6f6;
-		}
-	</style>
-</head>
-
-<body>
-	<div class="" id="app">
-		<div class="clear box1 bgfff shopCartTop" id="header">
-			<a href="javascript:history.back();" class="fl searchBack apdBack"></a>
-			<div class="ta-c">客服</div>
-		</div>
-		<ul class="customerServiceList">
-			<li class="clear">
-				<div class="fr">
-					<img src="../image/icon63.png" alt="" class="fr icon63" />
-					<div class="cs_contnet1 fr">你好，请问什么时候到货？</div>
-				</div>
-			</li>
-			<li class="clear">
-				<div class="fl">
-					<img src="../image/icon62.png" alt="" class="fl icon62" />
-					<dl class="fl cs_contnet2">
-						<dt>某某客服</dt>
-						<dd>你好，请问什么时候到货？</dd>
-					</dl>
-				</div>
-			</li>
-			<li class="clear">
-				<div class="fr">
-					<img src="../image/icon63.png" alt="" class="fr icon63" />
-					<div class="cs_contnet1 fr">你好，请问什么时候到货？</div>
-				</div>
-			</li>
-			<li class="clear">
-				<div class="fl">
-					<img src="../image/icon62.png" alt="" class="fl icon62" />
-					<dl class="fl cs_contnet2">
-						<dt>某某客服</dt>
-						<dd>你好，请问什么时候到货？</dd>
-					</dl>
-				</div>
-			</li>
-		</ul>
-		<div class="sc_foot">
-			<a href="javascript:;" class="icon64Box fl">
-				<img src="../image/icon64.png" alt="" class="icon64" />
-			</a>
-			<input type="text" class="sc_footInput" />
-			<a href="javascript:;" class="icon65Box fr">
-				<img src="../image/icon65.png" alt="" class="icon65" />
-			</a>
-		</div>
-	</div>
-</body>
-<script type="text/javascript" src="../script/api.js"></script>
-<script type="text/javascript" src="../script/jquery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
-<script src="../script/languages.min.js"></script>
-<script type="text/javascript">
-	// 在 #app 标签下渲染一个按钮组件
-	var app = new Vue({
-		el: '#app',
-		data() {
-			return {
-
-			};
-		},
-		methods: {
-
-		},
-	});
-	//vant.Toast('提示');
-	apiready = function () {
-		var header = $api.byId('header');
-		//适配iOS 7+，Android 4.4+状态栏
-		$api.fixStatusBar(header);
-	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'main',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
-
-</script>
-
->>>>>>> 谢谢谢谢谢谢
 </html>

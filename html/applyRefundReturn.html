@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE HTML>
 <html>
 
@@ -21,11 +20,12 @@
 			<div class="ta-c">申请退款退货</div>
 		</div>
 		<div class="aas_top clear box">
-			<div class="aas_hd">
-				<img src="../image/img2.jpg" alt="" class="fl commentsImg" />
+			<div class="aas_hd flex">
+				<van-image width="20vw" height="20vw" fit="cover" :src="data.main_photo" class="commentsImg fl">
+				</van-image>
 				<div>
-					<div class="commentsProductName">某某产品某某产品某某产品某某产品某某产品某某产品某某产品...</div>
-					<div class="aas_colorClass">颜色分类：白色短袖</div>
+					<div class="commentsProductName">{{data.name}}</div>
+					<div class="aas_colorClass">{{data.sku}}</div>
 				</div>
 			</div>
 		</div>
@@ -38,36 +38,50 @@
 		<div class="box">
 			<div class="setUpItem applyRefundItem clear">
 				<div class="fl">退款金额</div>
-				<div class="fr ca8896d">港币HK$ 3000.00</div>
-				<div class="fl applyRefundTips">可修改，最多HK$2700.00，含发货邮费HK$ 300.00</div>
+				<!-- <div class="fr ca8896d">港币HK$ 3000.00</div> -->
+				<div class="fr ca8896d">￥{{data.price}}</div>
+				<!-- <div class="fl applyRefundTips">可修改，最多HK$2700.00，含发货邮费HK$ 300.00</div> -->
+				<div class="fl applyRefundTips">可修改，最多HK$2700.00，含发货邮费￥{{data.freight}}</div>
 			</div>
 		</div>
 		<div class="box1 applyRefundTag">退款说明</div>
 		<div class="box">
-			<input type="text" class="refundInstructions" placeholder="选填" />
+			<input type="text" class="refundInstructions" placeholder="选填" v-model="content" />
 		</div>
 		<div class="box1 applyRefundTag">上传凭证</div>
 		<div class="box1">
+			<a href="javascript:;" class="relative uploadDoc" v-for="(item,index) in imglist" v-if="imglist.length>0">
+				<van-image width="20vw" height="20vw" fit="cover" :src="item"></van-image>
+				<img src="../image/icon17.png" alt="" class="uploadDelete" @click="uploadDelete(index)" />
+			</a>
 			<a href="javascript:;" class="relative uploadDoc">
 				<img src="../image/icon76.png" alt="" />
-				<input type="file" class="uploadFile" />
+				<input type="file" class="uploadFile" id="image" @change="fileChange()" />
 			</a>
 		</div>
-		<a href="javascript:;" class="commentBtn logOutBtn">
+		<a href="javascript:;" class="commentBtn logOutBtn" @click="afterSaleAdd()">
 			<span>提交</span>
 		</a>
 		<van-popup v-model="showReasonPicker" round position="bottom">
-			<van-picker show-toolbar :columns="reasonColumns" @cancel="showReasonPicker = false"
+			<van-picker show-toolbar :columns="reasonColumns" @cancel="showReasonPicker = false" value-key="name"
 				@confirm="onReasonConfirm" />
 		</van-popup>
 	</div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
 <script type="text/javascript">
+	function gtQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]); return null;
+	}
+	var id = gtQueryString("id");
+	console.log('id', id);
 	// 在 #app 标签下渲染一个按钮组件
 	var app = new Vue({
 		el: '#app',
@@ -75,13 +89,137 @@
 			return {
 				showReasonPicker: false,
 				refundReason: '不发货',
-				reasonColumns: ['不发货', '货物损坏', '实物与图片不符'],
+				reasonColumns: [],
+				refundReason: '请选择',
+				refundReasonId: '',
+				data: {},
+				sign: '',
+				imglist: [],
+				content: '',
+				isOne: true,
 			};
+		},
+		created() {
+			this.getItemDetail();
+			this.getAfterSaleChangeReason();
 		},
 		methods: {
 			onReasonConfirm(value) {
-				this.refundReason = value;
+				this.refundReason = value.name;
+				this.refundReasonId = value.id;
 				this.showReasonPicker = false;
+			},
+			//申请售后的订单明细
+			getItemDetail() {
+				let _this = this;
+				let url = 'App/AfterSale/ItemDetail';
+				request("GET", requestUrl + url + "?order_item_id=" + id, '', function (data) {
+					console.log('申请售后的订单明细', data);
+					if (data.success) {
+						_this.data = data.data;
+						console.log('申请售后的订单明细', _this.data);
+					}
+				})
+			},
+			//售后换货原因
+			getAfterSaleChangeReason() {
+				let _this = this;
+				let url = 'App/DropItem/AfterSaleChangeReason';
+				request("GET", requestUrl + url, '', function (data) {
+					console.log('售后换货原因', data);
+					if (data.success) {
+						_this.reasonColumns = data.data;
+						console.log('售后换货原因', _this.reasonColumns);
+					}
+				})
+			},
+			//申请售后
+			afterSaleAdd() {
+				let _this = this;
+				let d = {
+					order_item_id: this.data.id,
+					goods_status: 0,
+					type: 1,
+					change_reason: this.refundReason,
+					price: this.data.price,
+					count: this.data.count,
+					content: this.content,
+					img: this.imglist
+				};
+				console.log('申请售后数据', d)
+				let isTrue = true;
+				if (this.refundReason == '' || this.refundReason == '请选择') {
+					this.$toast.fail("请选择退款原因");
+					isTrue = false;
+				}
+				if (isTrue) {
+					if (this.isOne) {
+						this.isOne = false;
+						request("POST", requestUrl + "App/AfterSale/Add", JSON.stringify(d), function (data) {
+							console.log('申请售后', data);
+							_this.isOne = true;
+							if (data.success) {
+								_this.$toast.success(data.msg);
+							} else {
+								_this.$toast.fail(data.msg);
+							}
+						})
+					} else {
+						this.$toast.fail("请勿重复提交");
+					}
+				}
+			},
+			fileChange() {
+				let _this = this;
+				console.log('files', $("#image")[0])
+				console.log('files', $("#image")[0].files)
+				console.log('files[0]', $("#image")[0].files[0])
+				var reader = new FileReader();
+				var AllowImgFileSize = 512 * 1024; //上传图片最大值(单位字节)（ 2 M = 2097152 B ）超过2M上传失败
+				var file = $("#image")[0].files[0];
+				_this.file_name = file.name;
+				var imgUrlBase64;
+				if (file) {
+					//将文件以Data URL形式读入页面  
+					imgUrlBase64 = reader.readAsDataURL(file);
+					reader.onload = function (e) {
+						//var ImgFileSize = reader.result.substring(reader.result.indexOf(",") + 1).length;//截取base64码部分（可选可不选，需要与后台沟通）
+						if (AllowImgFileSize != 0 && AllowImgFileSize < reader.result.length) {
+							alert('上传失败，请上传不大于512kb的图片！');
+							return;
+						} else {
+							//执行上传操作
+							console.log('reader.result', reader.result);
+							//_this.head = reader.result;
+							_this.uploadImg(file.name, reader.result)
+						}
+					}
+				}
+			},
+			uploadImg(file_name, imgUrl) {
+				let _this = this;
+				console.log('this', this);
+				request("GET", requestUrl + "/App/AppImage/GetSign", '', function (data) {
+					console.log('GetSign', data);
+					let html = '';
+					if (data.success) {
+						_this.sign = data.data.sign;
+						let d = {
+							file_name: file_name,
+							img: imgUrl,
+							sign: data.data.sign
+						}
+						request("POST", requestUrl + "/App/AppImage/UploadImg", JSON.stringify(d), function (data) {
+							console.log('uploadImg', data);
+							if (data.success) {
+								_this.imglist.push(data.data.url);
+							}
+						})
+					}
+				})
+			},
+			uploadDelete(index) {
+				this.imglist.splice(index, 1);
 			},
 		},
 	});
@@ -90,141 +228,16 @@
 		var header = $api.byId('header');
 		//适配iOS 7+，Android 4.4+状态栏
 		$api.fixStatusBar(header);
+		setTimeout(() => {
+			var pageParam = api.pageParam;
+			console.log('pageParam', pageParam);
+			if (pageParam.id) {
+				console.log('pageParam.id', pageParam.id)
+				id = pageParam.id;
+				app.getItemDetail(id);
+			}
+		}, 500);
 	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'applyRefundReturn',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
-
 </script>
 
-=======
-<!DOCTYPE HTML>
-<html>
-
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport"
-		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-	<title>申请退款退货</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
-	<link rel="stylesheet" type="text/css" href="../css/api.css" />
-	<style>
-	</style>
-</head>
-
-<body>
-	<div class="" id="app">
-		<div class="clear box1 bgfff shopCartTop" id="header">
-			<a href="javascript:history.back();" class="fl searchBack apdBack"></a>
-			<div class="ta-c">申请退款退货</div>
-		</div>
-		<div class="aas_top clear box">
-			<div class="aas_hd">
-				<img src="../image/img2.jpg" alt="" class="fl commentsImg" />
-				<div>
-					<div class="commentsProductName">某某产品某某产品某某产品某某产品某某产品某某产品某某产品...</div>
-					<div class="aas_colorClass">颜色分类：白色短袖</div>
-				</div>
-			</div>
-		</div>
-		<div class="box">
-			<div class="setUpItem clear">
-				<div class="fl">退款原因</div>
-				<a href="javascript:;" class="fr setUpRight" @click="showReasonPicker = true">{{refundReason}}</a>
-			</div>
-		</div>
-		<div class="box">
-			<div class="setUpItem applyRefundItem clear">
-				<div class="fl">退款金额</div>
-				<div class="fr ca8896d">港币HK$ 3000.00</div>
-				<div class="fl applyRefundTips">可修改，最多HK$2700.00，含发货邮费HK$ 300.00</div>
-			</div>
-		</div>
-		<div class="box1 applyRefundTag">退款说明</div>
-		<div class="box">
-			<input type="text" class="refundInstructions" placeholder="选填" />
-		</div>
-		<div class="box1 applyRefundTag">上传凭证</div>
-		<div class="box1">
-			<a href="javascript:;" class="relative uploadDoc">
-				<img src="../image/icon76.png" alt="" />
-				<input type="file" class="uploadFile" />
-			</a>
-		</div>
-		<a href="javascript:;" class="commentBtn logOutBtn">
-			<span>提交</span>
-		</a>
-		<van-popup v-model="showReasonPicker" round position="bottom">
-			<van-picker show-toolbar :columns="reasonColumns" @cancel="showReasonPicker = false"
-				@confirm="onReasonConfirm" />
-		</van-popup>
-	</div>
-</body>
-<script type="text/javascript" src="../script/api.js"></script>
-<script type="text/javascript" src="../script/jquery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
-<script src="../script/languages.min.js"></script>
-<script type="text/javascript">
-	// 在 #app 标签下渲染一个按钮组件
-	var app = new Vue({
-		el: '#app',
-		data() {
-			return {
-				showReasonPicker: false,
-				refundReason: '不发货',
-				reasonColumns: ['不发货', '货物损坏', '实物与图片不符'],
-			};
-		},
-		methods: {
-			onReasonConfirm(value) {
-				this.refundReason = value;
-				this.showReasonPicker = false;
-			},
-		},
-	});
-	//vant.Toast('提示');
-	apiready = function () {
-		var header = $api.byId('header');
-		//适配iOS 7+，Android 4.4+状态栏
-		$api.fixStatusBar(header);
-	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'main',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
-
-</script>
-
->>>>>>> 谢谢谢谢谢谢
 </html>

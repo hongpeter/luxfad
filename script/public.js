@@ -15,8 +15,11 @@ function request(type, url, data, callback) {
         contentType: "application/json",
         data: data,
         success: function (data) {
+            //callback(data);
             if (data.code == 110110) {
-                openUrl("login.html", {})
+                setTimeout(() => {
+                    openUrl("./login.html", {})
+                }, 500);
             } else {
                 callback(data);
             }
@@ -29,7 +32,7 @@ function request(type, url, data, callback) {
 
 function openUrl(url, pageParam) {
     console.log('url', url);
-    console.log('pageParam', pageParam);
+    console.log('pageParam', JSON.stringify(pageParam));
     api.openWin({
         name: 'public',
         url: url,
@@ -95,4 +98,23 @@ weibo = function () {
     var H5WXQQWBShareUrl = 'https://www.apicloud.com/';
     $H5WXQQWBShare.weibo(weiboText, H5WXQQWBShareTitle, H5WXQQWBShareDescription, H5WXQQWBShareImgurl,
         H5WXQQWBShareUrl);
+}
+
+function cleanArray(actual) {
+    const newArray = []
+    for (let i = 0; i < actual.length; i++) {
+        if (actual[i]) {
+            newArray.push(actual[i])
+        }
+    }
+    return newArray
+}
+
+function param(json) {
+    if (!json) return ''
+    return cleanArray(Object.keys(json).map(key => {
+        if (json[key] === undefined) return ''
+        return encodeURIComponent(key) + '=' +
+            encodeURIComponent(json[key])
+    })).join('&')
 }

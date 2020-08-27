@@ -1,0 +1,263 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>首页</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style type="text/css">
+		html,
+		body {
+			height: 100%;
+		}
+
+		#wrap {
+			height: 100%;
+			display: -webkit-box;
+			display: -webkit-flex;
+			display: flex;
+			-webkit-box-orient: vertical;
+			-webkit-flex-flow: column;
+			flex-flow: column;
+		}
+
+		#header {
+			text-align: center;
+			background-color: #eee;
+			color: #fff;
+			width: 100%;
+		}
+
+		#header h1 {
+			font-size: 20px;
+			height: 44px;
+			line-height: 44px;
+			margin: 0em;
+			color: #434343;
+		}
+
+		#main {
+			-webkit-box-flex: 1;
+			-webkit-flex: 1;
+			flex: 1;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wrap">
+		<div id="header">
+			<h1>LUXFAD</h1>
+		</div>
+		<div id="footer" class="flex">
+			<a class="flex1" onclick="navTo(0)" href="javascript:;">
+				<img src="../image/ficon1.png" alt="" class="ficon ficon1" />
+				<!-- <div class="ficonBox ficon1"></div> -->
+				<div class="fText">首页</div>
+			</a>
+			<a class="flex1" onclick="navTo(1)" href="javascript:;">
+				<img src="../image/ficon2.png" alt="" class="ficon ficon2" />
+				<!-- <div class="ficonBox ficon2"></div> -->
+				<div class="fText">收藏</div>
+			</a>
+			<a class="flex1" onclick="navTo(2)" href="javascript:;">
+				<img src="../image/ficon3.png" alt="" class="ficon ficon3" />
+				<!-- <div class="ficonBox ficon3"></div> -->
+				<div class="fText">购物车</div>
+			</a>
+			<a class="flex1" onclick="navTo(3)" href="javascript:;">
+				<img src="../image/ficon4.png" alt="" class="ficon ficon4" />
+				<!-- <div class="ficonBox ficon4"></div> -->
+				<div class="fText">我的</div>
+			</a>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
+<script type="text/javascript">
+	// 在 #app 标签下渲染一个按钮组件
+	var app = new Vue({
+		el: '#wrap',
+		data() {
+			return {
+				showStartPoster: true,
+				startPoster: [],
+				showAd: false,
+				ad: [],
+			};
+		},
+		created() {
+			//this.getStartPoster();
+		},
+		methods: {
+			startPosterChange(index) {
+				console.log('startPoste当前 Swipe 索引：' + index);
+			},
+			adChange(index) {
+				console.log('ad当前 Swipe 索引：' + index);
+				if (index == this.ad.length - 1) {
+					setTimeout(() => {
+						this.showAd = false;
+					}, 5000);
+				}
+			},
+			skipAD() {
+				this.showAd = false;
+			},
+			getStartPoster() {
+				let _this = this;
+				request("GET", requestUrl + "/App/Poster/StartPoster", '', function (data) {
+					console.log('getStartPoster', JSON.stringify(data));
+					if (data.success) {
+						if (data.data.Start.length > 0) {
+							_this.startPoster = [];
+							data.data.Start.forEach(i => {
+								if (i.img != null && i.img != "") {
+									_this.startPoster.push(i)
+								}
+							});
+							console.log('_this.startPoster', _this.startPoster)
+							setTimeout(() => {
+								_this.showStartPoster = false;
+								_this.showAd = true;
+							}, 5000);
+						} else {
+							_this.showStartPoster = false;
+							_this.showAd = true;
+						}
+						if (data.data.Advertising.length > 0) {
+							_this.ad = [];
+							data.data.Advertising.forEach(i => {
+								if (i.img != null && i.img != "") {
+									_this.ad.push(i)
+								}
+							});
+							console.log('_this.ad', _this.ad)
+						} else {
+							_this.showAd = false;
+						}
+					}
+				})
+			},
+		},
+	});
+	apiready = function () {
+		//app.getStartPoster();
+		console.log("Hello APICloud", JSON.stringify(api));
+
+		var header = $api.byId('header');
+		//适配iOS 7+，Android 4.4+状态栏
+		$api.fixStatusBar(header);
+
+		var headerPos = $api.offset(header);
+		var footer_h = $api.offset(footer).h;
+		var body_h = api.winHeight;
+		api.openFrameGroup({
+			name: 'group1',
+			scrollEnabled: false,
+			rect: {
+				x: 0,
+				y: headerPos.h,
+				w: 'auto',
+				h: body_h - footer_h - headerPos.h
+			},
+			//fixedOn: 'ui_window',
+			frames: [{
+				name: 'frame1',
+				url: 'main.html',
+				bgColor: '#fff',
+				defaultRefreshHeader: 'swipe',
+			}, {
+				name: 'frame2',
+				url: 'myCollection.html',
+				bgColor: '#fff',
+				defaultRefreshHeader: 'swipe',
+			}, {
+				name: 'frame3',
+				url: 'shoppingCart.html',
+				bgColor: '#fff',
+				defaultRefreshHeader: 'swipe',
+			}, {
+				name: 'frame4',
+				url: 'personalCenter.html',
+				bgColor: '#fff',
+				defaultRefreshHeader: 'swipe',
+			}]
+		}, function (ret, err) {
+			var index = ret.index;
+			console.log('index', index);
+			setCurrentClass(index)
+		});
+		$api.attr($api.dom('.ficon1'), 'src', '../image/ficon1-1.png');
+		setTimeout(() => {
+			var pageParam = api.pageParam;
+			console.log('pageParam', JSON.stringify(pageParam));
+			if (pageParam.index) {
+				console.log('pageParam.index', pageParam.index)
+				let index = pageParam.index;
+				api.setFrameGroupIndex({
+					name: 'group1',
+					index: pageParam.index,
+					scroll: false
+				});
+				setCurrentClass(index)
+			}
+		}, 500);
+	};
+	function navTo(id) {
+		api.setFrameGroupIndex({
+			name: 'group1',
+			index: id,
+			scroll: false,
+			reload: true,
+		});
+	};
+	function setCurrentClass(index) {
+		if (index == 0) {
+			$api.attr($api.dom('.ficon1'), 'src', '../image/ficon1-1.png');
+			$api.attr($api.dom('.ficon2'), 'src', '../image/ficon2.png');
+			$api.attr($api.dom('.ficon3'), 'src', '../image/ficon3.png');
+			$api.attr($api.dom('.ficon4'), 'src', '../image/ficon4.png');
+		} else if (index == 1) {
+			$api.attr($api.dom('.ficon1'), 'src', '../image/ficon1.png');
+			$api.attr($api.dom('.ficon2'), 'src', '../image/ficon2-1.png');
+			$api.attr($api.dom('.ficon3'), 'src', '../image/ficon3.png');
+			$api.attr($api.dom('.ficon4'), 'src', '../image/ficon4.png');
+		} else if (index == 2) {
+			$api.attr($api.dom('.ficon1'), 'src', '../image/ficon1.png');
+			$api.attr($api.dom('.ficon2'), 'src', '../image/ficon2.png');
+			$api.attr($api.dom('.ficon3'), 'src', '../image/ficon3-1.png');
+			$api.attr($api.dom('.ficon4'), 'src', '../image/ficon4.png');
+		} else if (index == 3) {
+			$api.attr($api.dom('.ficon1'), 'src', '../image/ficon1.png');
+			$api.attr($api.dom('.ficon2'), 'src', '../image/ficon2.png');
+			$api.attr($api.dom('.ficon3'), 'src', '../image/ficon3.png');
+			$api.attr($api.dom('.ficon4'), 'src', '../image/ficon4-1.png');
+		}
+	};
+	// function openUrl(url, pageParam) {
+	// 	console.log('url', url);
+	// 	console.log('pageParam', JSON.stringify(pageParam));
+	// 	api.openWin({
+	// 		name: 'public',
+	// 		url: url,
+	// 		rect: {
+	// 			x: 0,
+	// 			y: 0,
+	// 			w: 'auto',
+	// 			h: 'auto'
+	// 		},
+	// 		pageParam: pageParam,
+	// 	});
+	// }
+</script>
+
+</html>

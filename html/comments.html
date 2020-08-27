@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE HTML>
 <html>
 
@@ -19,59 +18,170 @@
 		<div class="clear box1 bgfff shopCartTop" id="header">
 			<a href="javascript:;" class="fl searchBack apdBack" onclick="api.closeWin();"></a>
 			<div class="ta-c">评论</div>
-			<a href="personalCenter.html" class="icon66Box fr">
+			<a href="javascript:;" class="icon66Box fr" onclick="openUrl('personalCenter.html',{})">
 				<img src="../image/icon66.png" alt="" />
 			</a>
 		</div>
 		<div class="commentsTop clear box1">
-			<img src="../image/img2.jpg" alt="" class="fl commentsImg" />
-			<div class="commentsProductName">某某产品某某产品某某产品某某产品某某产品某某产品某某产品...</div>
+			<!-- <img src="../image/img2.jpg" alt="" class="fl commentsImg" /> -->
+			<van-image width="20vw" height="20vw" fit="cover" :src="data.main_photo" class="commentsImg fl">
+			</van-image>
+			<div class="commentsProductName">{{data.name}}</div>
 		</div>
 		<div class="box1 clear">
 			<div class="commentsLabel fl">描述相符：</div>
 			<div class="fr flex">
-				<a href="javascript:;" :class="['haoping',commentsLevel==1?'active':'']"
-					@click="setCommentsLevel(1)">好评</a>
-				<a href="javascript:;" :class="['zhongoing',commentsLevel==2?'active':'']"
-					@click="setCommentsLevel(2)">中评</a>
-				<a href="javascript:;" :class="['chaping',commentsLevel==3?'active':'']"
-					@click="setCommentsLevel(3)">差评</a>
+				<a href="javascript:;" :class="['haoping',cdata.level==0?'active':'']"
+					@click="setCommentsLevel(0)">好评</a>
+				<a href="javascript:;" :class="['zhongoing',cdata.level==1?'active':'']"
+					@click="setCommentsLevel(1)">中评</a>
+				<a href="javascript:;" :class="['chaping',cdata.level==2?'active':'']"
+					@click="setCommentsLevel(2)">差评</a>
 			</div>
 		</div>
 		<div class="box1">
-			<textarea name="" id="" cols="30" rows="10" class="commentsContent"></textarea>
+			<textarea name="" id="" cols="30" rows="10" class="commentsContent" v-model="cdata.content"></textarea>
 		</div>
 		<div class="box1 clear">
 			<div class="fr commentsTips">您的描述，可以帮助更多想买的人。</div>
 		</div>
 		<div class="box1 clear">
+			<a href="javascript:;" class="patBtn fl" v-for="(item,index) in cdata.img" v-if="cdata.img.length>0">
+				<van-image width="13vw" height="13vw" fit="cover" :src="item"></van-image>
+				<img src="../image/icon17.png" alt="" class="uploadDelete" @click="uploadDelete(index)"
+					style="width: 16px;" />
+			</a>
 			<a href="javascript:;" class="patBtn fl">
 				<img src="../image/icon67.png" alt="" />
+				<input type="file" class="uploadFile" id="image" @change="fileChange()" />
 				<span>为宝贝拍买家秀</span>
 			</a>
 		</div>
-		<a href="javascript:;" class="commentBtn">
+		<a href="javascript:;" class="commentBtn" @click="saveComment()">
 			<span>发表评论</span>
 		</a>
 	</div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
 <script type="text/javascript">
+	function gtQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]); return null;
+	}
+	var id = gtQueryString("id");
+	console.log('id', id);
 	// 在 #app 标签下渲染一个按钮组件
 	var app = new Vue({
 		el: '#app',
 		data() {
 			return {
 				commentsLevel: 0,
+				data: {},
+				cdata: {
+					order_item_id: id,
+					content: "",
+					level: 0,
+					img: []
+				},
+				isOne: true,
 			};
+		},
+		created() {
+			this.getItemDetail();
 		},
 		methods: {
 			setCommentsLevel(value) {
-				this.commentsLevel = value
+				this.commentsLevel = value;
+				this.cdata.level = value;
+			},
+			//申请售后的订单明细
+			getItemDetail() {
+				let _this = this;
+				let url = 'App/AfterSale/ItemDetail';
+				request("GET", requestUrl + url + "?order_item_id=" + id, '', function (data) {
+					console.log('申请售后的订单明细', data);
+					if (data.success) {
+						_this.data = data.data;
+						console.log('申请售后的订单明细', _this.data);
+					}
+				})
+			},
+			fileChange() {
+				let _this = this;
+				console.log('files', $("#image")[0])
+				console.log('files', $("#image")[0].files)
+				console.log('files[0]', $("#image")[0].files[0])
+				var reader = new FileReader();
+				var AllowImgFileSize = 512 * 1024; //上传图片最大值(单位字节)（ 2 M = 2097152 B ）超过2M上传失败
+				var file = $("#image")[0].files[0];
+				_this.file_name = file.name;
+				var imgUrlBase64;
+				if (file) {
+					//将文件以Data URL形式读入页面  
+					imgUrlBase64 = reader.readAsDataURL(file);
+					reader.onload = function (e) {
+						//var ImgFileSize = reader.result.substring(reader.result.indexOf(",") + 1).length;//截取base64码部分（可选可不选，需要与后台沟通）
+						if (AllowImgFileSize != 0 && AllowImgFileSize < reader.result.length) {
+							alert('上传失败，请上传不大于512kb的图片！');
+							return;
+						} else {
+							//执行上传操作
+							console.log('reader.result', reader.result);
+							//_this.head = reader.result;
+							_this.uploadImg(file.name, reader.result)
+						}
+					}
+				}
+			},
+			uploadImg(file_name, imgUrl) {
+				let _this = this;
+				console.log('this', this);
+				request("GET", requestUrl + "/App/AppImage/GetSign", '', function (data) {
+					console.log('GetSign', data);
+					let html = '';
+					if (data.success) {
+						_this.sign = data.data.sign;
+						let d = {
+							file_name: file_name,
+							img: imgUrl,
+							sign: data.data.sign
+						}
+						request("POST", requestUrl + "/App/AppImage/UploadImg", JSON.stringify(d), function (data) {
+							console.log('uploadImg', data);
+							if (data.success) {
+								_this.cdata.img.push(data.data.url);
+							}
+						})
+					}
+				})
+			},
+			uploadDelete(index) {
+				this.cdata.img.splice(index, 1);
+			},
+			//评论订单
+			saveComment() {
+				let _this = this;
+				console.log('this.cdata', this.cdata)
+				if (this.isOne) {
+					this.isOne = false;
+					request("POST", requestUrl + "/App/Order/Comment", JSON.stringify(this.cdata), function (data) {
+						console.log('评论订单', data);
+						_this.isOne = true;
+						if (data.success) {
+							_this.$toast.success(data.msg);
+						} else {
+							_this.$toast.fail(data.msg);
+						}
+					})
+				} else {
+					this.$toast.fail("请勿重复发表评论");
+				}
 			},
 		},
 	});
@@ -80,131 +190,16 @@
 		var header = $api.byId('header');
 		//适配iOS 7+，Android 4.4+状态栏
 		$api.fixStatusBar(header);
+		setTimeout(() => {
+			var pageParam = api.pageParam;
+			console.log('pageParam', pageParam);
+			if (pageParam.id) {
+				console.log('pageParam.id', pageParam.id)
+				id = pageParam.id;
+				app.getItemDetail(id);
+			}
+		}, 500);
 	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'comments',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
-
 </script>
 
-=======
-<!DOCTYPE HTML>
-<html>
-
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport"
-		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-	<title>评论</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
-	<link rel="stylesheet" type="text/css" href="../css/api.css" />
-	<style>
-	</style>
-</head>
-
-<body>
-	<div class="" id="app">
-		<div class="clear box1 bgfff shopCartTop" id="header">
-			<a href="javascript:history.back();" class="fl searchBack apdBack"></a>
-			<div class="ta-c">评论</div>
-			<a href="personalCenter.html" class="icon66Box fr">
-				<img src="../image/icon66.png" alt="" />
-			</a>
-		</div>
-		<div class="commentsTop clear box1">
-			<img src="../image/img2.jpg" alt="" class="fl commentsImg" />
-			<div class="commentsProductName">某某产品某某产品某某产品某某产品某某产品某某产品某某产品...</div>
-		</div>
-		<div class="box1 clear">
-			<div class="commentsLabel fl">描述相符：</div>
-			<div class="fr flex">
-				<a href="javascript:;" :class="['haoping',commentsLevel==1?'active':'']"
-					@click="setCommentsLevel(1)">好评</a>
-				<a href="javascript:;" :class="['zhongoing',commentsLevel==2?'active':'']"
-					@click="setCommentsLevel(2)">中评</a>
-				<a href="javascript:;" :class="['chaping',commentsLevel==3?'active':'']"
-					@click="setCommentsLevel(3)">差评</a>
-			</div>
-		</div>
-		<div class="box1">
-			<textarea name="" id="" cols="30" rows="10" class="commentsContent"></textarea>
-		</div>
-		<div class="box1 clear">
-			<div class="fr commentsTips">您的描述，可以帮助更多想买的人。</div>
-		</div>
-		<div class="box1 clear">
-			<a href="javascript:;" class="patBtn fl">
-				<img src="../image/icon67.png" alt="" />
-				<span>为宝贝拍买家秀</span>
-			</a>
-		</div>
-		<a href="javascript:;" class="commentBtn">
-			<span>发表评论</span>
-		</a>
-	</div>
-</body>
-<script type="text/javascript" src="../script/api.js"></script>
-<script type="text/javascript" src="../script/jquery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
-<script src="../script/languages.min.js"></script>
-<script type="text/javascript">
-	// 在 #app 标签下渲染一个按钮组件
-	var app = new Vue({
-		el: '#app',
-		data() {
-			return {
-				commentsLevel: 0,
-			};
-		},
-		methods: {
-			setCommentsLevel(value) {
-				this.commentsLevel = value
-			},
-		},
-	});
-	//vant.Toast('提示');
-	apiready = function () {
-		var header = $api.byId('header');
-		//适配iOS 7+，Android 4.4+状态栏
-		$api.fixStatusBar(header);
-	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'main',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
-
-</script>
-
->>>>>>> 谢谢谢谢谢谢
 </html>

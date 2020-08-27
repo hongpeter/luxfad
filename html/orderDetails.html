@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE HTML>
 <html>
 
@@ -21,52 +20,55 @@
 			<a href="javascript:;" class="fl searchBack apdBack" onclick="api.closeWin();"></a>
 			<div class="ta-c">订单详情</div>
 		</div>
-		<div class="box1 clear mso_noAddress od_logistics">
+		<div class="box1 clear mso_noAddress od_logistics" v-if="data.express_info.length>0"
+			@click="openUrl('logisticDetails.html',{info:data.express_info})">
 			<img src="../image/icon59.png" alt="" class="fl icon59" />
 			<dl class="mso_address fl">
-				<dt>[广州市]【已签收，签收人是本人】</dt>
-				<dd>2020-06-10 11:48:55</dd>
+				<dt>{{data.express_info[0].context}}</dt>
+				<dd>{{data.express_info[0].time}}</dd>
 			</dl>
 		</div>
 		<div class="box1 clear mso_noAddress od_logistics">
 			<img src="../image/icon60.png" alt="" class="fl icon60" />
 			<dl class="mso_address fl">
 				<dt>
-					<span>某某某</span>12345678901
+					<span>{{data.receive_name}}</span>{{data.receive_phone}}
 				</dt>
-				<dd>广东省广州市天河区下跌个股分化库鲁哟</dd>
+				<dd>{{data.address}}</dd>
 			</dl>
 		</div>
 		<div class="box1 bgfff clear mgt2vw">
 			<div class="mso_productBox clear">
-				<img src="../image/productImg9.jpg" alt="" class="mso_productImg fl" />
+				<!-- <img src="../image/productImg9.jpg" alt="" class="mso_productImg fl" /> -->
+				<van-image width="30vw" height="30vw" fit="cover" :src="data.main_photo" class="mso_productImg fl">
+				</van-image>
 				<div class="fl productInfo" style="width:58vw;">
-					<div>prade（品牌名）</div>
-					<div>A-line denim mini dress（商品名）</div>
+					<div>{{data.brand}}</div>
+					<div>{{data.name}}</div>
 					<div class="clear">
-						<div class="cc9c9c9 fl">已选：白色，40码</div>
-						<div class="cc9c9c9 fr">X1</div>
+						<div class="cc9c9c9 fl"><span v-for="v in data.sku">{{v}}&nbsp;&nbsp;</span></div>
+						<div class="cc9c9c9 fr">X{{data.count}}</div>
 					</div>
-					<div class="cc9c9c9">收货方式：快递物流</div>
+					<div class="cc9c9c9">收货方式：{{data.receive_way}}</div>
 					<div class="clear">
-						<div class="mso_total fr">折合港币<span class="ca8896d">HK$2225.9</span></div>
+						<div class="mso_total fr">折合港币<span class="ca8896d">{{data.price}}</span></div>
 					</div>
 
 				</div>
 			</div>
 			<div class="clear">
-				<a href="javascript:;" class="fr aRefund">退款</a>
+				<a href="javascript:;" class="fr aRefund">申请售后</a>
 			</div>
 		</div>
 		<div class="mso_statistical">
 			<div class="box1">
 				<div class="clear">
 					<div class="fl">原价：</div>
-					<div class="fr">HK$ 210.00</div>
+					<div class="fr">{{data.price}}</div>
 				</div>
 				<div class="clear">
 					<div class="fl">运费：</div>
-					<div class="fr">-HK$ 210.00</div>
+					<div class="fr">{{data.freight}}</div>
 				</div>
 				<div class="clear">
 					<div class="fl">折扣券：</div>
@@ -74,7 +76,7 @@
 				</div>
 				<div class="clear">
 					<div class="fl fs1d125rem">实付款：</div>
-					<div class="fr fs1d125rem ca8896d">港币<span class="fs1d25rem">HK$2399.61</span></div>
+					<div class="fr fs1d125rem ca8896d"><span class="fs1d25rem">{{data.price}}</span></div>
 				</div>
 			</div>
 		</div>
@@ -87,27 +89,213 @@
 			</a>
 		</div>
 		<div class="od_foot">
+			<a href="javascript:;" class="fr confirmGoods" @click="show=true">支付</a>
 			<a href="javascript:;" class="fr confirmGoods">确认收货</a>
-			<a href="javascript:;" class="fr checkLogistics">查看物流</a>
+			<a href="javascript:;" class="fr checkLogistics"
+				@click="openUrl('logisticDetails.html',{info:data.express_info})">查看物流</a>
 		</div>
+		<van-popup v-model="show" round position="bottom" closeable>
+			<div class="payWayTitle ta-c">支付方式</div>
+			<van-radio-group v-model="radio">
+				<van-cell-group>
+					<van-cell clickable @click="radio = '0'">
+						<template #default>
+							<div class="clear payWayItem">
+								<img src="../image/icon55.png" alt="" />
+								<span>微信支付</span>
+							</div>
+						</template>
+						<template #right-icon>
+							<van-radio name="0" checked-color="#241e1b" />
+						</template>
+					</van-cell>
+					<van-cell clickable @click="radio = '1'" checked-color="#241e1b">
+						<template #default>
+							<div class="clear payWayItem">
+								<img src="../image/icon56.png" alt="" />
+								<span>支付宝</span>
+							</div>
+						</template>
+						<template #right-icon>
+							<van-radio name="1" checked-color="#241e1b" />
+						</template>
+					</van-cell>
+					<van-cell clickable @click="radio = '2'" checked-color="#241e1b">
+						<template #default>
+							<div class="clear payWayItem">
+								<img src="../image/icon82.png" alt="" />
+								<span>PayPal</span>
+							</div>
+						</template>
+						<template #right-icon>
+							<van-radio name="2" checked-color="#241e1b" />
+						</template>
+					</van-cell>
+					<van-cell clickable @click="radio = '3'" checked-color="#241e1b">
+						<template #default>
+							<div class="clear payWayItem">
+								<img src="../image/icon57.png" alt="" />
+								<span>银联支付</span>
+							</div>
+						</template>
+						<template #right-icon>
+							<van-radio name="3" checked-color="#241e1b" />
+						</template>
+					</van-cell>
+					<van-cell clickable @click="radio = '4'" checked-color="#241e1b">
+						<template #default>
+							<div class="clear payWayItem">
+								<img src="../image/icon58.png" alt="" />
+								<span>Apple Pay（只限银联卡）</span>
+							</div>
+						</template>
+						<template #right-icon>
+							<van-radio name="4" checked-color="#241e1b" />
+						</template>
+					</van-cell>
+				</van-cell-group>
+			</van-radio-group>
+			<div class="ta-c payWayPrice">{{data.amount}}</div>
+			<div class="ta-c payWayTips">请在<van-count-down :time="time" style="display:inline"></van-count-down>分钟内完成支付
+			</div>
+			<a href="javascript:;" class="confirmPay" @click="payOrder()">确认支付</a>
+		</van-popup>
 	</div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/public.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
 <script type="text/javascript">
+	function gtQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]); return null;
+	}
+	var id = gtQueryString("id");
+	console.log('id', id);
+	var type = gtQueryString("type");
+	console.log('type', type);
 	// 在 #app 标签下渲染一个按钮组件
 	var app = new Vue({
 		el: '#app',
 		data() {
 			return {
-
+				show: false,
+				radio: '1',
+				time: 15 * 60 * 60 * 1000,
+				data: {
+					express_info: [],
+				},
+				order_id: 0,
 			};
 		},
+		created() {
+			this.getOrderItemDetail()
+		},
 		methods: {
+			openUrl(url, pageParam) {
+				openUrl(url, pageParam)
+			},
+			//订单明细详情
+			getOrderItemDetail() {
+				let _this = this;
+				let url = 'App/Order/OrderItemDetail';
+				if (type == 8) {
+					url = "App/AfterSale/ItemDetail"
+				}
+				request("GET", requestUrl + url + "?order_item_id=" + id, '', function (data) {
+					console.log('订单明细详情', data);
+					if (data.success) {
+						_this.data = data.data;
+						console.log('订单明细详情', _this.data);
+						console.log('订单明细详情', JSON.stringify(_this.data.express_info));
+					}
+				})
+			},
+			//支付
+			payOrder() {
+				let _this = this;
+				console.log('支付类型', this.radio);
+				let type = this.radio;
+				console.log('order_id', _this.order_id)
+				let d = {
+					order_id: this.order_id,
+					pay_type: Number(type)
+				}
+				request("POST", requestUrl + "App/Pay/PayOrder", JSON.stringify(d), function (data) {
+					console.log('支付', JSON.stringify(data));
+					_this.isOne = true;
+					if (data.success) {
+						_this.confirmPay(data.data)
+					}
 
+				})
+			},
+			confirmPay(payData) {
+				let _this = this;
+				console.log('支付类型', this.radio);
+				let type = this.radio;
+				if (type == '0') {
+					//var wxPayPlus = api.require('wxPayPlus');
+					wxPayPlus.payOrder({
+						apiKey: '',
+						orderId: '',
+						mchId: '',
+						nonceStr: '',
+						timeStamp: '',
+						package: '',
+						sign: ''
+					}, function (ret, err) {
+						if (ret.status) {
+							//支付成功
+							openUrl('orderList.html', { type: -1 })
+						} else {
+							alert(err.code);
+						}
+					});
+				} else if (type == '1') {
+					//var aliPayPlus = api.require('aliPayPlus');
+					let orderInfo = {
+						app_id: '2015052600090779',
+						biz_content: '%7B%22timeout_express%22%3A%2230m%22%2C%22seller_id%22%3A%22%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.01%22%2C%22subject%22%3A%221%22%2C%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22out_trade_no%22%3A%22IQJZSRC1YMQB5HU%22%7D',
+						charset: 'utf-8',
+						format: 'json',
+						method: 'alipay.trade.app.pay',
+						notify_url: 'http%3A%2F%2Fdomain.merchant.com%2Fpayment_notify',
+						sign_type: 'RSA2',
+						timestamp: '2016-08-25%2020%3A26%3A31',
+						version: '1.0',
+						sign: 'cYmuUnKi5QdBsoZEAbMXVMmRWjsuUj%2By48A2DvWAVVBuYkiBj13CFDHu2vZQvmOfkjE0YqCUQE04kqm9Xg3tIX8tPeIGIFtsIyp%2FM45w1ZsDOiduBbduGfRo1XRsvAyVAv2hCrBLLrDI5Vi7uZZ77Lo5J0PpUUWwyQGt0M4cj8g%3D',
+					}
+					console.log('orderInfo', param(orderInfo))
+					aliPayPlus.payOrder({
+						orderInfo: param(orderInfo),
+					}, function (ret, err) {
+						//字符串类型；错误码，取值范围如下：
+						//9000：支付成功
+						//8000：正在处理中，支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
+						//4000：订单支付失败
+						//5000：重复请求
+						//6001：用户中途取消支付操作
+						//6002：网络连接出错
+						//6004：支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
+						if (ret.code == 9000) {
+							openUrl('orderList.html', { type: -1 })
+						} else {
+
+						}
+					});
+				} else if (type == '2') {
+					openUrl('paypal.html', { url: payData, })
+				} else if (type == '3') {
+
+				} else if (type == '4') {
+
+				}
+			},
 		},
 	});
 	//vant.Toast('提示');
@@ -115,164 +303,20 @@
 		var header = $api.byId('header');
 		//适配iOS 7+，Android 4.4+状态栏
 		$api.fixStatusBar(header);
-	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'orderDetails',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
+		setTimeout(() => {
+			var pageParam = api.pageParam;
+			console.log('pageParam', pageParam);
+			if (pageParam.id) {
+				console.log('pageParam.id', pageParam.id)
+				id = pageParam.id;
+			}
+			if (pageParam.type) {
+				console.log('pageParam.id', pageParam.id)
+				id = pageParam.id;
+			}
+			app.getOrderItemDetail();
+		}, 500);
 	};
 </script>
 
-=======
-<!DOCTYPE HTML>
-<html>
-
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport"
-		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
-	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-	<title>订单详情</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
-	<link rel="stylesheet" type="text/css" href="../css/api.css" />
-	<style>
-
-	</style>
-</head>
-
-<body>
-	<div class="" id="app">
-		<div class="clear box1 bgfff shopCartTop" id="header">
-			<a href="javascript:history.back();" class="fl searchBack apdBack"></a>
-			<div class="ta-c">订单详情</div>
-		</div>
-		<div class="box1 clear mso_noAddress od_logistics">
-			<img src="../image/icon59.png" alt="" class="fl icon59" />
-			<dl class="mso_address fl">
-				<dt>[广州市]【已签收，签收人是本人】</dt>
-				<dd>2020-06-10 11:48:55</dd>
-			</dl>
-		</div>
-		<div class="box1 clear mso_noAddress od_logistics">
-			<img src="../image/icon60.png" alt="" class="fl icon60" />
-			<dl class="mso_address fl">
-				<dt>
-					<span>某某某</span>12345678901
-				</dt>
-				<dd>广东省广州市天河区下跌个股分化库鲁哟</dd>
-			</dl>
-		</div>
-		<div class="box1 bgfff clear mgt2vw">
-			<div class="mso_productBox clear">
-				<img src="../image/productImg9.jpg" alt="" class="mso_productImg fl" />
-				<div class="fl productInfo" style="width:58vw;">
-					<div>prade（品牌名）</div>
-					<div>A-line denim mini dress（商品名）</div>
-					<div class="clear">
-						<div class="cc9c9c9 fl">已选：白色，40码</div>
-						<div class="cc9c9c9 fr">X1</div>
-					</div>
-					<div class="cc9c9c9">收货方式：快递物流</div>
-					<div class="clear">
-						<div class="mso_total fr">折合港币<span class="ca8896d">HK$2225.9</span></div>
-					</div>
-
-				</div>
-			</div>
-			<div class="clear">
-				<a href="javascript:;" class="fr aRefund">退款</a>
-			</div>
-		</div>
-		<div class="mso_statistical">
-			<div class="box1">
-				<div class="clear">
-					<div class="fl">原价：</div>
-					<div class="fr">HK$ 210.00</div>
-				</div>
-				<div class="clear">
-					<div class="fl">运费：</div>
-					<div class="fr">-HK$ 210.00</div>
-				</div>
-				<div class="clear">
-					<div class="fl">折扣券：</div>
-					<div class="fr">HK$ 210.00</div>
-				</div>
-				<div class="clear">
-					<div class="fl fs1d125rem">实付款：</div>
-					<div class="fr fs1d125rem ca8896d">港币<span class="fs1d25rem">HK$2399.61</span></div>
-				</div>
-			</div>
-		</div>
-		<div class="od_navBox clear">
-			<a href="javascript:;">
-				<span class="contentService">联系客服</span>
-			</a>
-			<a href="javascript:;">
-				<span class="callPhone">拨打电话</span>
-			</a>
-		</div>
-		<div class="od_foot">
-			<a href="javascript:;" class="fr confirmGoods">确认收货</a>
-			<a href="javascript:;" class="fr checkLogistics">查看物流</a>
-		</div>
-	</div>
-</body>
-<script type="text/javascript" src="../script/api.js"></script>
-<script type="text/javascript" src="../script/jquery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
-<script src="../script/languages.min.js"></script>
-<script type="text/javascript">
-	// 在 #app 标签下渲染一个按钮组件
-	var app = new Vue({
-		el: '#app',
-		data() {
-			return {
-
-			};
-		},
-		methods: {
-
-		},
-	});
-	//vant.Toast('提示');
-	apiready = function () {
-		var header = $api.byId('header');
-		//适配iOS 7+，Android 4.4+状态栏
-		$api.fixStatusBar(header);
-	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'main',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
-</script>
-
->>>>>>> 谢谢谢谢谢谢
 </html>
