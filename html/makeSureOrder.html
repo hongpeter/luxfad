@@ -343,7 +343,7 @@
                 let type = this.radio;
                 if (type == '0') {
                     var wxPayPlus = api.require('wxPayPlus');
-                    wxPayPlus.payOrder({
+                    let d = {
                         apiKey: payData.apiKey,
                         orderId: payData.prepayid,
                         mchId: payData.partnerid,
@@ -351,10 +351,13 @@
                         timeStamp: payData.timestamp,
                         package: payData.package,
                         sign: payData.sign
-                    }, function (ret, err) {
+                    };
+                    alert(JSON.stringify(d));
+                    wxPayPlus.payOrder(d, function (ret, err) {
                         if (ret.status) {
                             //支付成功
-                            console.log('支付成功')
+                            console.log('支付成功');
+
                             openUrl('orderList.html', { type: -1 })
                         } else {
                             alert(err.code);
