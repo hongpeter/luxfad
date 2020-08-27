@@ -354,9 +354,17 @@
                     };
                     alert(JSON.stringify(d));
                     console.log('wxPayPlus', wxPayPlus);
-                    console.log('api', JSON.stringify($api));
+                    console.log('api', JSON.stringify(api));
                     console.log('wxPayPlus', JSON.stringify(wxPayPlus));
-                    wxPayPlus.payOrder(d, function (ret, err) {
+                    wxPayPlus.payOrder({
+                        apiKey: payData.appid,
+                        mchId: payData.partnerid,
+                        nonceStr: payData.nonceStr,
+                        orderId: payData.prepayid,
+                        package: payData.package,
+                        sign: payData.sign,
+                        timeStamp: payData.timestamp,
+                    }, function (ret, err) {
                         console.log('ret', ret);
                         if (ret.status) {
                             //支付成功
