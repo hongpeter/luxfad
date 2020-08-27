@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html>
 
@@ -482,4 +483,239 @@
     };
 </script>
 
+=======
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>搜索结果</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
+    <style type="text/css">
+
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="clear box1 mgt2vw" id="header">
+            <a href="javascript:history.back();" class="fl searchBack"></a>
+            <div class="fl searchInputBox" style="width:74vw">
+                <input type="text" class="searchInput" v-model="value" />
+                <a href="javascript:;" class="searchDelete" @click="clear" v-show="value!=''"></a>
+            </div>
+            <a href="shoppingCart.html" class="fr sr_icon33">
+                <img src="../image/icon33.png" alt="">
+            </a>
+        </div>
+        <div class="bgf6f6f6 flex searchResultTop">
+            <a href="javascript:;">综合</a>
+            <a href="javascript:;" class="priceAsc">价格</a>
+            <a href="javascript:;" class="priceDesc">价格</a>
+            <a href="javascript:;">新品</a>
+            <a href="javascript:;" class="fwb screeningBtn" @click="showScreening=!showScreening">
+                <span>筛选</span>
+            </a>
+        </div>
+        <ul class="collectionList clear">
+            <li v-for="item in 10">
+                <img src="../image/productImg8.jpg" alt="" class="productImg" />
+                <div class="collectionItemBD">
+                    <div class="brand">品牌XXX</div>
+                    <div class="productName">中长袖白T恤中长袖白T恤中长袖白T恤</div>
+                    <div class="source clear">
+                        <span class="fl">来源网站 欧洲/现货</span>
+                        <img src="../image/icon15.png" alt="" class="fl icon15" />
+                    </div>
+                    <div class="clear">
+                        <div class="fl productPrice">$88.00</div>
+                        <a href="" class="fr collectionIcon"></a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="screeningPopup" v-show="showScreening">
+            <div class="screeningPopupLeft fl">
+                <ul class="sr_screeningNav">
+                    <li>
+                        <a href="javascript:;" :class="[leftActive==1?'active':'']" @click="leftScreening(1)">按网站及分类</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" :class="[leftActive==2?'active':'']" @click="leftScreening(2)">按品牌</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" :class="[leftActive==3?'active':'']" @click="leftScreening(3)">按价格</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" :class="[leftActive==4?'active':'']" @click="leftScreening(4)">按折扣</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="screeningPopupRight fr">
+                <div class="" v-show="leftActive==1">
+                    <div class="screeningRightTabs clear">
+                        <a href="javascript:;" :class="[tabActive==1?'active':'']" @click="topScreening(1)">网站1</a>
+                        <a href="javascript:;" :class="[tabActive==2?'active':'']" @click="topScreening(2)">网站2</a>
+                        <a href="javascript:;" :class="[tabActive==3?'active':'']" @click="topScreening(3)">香港现货</a>
+                    </div>
+                    <div class="sr_cateBox clear">
+                        <div v-for="item in 3">
+                            <div class="sr_cateName">服装</div>
+                            <div class="clear">
+                                <a href="javascript:;" class="sr_cateItem fl" v-for="i in 6">
+                                    <div class="sr_cateItemImg">
+                                        <img src="../image/icon41.png" alt="" />
+                                    </div>
+                                    <div class="sr_cateItemName">全部服装</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-show="leftActive==2" class="sr_brandCate">
+                    <div class="sr_brandCateHd">
+                        <div class="sr_brandCateTop clear">
+                            <a href="" class="sr_brandCateSearch fl"></a>
+                            <input type="text" placeholder="快速搜索品牌" class="sr_brandCateInput fl" />
+                        </div>
+                    </div>
+                    <div class="sr_brandListBox">
+                        <van-index-bar class="vanIndexBar">
+                            <van-index-anchor index="A" class="active"></van-index-anchor>
+                            <a class="sr_brandItem">A fdfs dfdf</a>
+                            <a class="sr_brandItem">A fdfs dfdf</a>
+                            <a class="sr_brandItem">A fdfs dfdf</a>
+                            <a class="sr_brandItem">A fdfs dfdf</a>
+                            <a class="sr_brandItem">A fdfs dfdf</a>
+                        </van-index-bar>
+                        <van-index-bar class="vanIndexBar">
+                            <van-index-anchor index="B" class="active"></van-index-anchor>
+                            <a class="sr_brandItem">B fdfs dfdf</a>
+                            <a class="sr_brandItem">B fdfs dfdf</a>
+                            <a class="sr_brandItem">B fdfs dfdf</a>
+                            <a class="sr_brandItem">B fdfs dfdf</a>
+                            <a class="sr_brandItem">B fdfs dfdf</a>
+                        </van-index-bar>
+                        <van-index-bar class="vanIndexBar">
+                            <van-index-anchor index="Z" class="active"></van-index-anchor>
+                            <a class="sr_brandItem">Z fdfs dfdf</a>
+                            <a class="sr_brandItem">Z fdfs dfdf</a>
+                            <a class="sr_brandItem">Z fdfs dfdf</a>
+                            <a class="sr_brandItem">Z fdfs dfdf</a>
+                            <a class="sr_brandItem">Z fdfs dfdf</a>
+                        </van-index-bar>
+                    </div>
+                    <div class="sr_brandCateFt">
+                        <a href="javascript:;" class="sr_brandClear">清除</a>
+                        <a href="javascript:;" class="sr_brandSure">确定</a>
+                    </div>
+                </div>
+                <div v-show="leftActive==3" class="">
+                    <div class="accordingPriceList">
+                        <a href="javascript:;" :class="[accordingPrice==1?'active':'']"
+                            @click="setAccordingPrice(1)">不限价格</a>
+                        <a href="javascript:;" :class="[accordingPrice==2?'active':'']"
+                            @click="setAccordingPrice(2)">500以下</a>
+                        <a href="javascript:;" :class="[accordingPrice==3?'active':'']"
+                            @click="setAccordingPrice(3)">500-2000</a>
+                        <a href="javascript:;" :class="[accordingPrice==4?'active':'']"
+                            @click="setAccordingPrice(4)">2000-5000</a>
+                        <a href="javascript:;" :class="[accordingPrice==5?'active':'']"
+                            @click="setAccordingPrice(5)">5000-10000</a>
+                        <a href="javascript:;" :class="[accordingPrice==6?'active':'']"
+                            @click="setAccordingPrice(6)">10000以上</a>
+                    </div>
+                </div>
+                <div v-show="leftActive==4" class="">
+                    <div class="accordingPriceList">
+                        <a href="javascript:;" :class="[discount==1?'active':'']" @click="setDiscount(1)">不限折扣</a>
+                        <a href="javascript:;" :class="[discount==2?'active':'']" @click="setDiscount(2)">九折以下</a>
+                        <a href="javascript:;" :class="[discount==3?'active':'']" @click="setDiscount(3)">八折以下</a>
+                        <a href="javascript:;" :class="[discount==4?'active':'']" @click="setDiscount(4)">七折以下</a>
+                        <a href="javascript:;" :class="[discount==5?'active':'']" @click="setDiscount(5)">六折以下</a>
+                        <a href="javascript:;" :class="[discount==6?'active':'']" @click="setDiscount(6)">五折以下</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/api.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script type="text/javascript">
+    // 在 #app 标签下渲染一个按钮组件
+    var app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                value: '白T恤',
+                showPicker: false,
+                columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+                showClear: false,
+                leftActive: 1,
+                tabActive: 1,
+                accordingPrice: 1,
+                discount: 1,
+                showScreening: false,
+            };
+        },
+        methods: {
+            setDiscount(value) {
+                this.discount = value;
+            },
+            setAccordingPrice(value) {
+                this.accordingPrice = value;
+            },
+            leftScreening(value) {
+                this.leftActive = value;
+            },
+            topScreening(value) {
+                this.tabActive = value;
+            },
+            clear() {
+                this.value = '';
+            },
+            onConfirm(value) {
+                this.value = value;
+                this.showPicker = false;
+            },
+        },
+        watch: {
+            value() {
+                this.showClear = true;
+            },
+        },
+    });
+    apiready = function () {
+        var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar(header);
+    };
+    function openUrl(url, pageParam) {
+        console.log('url', url);
+        console.log('pageParam', pageParam);
+        api.openWin({
+            name: 'main',
+            url: url,
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: pageParam,
+            // pageParam: {
+            //   name: 'test'
+            // }
+        });
+    };
+</script>
+
+>>>>>>> 谢谢谢谢谢谢
 </html>

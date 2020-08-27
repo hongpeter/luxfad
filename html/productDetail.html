@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE HTML>
 <html>
 
@@ -526,4 +527,316 @@
     };
 </script>
 
+=======
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>商品详情</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+        body {
+            padding-top: 11vw;
+        }
+    </style>
+</head>
+
+<body class="bgeee">
+    <div class="" id="app">
+        <div class="shopCartTop productTop clear bgfff" id="header">
+            <a href="javascript:history.back()" class="productBack fl">
+                <img src="../image/icon32.png" alt="" />
+            </a>
+            <div class="productTabs flex fl">
+                <a href="javascript:;" :class="[active==1?'active':'']" @click="active=1">商品</a>
+                <a href="javascript:;" :class="[active==2?'active':'']" @click="active=2">详情</a>
+                <a href="javascript:;" :class="[active==3?'active':'']" @click="active=3">评价</a>
+            </div>
+            <a href="javasctipt:" class="fr icon34" @click="showShare = true">
+                <img src="../image/icon34.png" alt="">
+            </a>
+            <a href="javasctipt:" class="fr icon33">
+                <img src="../image/icon33.png" alt="">
+            </a>
+        </div>
+        <div class="" style="padding-bottom:22vw;" v-show="active==1">
+            <van-swipe class="my-swipe bgfff" :autoplay="3000" indicator-color="white">
+                <van-swipe-item v-for="item in 4">
+                    <img src="../image/productImg10.jpg" alt="" />
+                </van-swipe-item>
+            </van-swipe>
+            <div class="productBrandName box1 bgfff">prade（品牌名）</div>
+            <div class="clear box1 bgfff">
+                <div class="fl productName">A-line denim mini dress（商品名）</div>
+                <a href="javascript:;" class="productLike fr">45</a>
+            </div>
+            <div class="clear box1 productPrice bgfff">原价：<span class="lineThrough">£199.00</span> 折扣价：£150.00</div>
+            <div class="clear box1 c434343 fs1rem bgfff">约合港币<span class="ca8896d">HK$2225.9</span></div>
+            <div class="clear box1 c434343 fs1rem bgfff pdb2vw">来自：Luisa 欧洲现货</div>
+            <div class="clear box1 bgfff mgt2vw">
+                <div class="fl productTag">到货说明</div>
+                <a href="javascript:;" class="icon36 fr ">
+                    <img src="../image/icon36.png" alt="" />
+                </a>
+            </div>
+            <div class="clear box1 bgfff pdb2vw c434343 arrivalInstructions">
+                <div>欧洲转运至内地需7-15天</div>
+                <div>欧洲转运至内地需7-15天</div>
+                <div>转运清关周期为5-15个工作日</div>
+                <div>转运清关周期为5-15个工作日</div>
+            </div>
+            <div class="clear box1 bgfff mgt2vw">
+                <div class="fl productTag">售后政策</div>
+                <a href="javascript:;" class="icon16 fr">
+                    <img src="../image/icon16.png" alt="" />
+                </a>
+            </div>
+            <div class="clear box1 bgfff mgt2vw">
+                <div class="fl productTag">商品评价
+                    <sapn class="fs0d75rem">(256)</sapn>
+                </div>
+            </div>
+            <div class="bgfff box1">
+                <div class="clear">
+                    <div class="fl">
+                        <img src="../image/head.jpg" alt="" class="fl commentHead" />
+                        <span class="fl commentUser">odoggb</span>
+                    </div>
+                    <van-rate class="fr commentRate" v-model="value" :size="18" color="#a8896d" readonly />
+                </div>
+                <div class="commentText">东西太棒了，验过了是正品，物流速度也不错。</div>
+                <div class="commentClass">颜色分类：白色短袖</div>
+                <div class="clear commentImg">
+                    <img src="../image/head.jpg" alt="" />
+                    <img src="../image/head.jpg" alt="" />
+                    <img src="../image/head.jpg" alt="" />
+                    <img src="../image/head.jpg" alt="" />
+                    <img src="../image/head.jpg" alt="" />
+                </div>
+                <div class="ta-c">
+                    <a href="" class="toAllComment">查看全部评价</a>
+                </div>
+            </div>
+        </div>
+        <div v-show="active==2" class="bgfff productDetailInfoBox">
+            <div class="box1 productDetailInfo">
+                <div class="productDetailTag">商品信息</div>
+                <div class="flex productDetailInfo">
+                    <div class="productDetailInfoLabel">品牌名</div>
+                    <div class="productDetailInfoText">prade</div>
+                </div>
+                <div class="flex productDetailInfo">
+                    <div class="productDetailInfoLabel">商品名</div>
+                    <div class="productDetailInfoText">A-line denim mini dress</div>
+                </div>
+                <div class="flex productDetailInfo">
+                    <div class="productDetailInfoLabel">商品描述</div>
+                    <div class="productDetailInfoText">
+                        具体商品描述内容具体商品描述内容具体商品描述内容具体商品描述内容具体商品描述内容具体商品描述内容具体商品描述内容具体商品描述内容具体商品描述内容</div>
+                </div>
+                <div class="productDetailTag" style="margin-top:2vw;">商品图片</div>
+            </div>
+            <div class="productDetailInfoImg clear">
+                <img src="../image/productImg1.jpg" alt="" />
+                <img src="../image/productImg2.jpg" alt="" />
+            </div>
+        </div>
+        <div v-show="active==3" class="clear bgfff productDetailComment">
+            <div class="clear box1 bgfff">
+                <div class="fl productTag">商品评价
+                    <sapn class="fs0d75rem">(256)</sapn>
+                </div>
+            </div>
+            <div class="clear bgfff commentNav">
+                <a href="javascript:;" :class="[commentActive==1?'active':'']"
+                    @click="comment(1)">全部<span>（256）</span></a>
+                <a href="javascript:;" :class="[commentActive==2?'active':'']"
+                    @click="comment(2)">追加评价<span>（256）</span></a>
+                <a href="javascript:;" :class="[commentActive==3?'active':'']"
+                    @click="comment(3)">有图评价<span>（256）</span></a>
+            </div>
+            <div class="bgfff box1 mgt2vw" v-for="item in 5">
+                <div class="clear">
+                    <div class="fl">
+                        <img src="../image/head.jpg" alt="" class="fl commentHead" />
+                        <span class="fl commentUser">odoggb</span>
+                    </div>
+                    <van-rate class="fr commentRate" v-model="value" :size="18" color="#a8896d" readonly />
+                </div>
+                <div class="commentText">东西太棒了，验过了是正品，物流速度也不错。</div>
+                <div class="commentClass">颜色分类：白色短袖</div>
+                <div class="clear commentImg">
+                    <img src="../image/head.jpg" alt="" />
+                    <img src="../image/head.jpg" alt="" />
+                    <img src="../image/head.jpg" alt="" />
+                    <img src="../image/head.jpg" alt="" />
+                    <img src="../image/head.jpg" alt="" />
+                </div>
+                <div class="clear afterReview">
+                    <div class="afterReviewHd">用户 5 天后追评：</div>
+                    <div class="afterReviewBd">上身太好看了。</div>
+                </div>
+            </div>
+        </div>
+        <div :class="['productDetailFoot',active==1?'bgfff':'']">
+            <div class="productDetailFootBox clear">
+                <a href="javascript:;" class="fl toCustomerService">客服</a>
+                <a href="javascript:;" class="fr entrustBuyBtn" @click="show=true">委托购买</a>
+            </div>
+        </div>
+        <van-popup v-model="show" round position="bottom" closeable>
+            <div class="box1">
+                <div class="clear productPopupTop">
+                    <img src="../image/productImg9.jpg" alt="" class="productDetsilImg fl" />
+                    <div class="fl productInfo">
+                        <div>prade（品牌名）</div>
+                        <div>A-line denim mini dress（商品名）</div>
+                        <div class="cc9c9c9">已选：白色，40码</div>
+                        <div class="unitPrice">£150.00 约合港币HK$2225.9</div>
+                    </div>
+                </div>
+                <div class="clear">
+                    <div class="fl productDetailLabel">收货方式</div>
+                    <a href="javascript:;" class="courierSelect fr" @click="showPicker = true">{{courier}}</a>
+                </div>
+                <div class="clear">
+                    <div class="fl productDetailLabel">颜色</div>
+                    <a href="javascript:;" class="courierSelect fr border0"
+                        @click="showColorPicker = true">{{color}}</a>
+                </div>
+                <div class="clear">
+                    <div class="fl productDetailLabel">尺码</div>
+                    <a href="javascript:;" class="courierSelect fr border0" @click="showSizePicker = true">{{size}}</a>
+                </div>
+                <div class="clear">
+                    <div class="fl productDetailLabel">库存数量</div>
+                    <div class="flex fr cartStepper productDetailStepper">
+                        <a href="javascript:;" class="cartStepperBtn" @click="reduction">-</a>
+                        <input type="number" class="cartStepperInput" v-model="qty" />
+                        <a href="javascript:;" class="cartStepperBtn" @click="add">+</a>
+                    </div>
+                    <div class="productDetailTips fr">低库存</div>
+                </div>
+
+            </div>
+            <a href="javascript:;" class="addToCart">加入购物车</a>
+        </van-popup>
+        <van-popup v-model="showPicker" round position="bottom">
+            <van-picker show-toolbar :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
+        </van-popup>
+        <van-popup v-model="showColorPicker" round position="bottom">
+            <van-picker show-toolbar :columns="columns" @cancel="showColorPicker = false" @confirm="colorOnConfirm" />
+        </van-popup>
+        <van-popup v-model="showSizePicker" round position="bottom">
+            <van-picker show-toolbar :columns="columns" @cancel="showSizePicker = false" @confirm="sizeOnConfirm" />
+        </van-popup>
+        <van-share-sheet v-model="showShare" title="立即分享给好友" :options="options" @select="onSelect" />
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script type="text/javascript">
+    // 在 #app 标签下渲染一个按钮组件
+    var app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                checked: false,
+                value: 3,
+                taiguo: false,
+                show: false,
+                showPicker: false,
+                columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+                courier: '快递物流',
+                color: '白色',
+                size: '40DK',
+                qty: 1,
+                showColorPicker: false,
+                showSizePicker: false,
+                active: 1,
+                commentActive: 1,
+                showShare: false,
+                options: [
+                    { name: '微信', icon: 'wechat' },
+                    { name: '微博', icon: 'weibo' },
+                    { name: '复制链接', icon: 'link' },
+                    { name: '分享海报', icon: 'poster' },
+                    { name: '二维码', icon: 'qrcode' },
+                ],
+            };
+        },
+        methods: {
+            onSelect(option) {
+                vant.Toast(option.name);
+                this.showShare = false;
+            },
+            comment(type) {
+                console.log('comment', type);
+                this.commentActive = type;
+            },
+            onConfirm(value) {
+                this.courier = value;
+                this.showPicker = false;
+            },
+            colorOnConfirm(value) {
+                this.color = value;
+                this.showColorPicker = false;
+            },
+            sizeOnConfirm(value) {
+                this.size = value;
+                this.showSizePicker = false;
+            },
+            reduction() {
+                if (this.qty > 1) {
+                    this.qty--;
+                }
+            },
+            add() {
+                this.qty++;
+            },
+        },
+    });
+    $(".icon36").click(function () {
+        if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+            $(".arrivalInstructions").removeClass("active");
+        } else {
+            $(this).addClass("active");
+            $(".arrivalInstructions").addClass("active");
+        }
+    })
+    apiready = function () {
+        var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar(header);
+    };
+    function openUrl(url, pageParam) {
+        console.log('url', url);
+        console.log('pageParam', pageParam);
+        api.openWin({
+            name: 'main',
+            url: url,
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: pageParam,
+            // pageParam: {
+            //   name: 'test'
+            // }
+        });
+    };
+
+</script>
+
+>>>>>>> 谢谢谢谢谢谢
 </html>

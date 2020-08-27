@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE HTML>
 <html>
 
@@ -296,4 +297,135 @@
 	};
 </script>
 
+=======
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>申请退款</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style>
+	</style>
+</head>
+
+<body>
+	<div class="" id="app">
+		<div class="clear box1 bgfff shopCartTop" id="header">
+			<a href="javascript:history.back();" class="fl searchBack apdBack"></a>
+			<div class="ta-c">申请退款</div>
+		</div>
+		<div class="aas_top clear box">
+			<div class="aas_hd">
+				<img src="../image/img2.jpg" alt="" class="fl commentsImg" />
+				<div>
+					<div class="commentsProductName">某某产品某某产品某某产品某某产品某某产品某某产品某某产品...</div>
+					<div class="aas_colorClass">颜色分类：白色短袖</div>
+				</div>
+			</div>
+		</div>
+		<div class="box">
+			<div class="setUpItem clear">
+				<div class="fl">货物状态</div>
+				<a href="javascript:;" class="fr setUpRight" @click="showPicker = true">{{goodState}}</a>
+			</div>
+		</div>
+		<div class="box">
+			<div class="setUpItem clear">
+				<div class="fl">退款原因</div>
+				<a href="javascript:;" class="fr setUpRight" @click="showReasonPicker = true">{{refundReason}}</a>
+			</div>
+		</div>
+		<div class="box">
+			<div class="setUpItem applyRefundItem clear">
+				<div class="fl">退款金额</div>
+				<div class="fr ca8896d">港币HK$ 3000.00</div>
+				<div class="fl applyRefundTips">可修改，最多HK$2700.00，含发货邮费HK$ 300.00</div>
+			</div>
+		</div>
+		<div class="box1 applyRefundTag">退款说明</div>
+		<div class="box">
+			<input type="text" class="refundInstructions" placeholder="选填" />
+		</div>
+		<div class="box1 applyRefundTag">上传凭证</div>
+		<div class="box1">
+			<a href="javascript:;" class="relative uploadDoc">
+				<img src="../image/icon76.png" alt="" />
+				<input type="file" class="uploadFile" />
+			</a>
+		</div>
+		<a href="javascript:;" class="commentBtn logOutBtn">
+			<span>提交</span>
+		</a>
+		<van-popup v-model="showPicker" round position="bottom">
+			<van-picker show-toolbar :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
+		</van-popup>
+		<van-popup v-model="showReasonPicker" round position="bottom">
+			<van-picker show-toolbar :columns="reasonColumns" @cancel="showReasonPicker = false"
+				@confirm="onReasonConfirm" />
+		</van-popup>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script src="../script/languages.min.js"></script>
+<script type="text/javascript">
+	// 在 #app 标签下渲染一个按钮组件
+	var app = new Vue({
+		el: '#app',
+		data() {
+			return {
+				showPicker: false,
+				showReasonPicker: false,
+				columns: ['未收到货', '已收到货'],
+				goodState: '未收到货',
+				refundReason: '不发货',
+				reasonColumns: ['不发货', '货物损坏', '实物与图片不符'],
+			};
+		},
+		methods: {
+			onConfirm(value) {
+				this.goodState = value;
+				this.showPicker = false;
+			},
+			onReasonConfirm(value) {
+				this.refundReason = value;
+				this.showReasonPicker = false;
+			},
+		},
+	});
+	//vant.Toast('提示');
+	apiready = function () {
+		var header = $api.byId('header');
+		//适配iOS 7+，Android 4.4+状态栏
+		$api.fixStatusBar(header);
+	};
+	function openUrl(url, pageParam) {
+		console.log('url', url);
+		console.log('pageParam', pageParam);
+		api.openWin({
+			name: 'main',
+			url: url,
+			rect: {
+				x: 0,
+				y: 0,
+				w: 'auto',
+				h: 'auto'
+			},
+			pageParam: pageParam,
+			// pageParam: {
+			//   name: 'test'
+			// }
+		});
+	};
+
+</script>
+
+>>>>>>> 谢谢谢谢谢谢
 </html>

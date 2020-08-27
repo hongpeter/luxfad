@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE HTML>
 <html>
 
@@ -64,4 +65,89 @@
 	};
 </script>
 
+=======
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>消息盒子</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style>
+	</style>
+</head>
+
+<body>
+	<div class="" id="app">
+		<div class="clear box1 bgfff shopCartTop" id="header">
+			<a href="javascript:history.back();" class="fl searchBack apdBack"></a>
+			<div class="ta-c">消息盒子</div>
+			<a href="personalCenter.html" class="icon66Box fr">
+				<img src="../image/icon66.png" alt="" />
+			</a>
+		</div>
+		<ul class="messageBoxList">
+			<li class="clear" v-for="item in 3">
+				<img src="../image/LOGO.jpg" alt="" class="fl messageBoxImg" />
+				<dl class="fr messageBoxBD">
+					<dt class="clear">
+						<div class="fl fs1d125rem messageTitle">通知消息</div>
+						<div class="fr messageDate">2020-06-10</div>
+					</dt>
+					<dd>亲，您的宝贝已过海关，将在3-5天内送达。</dd>
+				</dl>
+			</li>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script src="../script/languages.min.js"></script>
+<script type="text/javascript">
+	// 在 #app 标签下渲染一个按钮组件
+	var app = new Vue({
+		el: '#app',
+		data() {
+			return {
+
+			};
+		},
+		methods: {
+
+		},
+	});
+	//vant.Toast('提示');
+	apiready = function () {
+		var header = $api.byId('header');
+		//适配iOS 7+，Android 4.4+状态栏
+		$api.fixStatusBar(header);
+	};
+	function openUrl(url, pageParam) {
+		console.log('url', url);
+		console.log('pageParam', pageParam);
+		api.openWin({
+			name: 'main',
+			url: url,
+			rect: {
+				x: 0,
+				y: 0,
+				w: 'auto',
+				h: 'auto'
+			},
+			pageParam: pageParam,
+			// pageParam: {
+			//   name: 'test'
+			// }
+		});
+	};
+
+</script>
+
+>>>>>>> 谢谢谢谢谢谢
 </html>

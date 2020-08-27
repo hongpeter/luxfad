@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE HTML>
 <html>
 
@@ -162,4 +163,159 @@
     getUserInfo()
 </script>
 
+=======
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="" id="app">
+        <div class="shopCartTop clear" id="header">
+            <div class="fl shopCartTitle">个人中心</div>
+            <a href="messageBox.html" class="homeMsg centerMsg fr">
+                <img src="../image/icon1.png" alt="" class="icon1">
+                <span class="redBlock"></span>
+            </a>
+        </div>
+        <div class="centerHead clear">
+            <img src="../image/head.jpg" alt="" class="fl headImg" />
+            <dl class="centerDl fl">
+                <dt>Lisa</dt>
+                <dd>ID 6685362</dd>
+            </dl>
+            <a href="setUp.html" class="fr"><img src="../image/icon18.png" alt="" class="icon18" /></a>
+        </div>
+        <div class="bgf6f6f6">
+            <div class="clear box1">
+                <div class="fl centerTag">我的订单</div>
+                <a href="orderList.html" class="toAllOrder fr">查看全部订单</a>
+            </div>
+            <div class="centerOrderNav flex">
+                <a href="orderList.html">
+                    <img src="../image/icon19.png" alt="" />
+                    <div class="">未到货</div>
+                </a>
+                <a href="orderList.html">
+                    <img src="../image/icon20.png" alt="" />
+                    <div>未付款</div>
+                </a>
+                <a href="orderList.html">
+                    <img src="../image/icon21.png" alt="" />
+                    <div>已到货</div>
+                </a>
+                <a href="orderList.html">
+                    <img src="../image/icon22.png" alt="" />
+                    <div>已送货</div>
+                </a>
+                <a href="orderList.html">
+                    <img src="../image/icon23.png" alt="" />
+                    <div>已付款</div>
+                </a>
+                <a href="orderList.html">
+                    <img src="../image/icon24.png" alt="" />
+                    <div>取消订单</div>
+                </a>
+                <a href="orderList.html" v-show="taiguo">
+                    <img src="../image/icon30.png" alt="" />
+                    <div>待评价</div>
+                </a>
+                <a href="orderList.html" v-show="taiguo">
+                    <img src="../image/icon31.png" alt="" />
+                    <div>售后</div>
+                </a>
+            </div>
+        </div>
+        <ul class="centerNav">
+            <li>
+                <a href="myCollection.html">
+                    <img src="../image/icon25.png" alt="" />
+                    <span>我的收藏</span>
+                </a>
+            </li>
+            <li>
+                <a href="customerService.html">
+                    <img src="../image/icon26.png" alt="" />
+                    <span>客服中心</span>
+                </a>
+            </li>
+            <li>
+                <a href="addressList.html">
+                    <img src="../image/icon27.png" alt="" />
+                    <span>收货地址管理</span>
+                </a>
+            </li>
+            <li>
+                <a href="entrustOrderProcess.html">
+                    <img src="../image/icon28.png" alt="" />
+                    <span>委托下单流程</span>
+                </a>
+            </li>
+            <li>
+                <a href="generationOrderProcess.html">
+                    <img src="../image/icon29.png" alt="" />
+                    <span>代下单协议及免责声明</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script type="text/javascript">
+    // 在 #app 标签下渲染一个按钮组件
+    var app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                checked: false,
+                value: 1,
+                taiguo: false,
+            };
+        },
+        methods: {
+
+        },
+    });
+    //vant.Toast('提示');
+    apiready = function () {
+        var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar(header);
+    };
+    function openUrl(url, pageParam) {
+        console.log('url', url);
+        console.log('pageParam', pageParam);
+        api.openWin({
+            name: 'main',
+            url: url,
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: pageParam,
+            // pageParam: {
+            //   name: 'test'
+            // }
+        });
+    };
+
+</script>
+
+>>>>>>> 谢谢谢谢谢谢
 </html>
