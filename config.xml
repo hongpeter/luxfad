@@ -49,5 +49,10 @@
 	<permission name="bootCompleted" />
 
 	<permission name="hardware" />
-
+  <feature name="wxPayPlus">
+    <param name="urlScheme" value="wx51299f00cf546e6d"/>
+    <param name="apiKey" value="wx51299f00cf546e6d"/>
+    <param name="apiSecret" value=""/>
+    <param name="universalLink" value="https://m.thunder-wind.com/payment/"/>
+  </feature>
 </widget>

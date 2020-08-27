@@ -354,7 +354,7 @@
                     };
                     alert(JSON.stringify(d));
                     console.log('wxPayPlus', wxPayPlus);
-                    console.log('api', JSON.stringify(api));
+                    console.log('api', JSON.stringify($api));
                     console.log('wxPayPlus', JSON.stringify(wxPayPlus));
                     wxPayPlus.payOrder(d, function (ret, err) {
                         console.log('ret', ret);

@@ -144,7 +144,7 @@
                             setTimeout(() => {
                                 _this.showStartPoster = false;
                                 _this.showAd = true;
-                            }, 5000);
+                            }, 3000);
                         } else {
                             _this.showStartPoster = false;
                             _this.showAd = true;
@@ -158,7 +158,11 @@
                             });
                             console.log('_this.ad', _this.ad)
                         } else {
-                            _this.showAd = false;
+
+                            setTimeout(() => {
+                                initFrameGroup();
+                                _this.showAd = false;
+                            }, 3500);
                         }
                     }
                 })
@@ -250,7 +254,7 @@
     };
     function setCurrentClass(index) {
         app.navIndex = index;
-    }; 
+    };
 </script>
 
 </html>
