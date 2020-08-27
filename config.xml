@@ -52,7 +52,7 @@
   <feature name="wxPayPlus">
     <param name="urlScheme" value="wx51299f00cf546e6d"/>
     <param name="apiKey" value="wx51299f00cf546e6d"/>
-    <param name="apiSecret" value=""/>
+    <param name="apiSecret" value="c118723970c5e526cf40957816518a74"/>
     <param name="universalLink" value="https://m.thunder-wind.com/payment/"/>
   </feature>
 </widget>
