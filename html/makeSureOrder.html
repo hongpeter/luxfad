@@ -342,7 +342,7 @@
                 console.log('支付类型', this.radio);
                 let type = this.radio;
                 if (type == '0') {
-                    var wxPayPlus = api.require('wxPayPlus');
+                    var wxPayPlus = api.require('wxPay');
                     let d = {
                         apiKey: payData.appid,
                         mchId: payData.partnerid,
@@ -352,12 +352,12 @@
                         sign: payData.sign,
                         timeStamp: payData.timestamp,
                     };
-                    alert(JSON.stringify(d));
-                    console.log('wxPayPlus', wxPayPlus);
-                    console.log('api', JSON.stringify(api));
-                    console.log('wxPayPlus', JSON.stringify(wxPayPlus));
-                    wxPayPlus.payOrder({
-                        apiKey: payData.appid,
+                    //alert(JSON.stringify(d));
+                    //console.log('wxPayPlus', wxPayPlus.payOrder);
+                    //console.log('api', JSON.stringify(api));
+                    //log('wxPayPlus', JSON.stringify(wxPayPlus));
+                    wxPay.payOrder({
+                      apiKey: payData.appid,
                         mchId: payData.partnerid,
                         nonceStr: payData.nonceStr,
                         orderId: payData.prepayid,
@@ -365,7 +365,8 @@
                         sign: payData.sign,
                         timeStamp: payData.timestamp,
                     }, function (ret, err) {
-                        console.log('ret', ret);
+                      console.log('ret', ret);
+                        console.log('err', err);
                         if (ret.status) {
                             //支付成功
                             alert('支付成功');
@@ -374,6 +375,7 @@
                             alert(err.code);
                         }
                     });
+                    alert(JSON.stringify(d));
                 } else if (type == '1') {
                     //var aliPayPlus = api.require('aliPayPlus');
                     let orderInfo = {
