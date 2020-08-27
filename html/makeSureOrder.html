@@ -345,12 +345,12 @@
                     var wxPayPlus = api.require('wxPayPlus');
                     let d = {
                         apiKey: payData.apiKey,
-                        orderId: payData.prepayid,
                         mchId: payData.partnerid,
                         nonceStr: payData.nonceStr,
-                        timeStamp: payData.timestamp,
+                        orderId: payData.prepayid,
                         package: payData.package,
-                        sign: payData.sign
+                        sign: payData.sign,
+                        timeStamp: payData.timestamp,
                     };
                     alert(JSON.stringify(d));
                     wxPayPlus.payOrder(d, function (ret, err) {
