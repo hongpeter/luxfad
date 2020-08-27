@@ -352,10 +352,9 @@
                         sign: payData.sign,
                         timeStamp: payData.timestamp,
                     };
-                    alert(JSON.stringify(d));
-                    console.log('wxPayPlus', wxPayPlus);
-                    console.log('api', JSON.stringify($api));
-                    console.log('wxPayPlus', JSON.stringify(wxPayPlus));
+                    //console.log('wxPayPlus', wxPayPlus);
+                    //console.log('api', JSON.stringify($api));
+                    //console.log('wxPayPlus', JSON.stringify(wxPayPlus));
                     wxPayPlus.payOrder(d, function (ret, err) {
                         console.log('ret', ret);
                         if (ret.status) {
@@ -366,6 +365,7 @@
                             alert(err.code);
                         }
                     });
+                    alert(JSON.stringify(d));
                 } else if (type == '1') {
                     //var aliPayPlus = api.require('aliPayPlus');
                     let orderInfo = {
