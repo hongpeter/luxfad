@@ -16,14 +16,9 @@
 
 <body>
   <div class="" id="app">
-<<<<<<< HEAD
     <!-- 头部 -->
     <div class="box clear" id="header">
       <a class="homeMsg" onclick="openUrl('messageBox.html',{})">
-=======
-    <div class="box clear" id="header">
-      <a class="homeMsg" onclick="openUrl('messageBox.html','{}')">
->>>>>>> 谢谢谢谢谢谢
         <img src="../image/icon1.png" alt="" class="icon1">
         <span class="redBlock"></span>
       </a>
@@ -33,7 +28,6 @@
     </div>
     <!-- 轮播 -->
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-<<<<<<< HEAD
       <van-swipe-item v-for="(item,index) in swipe" :key="index" v-if="item.img!=null&&item.img!=''">
         <a href="javascript:;" @click="openUrl('activityPosterDetails.html',{id:item.id})">
           <van-image width="100vw" height="45vw" fit="cover" :src="item.img"></van-image>
@@ -63,62 +57,6 @@
         <div class="homeTag fl">{{item.title}}
           <!--{hk}猜妳喜歡-->
           <!--{en}GUESS YOU LIKE-->
-=======
-      <van-swipe-item v-for="item in 4">
-        <a onclick="openUrl('searchResult.html','{}')"><img src="../image/banner.jpg" alt=""></a>
-      </van-swipe-item>
-    </van-swipe>
-    <div class="clear homeNav">
-      <a onclick="openUrl('activityPosterDetails.html','{}')">Luisaviaroma</a>
-      <a onclick="openUrl('activityPosterDetails.html','{}')">Matchesfashion</a>
-      <a onclick="openUrl('activityPosterDetails.html','{}')">Brownsfashion</a>
-      <a onclick="openUrl('activityPosterDetails.html','{}')">Luisaviaroma</a>
-    </div>
-    <div class="clear" style="margin-top:2vw;">
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="fl block" style="width:51%;"><img
-          src="../image/productImg1.jpg" alt=""></a>
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="fl block" style="width:49%;"><img
-          src="../image/productImg2.jpg" alt=""></a>
-    </div>
-    <div class="" style="margin-top:2vw;">
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="block" style="width:100%;"><img
-          src="../image/productImg3.jpg" alt=""></a>
-    </div>
-    <div class="" style="margin-top:0vw;">
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="block" style="width:100%;"><img
-          src="../image/productImg4.jpg" alt=""></a>
-    </div>
-    <div class="" style="margin-top:0vw;">
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="block" style="width:100%;"><img
-          src="../image/productImg5.jpg" alt=""></a>
-    </div>
-    <div class="clear" style="margin-top:2vw;">
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="fl block" style="width:47%;"><img
-          src="../image/productImg6.jpg" alt=""></a>
-      <a onclick="openUrl('activityPosterDetails.html','{}')" class="fl block" style="width:53%;"><img
-          src="../image/productImg7.jpg" alt=""></a>
-    </div>
-    <div class="homeTag" data-lang-cn="猜你喜欢" data-lang-en="GUESS YOU LIKE">猜你喜欢
-      <!--{hk}}猜妳喜歡-->
-      <!--{en}GUESS YOU LIKE-->
-    </div>
-    <ul class="youLike clear">
-      <li v-for="(item,index) in 4" :key="index">
-        <a onclick="openUrl('productDetail.html','{}')">
-          <img src="../image/productImg8.jpg" alt="">
-        </a>
-        <div class="proBrand">品牌XXX
-          <!--{hk}品牌-->
-          <!--{en}brand-->
-        </div>
-        <div class="proName">中长袖白T恤
-          <!--{hk}中長袖白T恤-->
-          <!--{en}The white long-sleeved T-shirt-->
-        </div>
-        <div class="proState">欧洲 现货
-          <!--{hk}歐洲 現貨-->
-          <!--{en}European spot-->
->>>>>>> 谢谢谢谢谢谢
         </div>
         <a href="javascript:;" class="fr c7d7d7d homeTagLink"
           @click="openUrl('activityPosterDetails.html',{id:item.id})">
@@ -231,7 +169,6 @@
       },
     },
   });
-<<<<<<< HEAD
   // function openUrl(url, pageParam) {
   //   console.log('url', url);
   //   console.log('pageParam', pageParam);
@@ -247,31 +184,10 @@
   //     pageParam: pageParam,
   //   });
   // };
-=======
-  function openUrl(url, pageParam) {
-    console.log('url', url);
-    console.log('pageParam', pageParam);
-    api.openWin({
-      name: 'main',
-      url: url,
-      rect: {
-        x: 0,
-        y: 0,
-        w: 'auto',
-        h: 'auto'
-      },
-      pageParam: pageParam,
-      // pageParam: {
-      //   name: 'test'
-      // }
-    });
-  };
->>>>>>> 谢谢谢谢谢谢
   //vant.Toast('提示');
   apiready = function () {
     var header = $api.byId('header');
     //适配iOS 7+，Android 4.4+状态栏
-<<<<<<< HEAD
     //$api.fixStatusBar(header);
   };
   //网站(平台)下拉框信息
@@ -288,9 +204,6 @@
         $(".homeNav").html(html);
       }
     });
-=======
-    $api.fixStatusBar(header);
->>>>>>> 谢谢谢谢谢谢
   };
   getPlatform();
 </script>
