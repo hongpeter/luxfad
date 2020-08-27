@@ -344,7 +344,7 @@
                 if (type == '0') {
                     var wxPayPlus = api.require('wxPayPlus');
                     let d = {
-                        //apiKey: payData.apiKey,
+                        apiKey: payData.appid,
                         apiKey: 'wx51299f00cf546e6d',
                         mchId: payData.partnerid,
                         nonceStr: payData.nonceStr,
