@@ -7,7 +7,11 @@
     <author email="developer@apicloud.com" href="http://www.apicloud.com">peter</author>
 
     <content src="index.html" />
+<<<<<<< HEAD
 	
+=======
+	<content src="app.json" />
+>>>>>>> 谢谢谢谢谢谢
 
     <access origin="*" />
 
@@ -52,3 +56,7 @@
 	<permission name="hardware" />
 
 </widget>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 谢谢谢谢谢谢

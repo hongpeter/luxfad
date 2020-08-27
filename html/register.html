@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html>
 
@@ -344,4 +345,239 @@
 	}
 </script>
 
+=======
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>注册新用户</title>
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
+	<style type="text/css">
+		.regTop {
+			padding: 8vw 6vw;
+		}
+
+		.regTop a {
+			float: left;
+			display: block;
+			color: #434343;
+			font-size: 1.25rem;
+			position: relative;
+			line-height: 20vw;
+			margin-right: 4vw;
+			;
+		}
+
+		.regTop a span {
+			display: none;
+			width: 18vw;
+			height: 6px;
+			border-radius: 3px;
+			background: #a8896d;
+			left: 50%;
+			bottom: 0;
+			margin-left: -9vw;
+			position: absolute;
+		}
+
+		.regTop a.active {
+			font-size: 1.8rem;
+		}
+
+		.regTop a.active span {
+			display: block;
+		}
+
+		.regBd {
+			width: 86%;
+			margin: 0 auto;
+		}
+
+		.regBox {
+			border-bottom: 1px solid #e5e5e5;
+			position: relative;
+			margin-top: 4vw;
+		}
+
+		.regSelect {
+			border-right: 1px solid #e5e5e5;
+			line-height: 6vw;
+			padding-right: 6vw;
+			background: url(../image/icon11.png) no-repeat 90% center;
+			background-size: 4vw auto;
+			margin: 2vw 2vw 2vw 0;
+			color: #434343;
+		}
+
+		.regInput {
+			padding: 0 2vw;
+			line-height: 10vw;
+			font-size: 0.8rem;
+		}
+
+		.sendBtn {
+			position: absolute;
+			right: 0;
+			line-height: 6vw;
+			font-size: 0.8rem;
+			top: 0;
+			padding: 0 2vw;
+			margin: 2vw 0;
+			border-left: 1px solid #e5e5e5;
+			color: #434343;
+		}
+
+		.agree {
+			padding-left: 5vw;
+			background: url(../image/icon13.png) no-repeat left center;
+			background-size: 4vw auto;
+			color: #434343;
+			font-size: 0.8rem;
+			margin-top: 4vw;
+		}
+
+		.agree.active {
+			background: url(../image/icon12.png) no-repeat left center;
+			background-size: 4vw auto;
+		}
+
+		.regBtn {
+			display: block;
+			text-align: center;
+			height: 12vw;
+			line-height: 12vw;
+			background: #eee;
+			color: #434343;
+			border-radius: 2vw;
+			font-size: 1rem;
+			margin-top: 4vw;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<div class="regHd clear bgeee" id="header">
+			<a href="javascript:;" class="back">返回</a>
+		</div>
+		<div class="regTop bgeee clear">
+			<a href="javascript:;" class="active">注册新用户<span></span></a>
+			<a href="retrievePassword.html" class="">找回密码<span></span></a>
+		</div>
+		<div class="regBd">
+			<div class="regBox clear">
+				<a href="javascript:;" class="fl regSelect" @click="showPicker = true">{{value}}</a>
+				<div class="regItem">
+					<input type="text" class="regInput" placeholder="手机号码" />
+				</div>
+			</div>
+			<div class="regBox clear">
+				<div class="regItem">
+					<input type="text" class="regInput" placeholder="验证码" />
+				</div>
+				<button class="sendBtn fr" onclick="settime(this)">发送验证码</button>
+			</div>
+			<div class="regBox clear">
+				<div class="regItem">
+					<input type="password" class="regInput" placeholder="请设置密码" />
+				</div>
+			</div>
+			<div class="regBox clear">
+				<div class="regItem">
+					<input type="password" class="regInput" placeholder="请确认密码" />
+				</div>
+			</div>
+			<div class="clear">
+				<a href="javascript:;" class="agree" onclick="setAgree(this)">我已阅读并同意XX条款</a>
+			</div>
+			<a href="" class="regBtn">注册</a>
+		</div>
+		<van-popup v-model="showPicker" round position="bottom">
+			<van-picker show-toolbar :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
+		</van-popup>
+	</div>
+</body>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/api.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script type="text/javascript">
+	// 在 #app 标签下渲染一个按钮组件
+	var app = new Vue({
+		el: '#app',
+		data() {
+			return {
+				value: '+86',
+				showPicker: false,
+				columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+			};
+		},
+		methods: {
+			onChange(index) {
+				this.current = index;
+			},
+			onConfirm(value) {
+				this.value = value;
+				this.showPicker = false;
+			},
+		},
+	});
+	apiready = function () {
+		var header = $api.byId('header');
+		//适配iOS 7+，Android 4.4+状态栏
+		$api.fixStatusBar(header);
+	};
+	function openUrl(url, pageParam) {
+		console.log('url', url);
+		console.log('pageParam', pageParam);
+		api.openWin({
+			name: 'main',
+			url: url,
+			rect: {
+				x: 0,
+				y: 0,
+				w: 'auto',
+				h: 'auto'
+			},
+			pageParam: pageParam,
+			// pageParam: {
+			//   name: 'test'
+			// }
+		});
+	};
+	function login() {
+		console.log("login");
+	};
+	function setAgree(_this) {
+		//console.log(_this)
+		if ($(_this).hasClass("active")) {
+			$(_this).removeClass("active");
+		} else {
+			$(_this).addClass("active");
+		}
+	};
+	var countdown = 60;
+	function settime(obj) {
+		if (countdown == 0) {
+			$(obj).removeAttr("disabled");
+			$(obj).text("获取验证码");
+			countdown = 60;
+			return;
+		} else {
+			$(obj).attr("disabled", "");
+			$(obj).text("重新发送(" + countdown + ")");
+			countdown--;
+		};
+		setTimeout(() => {
+			settime(obj);
+		}, 1000);
+	};
+</script>
+
+>>>>>>> 谢谢谢谢谢谢
 </html>

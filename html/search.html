@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html>
 
@@ -94,4 +95,102 @@
     };
 </script>
 
+=======
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>搜索</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
+    <style type="text/css">
+
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="clear box1 mgt2vw" id="header">
+            <a href="javascript:history.back();" class="fl searchBack"></a>
+            <div class="fl searchInputBox">
+                <input type="text" class="searchInput" v-model="value" />
+                <a href="javascript:;" class="searchDelete" @click="clear" v-show="value!=''"></a>
+            </div>
+        </div>
+        <div class="clear box1 mgt2vw">
+            <div class="fl searchTag">最近搜索</div>
+            <div class="fr clearRecord">清除记录</div>
+        </div>
+        <div class="searchRecordList box1 clear">
+            <a href="searchResult.html" v-for="item in 5">夏装</a>
+        </div>
+        <div class="clear box1 mgt2vw">
+            <div class="fl searchTag">猜你想找</div>
+        </div>
+        <div class="searchRecordList box1 clear">
+            <a href="searchResult.html" v-for="item in 5">夏装</a>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/jquery.js"></script>
+<script type="text/javascript" src="../script/api.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
+<script type="text/javascript">
+    // 在 #app 标签下渲染一个按钮组件
+    var app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                value: '不会买错的化妆品',
+                showPicker: false,
+                columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+                showClear: false,
+            };
+        },
+        methods: {
+            clear() {
+                this.value = '';
+            },
+            onConfirm(value) {
+                this.value = value;
+                this.showPicker = false;
+            },
+        },
+        watch: {
+            value() {
+                this.showClear = true;
+            },
+        },
+    });
+    apiready = function () {
+        var header = $api.byId('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar(header);
+    };
+    function openUrl(url, pageParam) {
+        console.log('url', url);
+        console.log('pageParam', pageParam);
+        api.openWin({
+            name: 'main',
+            url: url,
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: pageParam,
+            // pageParam: {
+            //   name: 'test'
+            // }
+        });
+    };
+</script>
+
+>>>>>>> 谢谢谢谢谢谢
 </html>

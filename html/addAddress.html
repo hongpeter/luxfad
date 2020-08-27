@@ -104,6 +104,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
+<script src="../script/area/area1.js"></script>
 <script type="text/javascript">
 	function gtQueryString(name) {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -142,14 +143,16 @@
 			};
 		},
 		created() {
-			import('../script/area/area.js')
-				.then(data => {
-					console.log('data', data.default);
-					this.areaList = data.default;
-				})
-				.catch(error => {
-					/* Error handling */
-				})
+			this.areaList = areadata;
+			console.log('areadata', areadata);
+			// import('../script/area/area.js')
+			// 	.then(data => {
+			// 		console.log('data', data.default);
+			// 		this.areaList = data.default;
+			// 	})
+			// 	.catch(error => {
+			// 		/* Error handling */
+			// 	})
 			this.getAddressDetail();
 		},
 		methods: {
@@ -170,10 +173,10 @@
 				};
 				if (id != 0 || id != '0') {
 					request("POST", requestUrl + "/App/Users/AddressDetail", JSON.stringify(d), function (data) {
-						console.log('getAddressDetail', data);
+						console.log('getAddressDetail', JSON.stringify(data));
 						if (data.success) {
 							_this.data = data.data;
-							console.log('_this.data', _this.data);
+							console.log('_this.data', JSON.stringify(_this.data));
 						}
 					})
 				}
@@ -187,11 +190,12 @@
 					if (this.isSave) {
 						this.isSave = false;
 						request("POST", requestUrl + "/App/Users/AddAddress", JSON.stringify(this.data), function (data) {
-							console.log('AddAddress', data);
+							console.log('AddAddress', JSON.stringify(data));
 							_this.isSave = true;
 							if (data.success) {
 								alert("新增成功！");
-								openUrl('../addressList.html', {})
+								//api.closeWin();
+								openUrl('addressList.html', {})
 							}
 						})
 					}
@@ -199,11 +203,12 @@
 					if (this.isSave) {
 						this.isSave = false;
 						request("POST", requestUrl + "/App/Users/EditAddress", JSON.stringify(this.data), function (data) {
-							console.log('EditAddress', data);
+							console.log('EditAddress', JSON.stringify(data));
 							_this.isSave = true;
 							if (data.success) {
 								alert("修改成功！");
-								openUrl('../addressList.html', {})
+								//api.closeWin();
+								openUrl('addressList.html', {})
 							}
 						})
 					}
@@ -212,7 +217,7 @@
 			GetSign() {
 				let _this = this;
 				request("GET", requestUrl + "/App/AppImage/GetSign", '', function (data) {
-					console.log('GetSign', data);
+					console.log('GetSign', JSON.stringify(data));
 					let html = '';
 					if (data.success) {
 						_this.sign = data.data.sign;
@@ -237,7 +242,7 @@
 				}
 				var imgUrlBase64;
 				if (file) {
-					//将文件以Data URL形式读入页面  
+					//将文件以Data URL形式读入页面
 					imgUrlBase64 = reader.readAsDataURL(file);
 					reader.onload = function (e) {
 						//var ImgFileSize = reader.result.substring(reader.result.indexOf(",") + 1).length;//截取base64码部分（可选可不选，需要与后台沟通）
@@ -261,7 +266,7 @@
 				let _this = this;
 				console.log('this', this);
 				request("GET", requestUrl + "/App/AppImage/GetSign", '', function (data0) {
-					console.log('GetSign', data0);
+					console.log('GetSign', JSON.stringify(data0));
 					let html = '';
 					if (data0.success) {
 						let d = {
@@ -270,7 +275,7 @@
 							sign: data0.data.sign
 						}
 						request("POST", requestUrl + "/App/AppImage/UploadImg", JSON.stringify(d), function (data) {
-							console.log('uploadImg', data);
+							console.log('uploadImg', JSON.stringify(data));
 							if (data.success) {
 								if (type == 1) {
 									_this.data.id_card_photo = data.data.url;
@@ -290,26 +295,15 @@
 		var header = $api.byId('header');
 		//适配iOS 7+，Android 4.4+状态栏
 		$api.fixStatusBar(header);
-	};
-	function openUrl(url, pageParam) {
-		console.log('url', url);
-		console.log('pageParam', pageParam);
-		api.openWin({
-			name: 'addAddress',
-			url: url,
-			rect: {
-				x: 0,
-				y: 0,
-				w: 'auto',
-				h: 'auto'
-			},
-			pageParam: pageParam,
-			// pageParam: {
-			//   name: 'test'
-			// }
-		});
-	};
+		var pageParam = api.pageParam;
+		console.log('pageParam', JSON.stringify(pageParam));
+		if (pageParam.id) {
+			console.log('pageParam.id', pageParam.id)
+			id = pageParam.id;
+			app.getAddressDetail();
+		}
 
+	};
 </script>
 
 </html>
