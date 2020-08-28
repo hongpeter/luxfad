@@ -352,25 +352,25 @@
                         sign: payData.sign,
                         timeStamp: payData.timestamp,
                     };
+                    alert(wxPay.payOrder());
                     var wx = api.require('wx');
-wx.isInstalled(function(ret, err) {
-    if (ret.installed) {
-      wxPay.payOrder(d, function (ret, err) {
-          console.log('ret', ret);
-          if (ret.status) {
-              //支付成功
-              alert('支付成功');
-              openUrl('orderList.html', { type: -1 })
-          } else {
-              alert(err.code);
-          }
-      });
-      alert(JSON.stringify(d));
-    } else {
-        alert('当前设备未安装微信客户端');
-    }
-});
-
+                    wx.isInstalled(function(ret, err) {
+                        if (ret.installed) {
+                          wxPay.payOrder(d, function (ret, err) {
+                              console.log('ret', ret);
+                              if (ret.status) {
+                                  //支付成功
+                                  alert('支付成功');
+                                  openUrl('orderList.html', { type: -1 })
+                              } else {
+                                  alert(err.code);
+                              }
+                          });
+                          alert(JSON.stringify(d));
+                        } else {
+                            alert('当前设备未安装微信客户端');
+                        }
+                    });
                 } else if (type == '1') {
                     //var aliPayPlus = api.require('aliPayPlus');
                     let orderInfo = {
