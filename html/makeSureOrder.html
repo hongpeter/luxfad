@@ -352,7 +352,7 @@
                         sign: payData.sign,
                         timeStamp: payData.timestamp,
                     };
-                    alert(wxPay);
+                    alert(JSON.stringify(wxPay));
                     alert(wxPay.payOrder());
                     var wx = api.require('wx');
                     wx.isInstalled(function(ret, err) {
