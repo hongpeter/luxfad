@@ -342,7 +342,7 @@
                 console.log('支付类型', this.radio);
                 let type = this.radio;
                 if (type == '0') {
-                    var wxPayPlus = api.require('wxPayPlus');
+                    var wxPayPlus = api.require('wxPay');
                     let d = {
                         apiKey: payData.appid,
                         mchId: payData.partnerid,
@@ -355,7 +355,7 @@
                     //console.log('wxPayPlus', wxPayPlus);
                     //console.log('api', JSON.stringify($api));
                     //console.log('wxPayPlus', JSON.stringify(wxPayPlus));
-                    wxPayPlus.payOrder(d, function (ret, err) {
+                    wxPay.payOrder(d, function (ret, err) {
                         console.log('ret', ret);
                         if (ret.status) {
                             //支付成功
