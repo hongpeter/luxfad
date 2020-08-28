@@ -352,9 +352,6 @@
                         sign: payData.sign,
                         timeStamp: payData.timestamp,
                     };
-                    //console.log('wxPayPlus', wxPayPlus);
-                    //console.log('api', JSON.stringify($api));
-                    //console.log('wxPayPlus', JSON.stringify(wxPayPlus));
                     wxPay.payOrder(d, function (ret, err) {
                         console.log('ret', ret);
                         if (ret.status) {
