@@ -359,13 +359,13 @@
                     wx.isInstalled(function(ret, err) {
                         if (ret.installed) {
                           wxPay.payOrder({
-                              apiKey: 'wx51299f00cf546e6d',
-                              mchId: "341101549",
-                              nonceStr: "1598682287875",
-                              orderId: "wx29142447838209d91703c1f95b39940000",
+                              apiKey: '',
+                              mchId: payData.partnerid,
+                              nonceStr: payData.nonceStr,
+                              orderId: payData.prepayid,
                               package: "Sign=WXPay",
-                              sign: 'AFE2867774DB9810223206C6577B7A49',
-                              timeStamp:"1598682287",
+                              sign: payData.sign,
+                              timeStamp:payData.timestamp,
                           }, function (ret, err) {
                               console.log('ret', ret);
                               if (ret.status) {
