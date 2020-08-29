@@ -49,6 +49,8 @@
  <permission name="bootCompleted" />
 
  <permission name="hardware" />
+
+ <preference name="querySchemes" value="weixin,iosamap,baidumap,e wechat" />
  <feature name="wxPay">
     <param name="urlScheme" value="wx51299f00cf546e6d"/>
     <param name="apiKey" value="wx51299f00cf546e6d"/>
