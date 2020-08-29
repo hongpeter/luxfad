@@ -345,28 +345,17 @@
                 if (type == '0') {
                     //var wxPay = api.require('wxPay');
                     let d = {
-                        apiKey: payData.appid,
-                        mchId: payData.partnerid,
+                        apiKey: payData.apiKey,
+                        mchId: payData.mchId,
                         nonceStr: payData.nonceStr,
-                        orderId: payData.prepayid,
+                        orderId: payData.orderId,
                         package: payData.package,
                         sign: payData.sign,
-                        timeStamp: payData.timestamp,
+                        timeStamp: payData.timeStamp,
                     };
-                    alert(JSON.stringify(wxPay));
-                    alert(wxPay.payOrder());
-                    //var wx = api.require('wx');
                     wx.isInstalled(function(ret, err) {
                         if (ret.installed) {
-                          wxPay.payOrder({
-                              apiKey: '',
-                              mchId: payData.partnerid,
-                              nonceStr: payData.nonceStr,
-                              orderId: payData.prepayid,
-                              package: "Sign=WXPay",
-                              sign: payData.sign,
-                              timeStamp:payData.timestamp,
-                          }, function (ret, err) {
+                          wxPay.payOrder(d, function (ret, err) {
                               console.log('ret', ret);
                               if (ret.status) {
                                   //支付成功
