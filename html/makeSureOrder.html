@@ -342,7 +342,7 @@
                 console.log('支付类型', this.radio);
                 let type = this.radio;
                 if (type == '0') {
-                    var wxPay = api.require('wxPay');
+                    //var wxPay = api.require('wxPay');<preference name="querySchemes" value="weixin,iosamap,baidumap,e wechat" />
                     let d = {
                         apiKey: payData.appid,
                         mchId: payData.partnerid,
@@ -354,7 +354,7 @@
                     };
                     alert(JSON.stringify(wxPay));
                     alert(wxPay.payOrder());
-                    var wx = api.require('wx');
+                    //var wx = api.require('wx');
                     wx.isInstalled(function(ret, err) {
                         if (ret.installed) {
                           wxPay.payOrder(d, function (ret, err) {
@@ -419,10 +419,13 @@
             },
         },
     });
+    var wxPay = null,wx=null;
     apiready = function () {
         var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
         $api.fixStatusBar(header);
+        wxPay = api.require('wxPay');
+        wx = api.require('wx');
         setTimeout(() => {
             var pageParam = api.pageParam;
             console.log('pageParam', JSON.stringify(pageParam));
