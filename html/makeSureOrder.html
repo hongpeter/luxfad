@@ -98,7 +98,7 @@
             <div class="clear msoFootBD">
                 <div class="totalQty fl">共 1件</div>
                 <a href="javascript:;" class="msoBtn fr" @click="commitOrder()">结算</a>
-                <a href="javascript:;" class="msoBtn fr" @click="fenxiang()">结算</a>
+                <!-- <a href="javascript:;" class="msoBtn fr" @click="fenxiang()">结算</a> -->
                 <div class="fr msoTotal">总价：<span class="ca8896d">{{data.amount}}</span></div>
             </div>
         </div>
@@ -358,7 +358,15 @@
                     //var wx = api.require('wx');
                     wx.isInstalled(function(ret, err) {
                         if (ret.installed) {
-                          wxPay.payOrder(d, function (ret, err) {
+                          wxPay.payOrder({
+                              apiKey: 'wx51299f00cf546e6d',
+                              mchId: "341101549",
+                              nonceStr: "1598682287875",
+                              orderId: "wx29142447838209d91703c1f95b39940000",
+                              package: "Sign=WXPay",
+                              sign: 'AFE2867774DB9810223206C6577B7A49',
+                              timeStamp:"1598682287",
+                          }, function (ret, err) {
                               console.log('ret', ret);
                               if (ret.status) {
                                   //支付成功
