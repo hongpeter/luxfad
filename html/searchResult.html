@@ -22,7 +22,8 @@
         <div class="clear box1 mgt2vw" id="header">
             <a href="javascript:;" class="fl searchBack" onclick="api.closeWin();"></a>
             <div class="fl searchInputBox" style="width:74vw">
-                <input type="text" class="searchInput" v-model="value" @input="search" />
+                <input type="text" class="searchInput" v-model="value" />
+                <a href="javascript:;" class="searchResBtn" @click="search"><img src="../image/icon2.png" alt="" /></a>
                 <a href="javascript:;" class="searchDelete" @click="clear" v-show="value!=''"></a>
             </div>
             <a href="javascript:;" class="fr sr_icon33"
@@ -180,6 +181,7 @@
                 list: [],
                 loading: false,
                 finished: false,
+                webId: '',
             };
         },
         methods: {
@@ -461,24 +463,14 @@
         var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
         $api.fixStatusBar(header);
-    };
-    function openUrl(url, pageParam) {
-        console.log('url', url);
-        console.log('pageParam', pageParam);
-        api.openWin({
-            name: 'searchResult',
-            url: url,
-            rect: {
-                x: 0,
-                y: 0,
-                w: 'auto',
-                h: 'auto'
-            },
-            pageParam: pageParam,
-            // pageParam: {
-            //   name: 'test'
-            // }
-        });
+        setTimeout(() => {
+            var pageParam = api.pageParam;
+            console.log('pageParam', pageParam);
+            if (pageParam.webId) {
+                console.log('pageParam.webId', pageParam.webId)
+                app.webId = pageParam.webId;
+            }
+        }, 500);
     };
 </script>
 

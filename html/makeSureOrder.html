@@ -343,7 +343,6 @@
                 console.log('支付类型', this.radio);
                 let type = this.radio;
                 if (type == '0') {
-                    //var wxPay = api.require('wxPay');
                     let d = {
                         apiKey: payData.apiKey,
                         mchId: payData.mchId,
@@ -353,19 +352,19 @@
                         sign: payData.sign,
                         timeStamp: payData.timeStamp,
                     };
-                    wx.isInstalled(function(ret, err) {
+                    wx.isInstalled(function (ret, err) {
                         if (ret.installed) {
-                          wxPay.payOrder(d, function (ret, err) {
-                              console.log('ret', ret);
-                              if (ret.status) {
-                                  //支付成功
-                                  alert('支付成功');
-                                  openUrl('orderList.html', { type: -1 })
-                              } else {
-                                  alert(err.code);
-                              }
-                          });
-                          alert(JSON.stringify(d));
+                            wxPay.payOrder(d, function (ret, err) {
+                                console.log('ret', ret);
+                                if (ret.status) {
+                                    //支付成功
+                                    alert('支付成功');
+                                    openUrl('orderList.html', { type: -1 })
+                                } else {
+                                    alert(err.code);
+                                }
+                            });
+                            alert(JSON.stringify(d));
                         } else {
                             alert('当前设备未安装微信客户端');
                         }
@@ -410,26 +409,26 @@
 
                 }
             },
-            fenxiang(){
-              wx.isInstalled(function(ret, err) {
-                if (ret.installed) {
-                   alert("当前设备已安装微信客户端");
-                   wx.shareText({
-                        apiKey: '',
-                        scene: 'timeline',
-                        text: '我分享的文本'
-                    }, function(ret, err) {
-                        if (ret.status) {
-                            alert('分享成功');
-                        } else {
-                            alert(err.code);
-                        }
-                    });
-                 }
-                 else {
-                   alert('当前设备未安装微信客户端');
-                  }
-               });
+            fenxiang() {
+                wx.isInstalled(function (ret, err) {
+                    if (ret.installed) {
+                        alert("当前设备已安装微信客户端");
+                        wx.shareText({
+                            apiKey: '',
+                            scene: 'timeline',
+                            text: '我分享的文本'
+                        }, function (ret, err) {
+                            if (ret.status) {
+                                alert('分享成功');
+                            } else {
+                                alert(err.code);
+                            }
+                        });
+                    }
+                    else {
+                        alert('当前设备未安装微信客户端');
+                    }
+                });
             },
         },
         watch: {
@@ -438,7 +437,7 @@
             },
         },
     });
-    var wxPay = null,wx=null;
+    var wxPay = null, wx = null;
     apiready = function () {
         var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
@@ -455,7 +454,7 @@
                 app.getPayDetail();
             }
         }, 500);
-      }
+    }
 </script>
 
 </html>

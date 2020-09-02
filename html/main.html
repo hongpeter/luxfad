@@ -24,7 +24,7 @@
       </a>
       <a href="javascript:;" class="fr language" @click="showPicker = true">{{language}}</a>
       <a href="javascript:;" onclick="openUrl('search.html',{})" class="fr searchBtn"><img src="../image/icon2.png"
-          alt=""></a>
+          alt="" /></a>
     </div>
     <!-- 轮播 -->
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
@@ -57,6 +57,7 @@
         <div class="homeTag fl">{{item.title}}
           <!--{hk}猜妳喜歡-->
           <!--{en}GUESS YOU LIKE-->
+        </div>
         <a href="javascript:;" class="fr c7d7d7d homeTagLink"
           @click="openUrl('activityPosterDetails.html',{id:item.id})">
           <span>共{{item.products.length}}款</span>
@@ -197,22 +198,7 @@
       if (data.success) {
         if (data.data.length > 0) {
           data.data.forEach(i => {
-            html += `<a onclick="openUrl('activityPosterDetails.html',{id:${i.id}})">${i.name}</a>`;
-          });
-        }
-        $(".homeNav").html(html);
-      }
-    });
-  };
-  //网站(平台)下拉框信息
-  function getPlatform() {
-    request("GET", requestUrl + "/App/DropItem/Platform", '', function (data) {
-      console.log('getPlatform', JSON.stringify(data));
-      let html = '';
-      if (data.success) {
-        if (data.data.length > 0) {
-          data.data.forEach(i => {
-            html += `<a onclick="openUrl('activityPosterDetails.html',{id:${i.id}})">${i.name}</a>`;
+            html += `<a onclick="openUrl('searchResult.html',{webId:${i.id}})">${i.name}</a>`;
           });
         }
         $(".homeNav").html(html);

@@ -427,7 +427,7 @@ img {
 }
 
 .homeNav a {
-	/* float: left;
+	/* float: left; 
 	display: block;
 	*/
 	display: inline-block;
@@ -1370,6 +1370,17 @@ a.c7d7d7d,
 	line-height: 10vw;
 }
 
+.searchResBtn {
+	cursor: pointer;
+	position: absolute;
+	display: block;
+	width: 40px;
+	top: 50%;
+	right: 0vw;
+	z-index: 100;
+	margin-top: -13px;
+}
+
 .searchDelete {
 	position: absolute;
 	display: block;
@@ -1378,7 +1389,7 @@ a.c7d7d7d,
 	background-size: 4vw auto;
 	width: 10vw;
 	top: 0vw;
-	right: 0vw;
+	right: 10vw;
 	z-index: 100;
 }
 
