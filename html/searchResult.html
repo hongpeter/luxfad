@@ -43,7 +43,7 @@
         <!-- <van-pull-refresh v-model="isLoading" @refresh="onRefresh"></van-pull-refresh> -->
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
             <ul class="collectionList clear">
-                <li v-for="item in list" @click="openUrlVue('productDetail.html','{id:item.id}')">
+                <li v-for="item in list" @click="openUrlVue('productDetail.html',{id:item.id})">
                     <img :src="item.main_photo==''?'../image/productImg8.jpg':item.main_photo" alt="productImg"
                         class="productImg" />
                     <div class="collectionItemBD">
