@@ -1,10 +1,10 @@
 (function (window) {
   var u = {};
   u.wxShare = function (type, title, description, imgUrl, url) {
-    var wxPlus = api.require('wxPlus');
-    wxPlus.isInstalled(function (ret, err) {
+    var wx = api.require('wx');
+    wx.isInstalled(function (ret, err) {
       if (ret.installed) {
-        wxPlus.shareWebpage({
+        wx.shareWebpage({
           scene: type,
           title: title,
           description: description,
