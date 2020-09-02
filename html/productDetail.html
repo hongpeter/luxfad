@@ -464,7 +464,8 @@
                         isOne = true
                         if (data.success) {
                             _this.$toast.success("成功加入购物车！");
-                            openUrl('../index.html', { index: 2,showStartPoster:false })
+                            api.closeWin();
+                            //openUrl('../index.html', { index: 2,showStartPoster:false })
                         }
                     })
                 }
