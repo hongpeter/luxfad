@@ -76,4 +76,5 @@
 <!-- （可选项）DNS URL 地址，enableDnsConfig 为 true 时生效 -->
     <param name="dnsURL" value=""/>
 </feature>
+<meta-data name="EASEMOB_APPKEY" value="1118200912203541#luxfadapp"/>
 </widget>
