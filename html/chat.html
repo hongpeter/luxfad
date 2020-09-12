@@ -6,7 +6,7 @@
 	<meta name="viewport"
 		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
 	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-	<title>启动页</title>
+	<title>客服</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css" />
 	<link rel="stylesheet" type="text/css" href="../css/api.css" />
 	<style>
@@ -15,14 +15,10 @@
 
 <body>
 	<div class="" id="app" v-cloak>
-		<van-swipe class="my-swipe" :autoplay="3000" indicator-color="white" @change="onChange">
-			<van-swipe-item style="height:100vh;"><img src="../image/productImg2.jpg" alt="" /></van-swipe-item>
-			<van-swipe-item style="height:100vh;"><img src="../image/productImg2.jpg" alt="" /></van-swipe-item>
-			<van-swipe-item style="height:100vh;"><img src="../image/productImg2.jpg" alt="" /></van-swipe-item>
-			<van-swipe-item style="height:100vh;"><img src="../image/productImg2.jpg" alt="" /></van-swipe-item>
-		</van-swipe>
+
 	</div>
 </body>
+<!-- <content src="app.json" /> -->
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/jquery.js"></script>
 <script type="text/javascript" src="../script/public.js"></script>
@@ -30,6 +26,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
 <script type="text/javascript">
+	var easeChat = '';
 	// 在 #app 标签下渲染一个按钮组件
 	var app = new Vue({
 		el: '#app',
@@ -39,9 +36,7 @@
 			};
 		},
 		methods: {
-			onChange(index) {
-				this.$toast('当前 Swipe 索引：' + index);
-			},
+
 		},
 	});
 	//vant.Toast('提示');
@@ -49,6 +44,15 @@
 		var header = $api.byId('header');
 		//适配iOS 7+，Android 4.4+状态栏
 		$api.fixStatusBar(header);
+		easeChat = api.require('easeChat');
+		easeChat.getConversation({
+			conversationId: '',
+			type: 'chat',
+			ifCreate: true
+		}, function (ret) {
+			if (ret.status)
+				api.alert({ msg: JSON.stringify(ret) });
+		});
 	};
 </script>
 

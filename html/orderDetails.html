@@ -15,7 +15,7 @@
 </head>
 
 <body>
-	<div class="" id="app">
+	<div class="" id="app" v-cloak>
 		<div class="clear box1 bgfff shopCartTop" id="header">
 			<a href="javascript:;" class="fl searchBack apdBack" onclick="api.closeWin();"></a>
 			<div class="ta-c">订单详情</div>
@@ -240,31 +240,31 @@
 				let type = this.radio;
 				if (type == '0') {
 					let d = {
-                        apiKey: payData.apiKey,
-                        mchId: payData.mchId,
-                        nonceStr: payData.nonceStr,
-                        orderId: payData.orderId,
-                        package: payData.package,
-                        sign: payData.sign,
-                        timeStamp: payData.timeStamp,
-                    };
-                    wx.isInstalled(function (ret, err) {
-                        if (ret.installed) {
-                            wxPay.payOrder(d, function (ret, err) {
-                                console.log('ret', ret);
-                                if (ret.status) {
-                                    //支付成功
-                                    alert('支付成功');
-                                    openUrl('orderList.html', { type: -1 })
-                                } else {
-                                    alert(err.code);
-                                }
-                            });
-                            alert(JSON.stringify(d));
-                        } else {
-                            alert('当前设备未安装微信客户端');
-                        }
-                    });
+						apiKey: payData.apiKey,
+						mchId: payData.mchId,
+						nonceStr: payData.nonceStr,
+						orderId: payData.orderId,
+						package: payData.package,
+						sign: payData.sign,
+						timeStamp: payData.timeStamp,
+					};
+					wx.isInstalled(function (ret, err) {
+						if (ret.installed) {
+							wxPay.payOrder(d, function (ret, err) {
+								console.log('ret', ret);
+								if (ret.status) {
+									//支付成功
+									alert('支付成功');
+									openUrl('orderList.html', { type: -1 })
+								} else {
+									alert(err.code);
+								}
+							});
+							alert(JSON.stringify(d));
+						} else {
+							alert('当前设备未安装微信客户端');
+						}
+					});
 				} else if (type == '1') {
 					//var aliPayPlus = api.require('aliPayPlus');
 					let orderInfo = {
@@ -314,7 +314,7 @@
 		//适配iOS 7+，Android 4.4+状态栏
 		$api.fixStatusBar(header);
 		wxPay = api.require('wxPay');
-    wx = api.require('wx');
+		wx = api.require('wx');
 		setTimeout(() => {
 			var pageParam = api.pageParam;
 			console.log('pageParam', pageParam);

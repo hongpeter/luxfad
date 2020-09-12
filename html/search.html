@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" v-cloak>
         <div class="clear box1 mgt2vw" id="header">
             <a href="javascript:;" class="fl searchBack" onclick="api.closeWin();"></a>
             <div class="fl searchInputBox">
@@ -29,14 +29,15 @@
             <div class="fr clearRecord" @click="clearRecord()">清除记录</div>
         </div>
         <div class="searchRecordList box1 clear">
-            <a href="javascript:;" v-for="item in recentSearch" @click="openUrl('searchResult.html',{})">{{item}}</a>
+            <a href="javascript:;" v-for="item in recentSearch"
+                @click="openUrl('searchResult.html',{text:item})">{{item}}</a>
         </div>
-        <div class="clear box1 mgt2vw">
+        <!-- <div class="clear box1 mgt2vw">
             <div class="fl searchTag">猜你想找</div>
         </div>
         <div class="searchRecordList box1 clear">
             <a href="javascript:;" v-for="item in wantFind" @click="openUrl('searchResult.html',{})">{{item}}</a>
-        </div>
+        </div> -->
     </div>
 </body>
 <script type="text/javascript" src="../script/jquery.js"></script>
@@ -50,13 +51,21 @@
         el: '#app',
         data() {
             return {
-                value: '不会买错的化妆品',
+                value: '',
                 showPicker: false,
                 columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
                 showClear: false,
-                recentSearch: ['夏装', '夏装', '夏装', '夏装', '夏装',],
+                recentSearch: [],
                 wantFind: ['夏装', '夏装', '夏装', '夏装', '夏装',],
             };
+        },
+        created() {
+            if (localStorage.getItem('searchCach')) {
+                this.recentSearch = JSON.parse(localStorage.getItem('searchCach'));
+            } else {
+                localStorage.setItem('searchCach', JSON.stringify(this.recentSearch));
+            }
+
         },
         methods: {
             clear() {
@@ -66,9 +75,19 @@
                 this.value = value;
                 this.showPicker = false;
             },
-            search() { },
+            search() {
+                //let ls = JSON.parse(localStorage.getItem('searchCach'));
+                this.recentSearch.push(this.value);
+                localStorage.setItem('searchCach', JSON.stringify(this.recentSearch));
+                // api.setPrefs({
+                //     key: 'searchCach',
+                //     value: JSON.stringify(this.recentSearch)
+                // });
+                openUrl('./searchResult.html', { text: this.value })
+            },
             clearRecord() {
                 this.recentSearch = [];
+                localStorage.removeItem('searchCach')
             },
         },
         watch: {

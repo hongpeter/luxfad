@@ -268,6 +268,10 @@ img {
 	position: relative;
 }
 
+[v-cloak] {
+	display: none;
+}
+
 /*index.hrml--start*/
 .my_swipe.van-swipe {
 	position: fixed;
@@ -427,7 +431,7 @@ img {
 }
 
 .homeNav a {
-	/* float: left;
+	/* float: left; 
 	display: block;
 	*/
 	display: inline-block;

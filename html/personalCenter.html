@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div class="" id="app">
+    <div class="" id="app" v-cloak>
         <div class="shopCartTop clear" id="header">
             <div class="fl shopCartTitle">个人中心</div>
             <a class="homeMsg centerMsg fr" onclick="openUrl('messageBox.html',{})">
@@ -144,7 +144,7 @@
     apiready = function () {
         var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
-        $api.fixStatusBar(header);
+        //$api.fixStatusBar(header);
     };
     function getUserInfo() {
         request("GET", requestUrl + "/App/Users/UserInfo", '', function (data) {

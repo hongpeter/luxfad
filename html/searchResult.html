@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" v-cloak>
         <van-overlay :show="showOverlay" @click="showOverlay = false">
             <van-loading size="24px" vertical style="margin-top:10vh;">加载中...</van-loading>
         </van-overlay>
