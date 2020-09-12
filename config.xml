@@ -59,4 +59,21 @@
     <param name="apiKey" value="wx51299f00cf546e6d"/>
     <param name="apiSecret" value="c118723970c5e526cf40957816518a74"/>
   </feature>
+
+  <feature name="easeChat">
+    <!-- //value里面"****"换成,在环信平台控制里面创建应用时得到的AppKey； -->
+    <param name="appKey" value="1118200912203541#luxfadapp"/>
+    <!-- iOS 中推送证书名称，具体请参考制作与上传推送证书http://docs-im.easemob.com/im/300iosclientintegration/30iossdkbasic。-->
+    <!--<param name="ios_apnsCertName" value="81qz3dBYB5q2nGji4IYrawr1" /> -->
+    <!--（可选项）是否允许使用DNS，当使用了自己私有服务器请将此参数配置为false； 默认为true -->
+    <param name="enableDnsConfig" value="true"/>
+    <!--（可选项）IM服务器端口，enableDnsConfig 为 false 时生效 -->
+    <!-- <param name="chatPort" value= "6718"/> -->
+    <!--（可选项）IM服务器端口，enableDnsConfig 为 false 时生效 -->
+    <!-- <param name="chatServer" value="im2.ssy.citics.com"/> -->
+    <!--（可选项）IM服务器端口，enableDnsConfig 为 false 时生效 -->
+    <!-- <param name="restServer" value="a1.ssy.citics.com:88"/> -->
+<!-- （可选项）DNS URL 地址，enableDnsConfig 为 true 时生效 -->
+    <param name="dnsURL" value=""/>
+</feature>
 </widget>
