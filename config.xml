@@ -59,4 +59,16 @@
     <param name="apiKey" value="wx51299f00cf546e6d"/>
     <param name="apiSecret" value="c118723970c5e526cf40957816518a74"/>
   </feature>
+  <feature name="easeChat">
+    <param name="appKey" value="1128200908046282#luxfad" />
+    <param name="ios_apnsCertName" value="" />
+    <param name="enableDnsConfig" value="true" />
+    <param name="chatPort" value= "6718"/>
+    <param name="chatServer" value="im2.ssy.citics.com" />
+    <param name="restServer" value="a1.ssy.citics.com:88" />
+    <param name="dnsURL" value="" />
+    <param name="miAppId" value="" />
+    <param name="miAppKey" value="" />
+  </feature>
+  <meta-data name="EASEMOB_APPKEY" value="1128200908046282#luxfad" />
 </widget>
