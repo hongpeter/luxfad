@@ -60,12 +60,11 @@
     <param name="apiSecret" value="c118723970c5e526cf40957816518a74"/>
   </feature>
 
-  <feature name="UIEaseCEC">
-    <param name="appKey" value="1128200908046282#luxfad" />
+  <!-- <feature name="UIEaseCEC"> -->
+    <!-- <param name="appKey" value="1128200908046282#luxfad" /> -->
     <!-- <param name="ios_apnsCertName" value="81qz3dBYB5q2nGji4IYrawr1" /> -->
-    <param name="tenantId" value="1128200908046282" />
+    <!-- <param name="tenantId" value="1128200908046282" /> -->
     <!-- <param name="androidMiPushAppid" value="mipushappid" /> -->
     <!-- <param name="androidMiPushAppKey" value="mipushappkey" /> -->
-  </feature>
-  <!-- <meta-data name="com.huawei.hms.client.appid" value="appid=10663060" /> -->
+  <!-- </feature> -->
 </widget>
