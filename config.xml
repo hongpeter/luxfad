@@ -67,4 +67,5 @@
     <!-- <param name="androidMiPushAppid" value="mipushappid" /> -->
     <!-- <param name="androidMiPushAppKey" value="mipushappkey" /> -->
   </feature>
+  <!-- <meta-data name="com.huawei.hms.client.appid" value="appid=10663060" /> -->
 </widget>
