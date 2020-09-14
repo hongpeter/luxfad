@@ -57,10 +57,10 @@
 		</ul>
 		<div class="sc_foot">
 			<a href="javascript:;" class="icon64Box fl">
-				<img src="../image/icon64.png" alt="" class="icon64" />
+				<img src="../image/icon84.png" alt="" class="icon64" />
 			</a>
-			<input type="text" class="sc_footInput" />
-			<a href="javascript:;" class="icon65Box fr">
+			<input type="text" class="sc_footInput" v-model="text" />
+			<a href="javascript:;" class="icon65Box fr" @click="sendText()">
 				<img src="../image/icon65.png" alt="" class="icon65" />
 			</a>
 		</div>
@@ -73,16 +73,59 @@
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
 <script type="text/javascript">
+	var easeChat = '';
+	var UIEaseCEC = '';
 	// 在 #app 标签下渲染一个按钮组件
 	var app = new Vue({
 		el: '#app',
 		data() {
 			return {
-
+				text: "",
 			};
 		},
 		methods: {
-
+			loadData() {
+				easeChat.loadMessageFromDB({
+					conversationId: '',
+					type: 'chat',
+					startMsgId: ''
+				}, function (ret) {
+					if (ret.status)
+						api.alert({ msg: JSON.stringify(ret) });
+				});
+			},
+			sendText() {
+				easeChat.sendText({
+					conversationId: '',
+					chatType: 'chat',
+					text: this.text,
+					from: '',
+					to: 'APICloud',
+					ext: {}
+				}, function (ret, err) {
+					if (ret.status)
+						api.alert({ msg: JSON.stringify(ret) });
+					else
+						api.alert({ msg: JSON.stringify(err) });
+				});
+			},
+			snedImg(path) {
+				easeChat.sendImage({
+					conversationId: '',
+					chatType: 'chat',
+					//path: 'widget://res/abc.png',
+					path: path,
+					displayName: 'cloud',
+					from: '',
+					to: 'APICloud',
+					ext: {}
+				}, function (ret, err) {
+					if (ret.status)
+						api.alert({ msg: JSON.stringify(ret) });
+					else
+						api.alert({ msg: JSON.stringify(err) });
+				});
+			},
 		},
 	});
 	//vant.Toast('提示');
@@ -90,6 +133,18 @@
 		var header = $api.byId('header');
 		//适配iOS 7+，Android 4.4+状态栏
 		$api.fixStatusBar(header);
+		UIEaseCEC = api.require('UIEaseCEC');
+		UIEaseCEC.chat({
+    conversationId: '1128200908046282',
+    text: {
+       size: 15,
+       color: '#000'
+    },
+    avatar: {
+       size: 40,
+       corner: 20
+    },
+});
 	};
 </script>
 
