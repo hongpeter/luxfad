@@ -85,7 +85,7 @@
 		methods: {
 			loadData() {
 				easeChat.loadMessageFromDB({
-					conversationId: '',
+					conversationId: '1128200908046282',
 					type: 'chat',
 					startMsgId: ''
 				}, function (ret) {
@@ -95,7 +95,7 @@
 			},
 			sendText() {
 				easeChat.sendText({
-					conversationId: '',
+					conversationId: '1128200908046282',
 					chatType: 'chat',
 					text: this.text,
 					from: '',
@@ -110,7 +110,7 @@
 			},
 			snedImg(path) {
 				easeChat.sendImage({
-					conversationId: '',
+					conversationId: '1128200908046282',
 					chatType: 'chat',
 					//path: 'widget://res/abc.png',
 					path: path,
@@ -134,13 +134,14 @@
 		$api.fixStatusBar(header);
 		easeChat = api.require('easeChat');
 		easeChat.getConversation({
-			conversationId: '',
+			conversationId: '1128200908046282',
 			type: 'chat',
 			ifCreate: true
 		}, function (ret) {
 			if (ret.status)
 				api.alert({ msg: JSON.stringify(ret) });
 		});
+		aap.loadData();
 	};
 </script>
 
