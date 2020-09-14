@@ -73,7 +73,6 @@
 <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 <script src="../script/languages.min.js"></script>
 <script type="text/javascript">
-	var easeChat = '';
 	// 在 #app 标签下渲染一个按钮组件
 	var app = new Vue({
 		el: '#app',
@@ -83,48 +82,7 @@
 			};
 		},
 		methods: {
-			loadData() {
-				easeChat.loadMessageFromDB({
-					conversationId: '',
-					type: 'chat',
-					startMsgId: ''
-				}, function (ret) {
-					if (ret.status)
-						api.alert({ msg: JSON.stringify(ret) });
-				});
-			},
-			sendText() {
-				easeChat.sendText({
-					conversationId: '',
-					chatType: 'chat',
-					text: this.text,
-					from: '',
-					to: 'APICloud',
-					ext: {}
-				}, function (ret, err) {
-					if (ret.status)
-						api.alert({ msg: JSON.stringify(ret) });
-					else
-						api.alert({ msg: JSON.stringify(err) });
-				});
-			},
-			snedImg(path) {
-				easeChat.sendImage({
-					conversationId: '',
-					chatType: 'chat',
-					//path: 'widget://res/abc.png',
-					path: path,
-					displayName: 'cloud',
-					from: '',
-					to: 'APICloud',
-					ext: {}
-				}, function (ret, err) {
-					if (ret.status)
-						api.alert({ msg: JSON.stringify(ret) });
-					else
-						api.alert({ msg: JSON.stringify(err) });
-				});
-			},
+
 		},
 	});
 	//vant.Toast('提示');
@@ -132,15 +90,6 @@
 		var header = $api.byId('header');
 		//适配iOS 7+，Android 4.4+状态栏
 		$api.fixStatusBar(header);
-		easeChat = api.require('easeChat');
-		easeChat.getConversation({
-			conversationId: '',
-			type: 'chat',
-			ifCreate: true
-		}, function (ret) {
-			if (ret.status)
-				api.alert({ msg: JSON.stringify(ret) });
-		});
 	};
 </script>
 
