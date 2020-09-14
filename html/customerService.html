@@ -140,6 +140,8 @@
 		}, function (ret) {
 			if (ret.status)
 				api.alert({ msg: JSON.stringify(ret) });
+			else
+				api.alert({ msg: JSON.stringify(err) });
 		});
 		app.loadData();
 	};

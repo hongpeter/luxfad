@@ -71,4 +71,7 @@
     <param name="miAppKey" value="" />
   </feature>
   <meta-data name="EASEMOB_APPKEY" value="1128200908046282#luxfad" />
+  <feature name="aliPayPlus">
+      <param name="urlScheme" value="AliPayPlusA6046523109919" />
+  </feature>
 </widget>
