@@ -137,7 +137,7 @@
 			conversationId: '1128200908046282',
 			type: 'chat',
 			ifCreate: true
-		}, function (ret) {
+		}, function (ret,err) {
 			if (ret.status)
 				api.alert({ msg: JSON.stringify(ret) });
 			else
