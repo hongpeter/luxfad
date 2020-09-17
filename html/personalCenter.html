@@ -37,53 +37,60 @@
                 <div class="fl centerTag">我的订单</div>
                 <a onclick="openUrl('orderList.html',{active:-1})" href="javascript:;" class="toAllOrder fr">查看全部订单</a>
             </div>
+            <!-- 普通用户 -->
             <div class="centerOrderNav flex" v-show="type==0">
-                <a href="javascript:;" onclick="openUrl('orderList.html',{})">
+                <!-- <a href="javascript:;" onclick="openUrl('orderList.html',{})">
                     <img src="../image/icon19.png" alt="" />
                     <div class="">未到货</div>
-                </a>
+                </a> -->
                 <a href="javascript:;" onclick="openUrl('orderList.html',{active:0,})">
                     <img src="../image/icon20.png" alt="" />
-                    <div>未付款</div>
+                    <div>待付款</div>
                 </a>
-                <a href="javascript:;" onclick="openUrl('orderList.html',{active:-1})">
+                <!-- <a href="javascript:;" onclick="openUrl('orderList.html',{active:-1})">
                     <img src="../image/icon21.png" alt="" />
                     <div>已到货</div>
+                </a> -->
+                <a href="javascript:;" onclick="openUrl('orderList.html',{active:1})">
+                    <img src="../image/icon21.png" alt="" />
+                    <div>待发货</div>
                 </a>
-                <a href="javascript:;" onclick="openUrl('orderList.html',{active:5})">
+                <a href="javascript:;" onclick="openUrl('orderList.html',{active:2})">
                     <img src="../image/icon22.png" alt="" />
-                    <div>已送货</div>
+                    <div>待收货</div>
+                </a>
+                <a href="javascript:;" onclick="openUrl('orderList.html',{active:3})">
+                    <img src="../image/icon30.png" alt="" />
+                    <div>待评价</div>
                 </a>
                 <a href="javascript:;" onclick="openUrl('orderList.html',{active:4})">
-                    <img src="../image/icon23.png" alt="" />
-                    <div>已付款</div>
-                </a>
-                <a href="javascript:;" onclick="openUrl('orderList.html',{active:8})">
-                    <img src="../image/icon24.png" alt="" />
-                    <div>取消订单</div>
+                    <img src="../image/icon31.png" alt="" />
+                    <div>售后</div>
                 </a>
             </div>
+            <!-- 泰国用户 -->
             <div class="centerOrderNav flex" v-show="type==1">
+                <a href="javascript:;" onclick="openUrl('orderList.html',{active:1})">
+                    <img src="../image/icon21.png" alt="" />
+                    <div>待发货</div>
+                </a>
+                <a href="javascript:;" onclick="openUrl('orderList.html',{active:2})">
+                    <img src="../image/icon22.png" alt="" />
+                    <div>待收货</div>
+                </a>
                 <a href="javascript:;" onclick="openUrl('orderList.html',{active:0})">
                     <img src="../image/icon20.png" alt="" />
                     <div>待付款</div>
                 </a>
-                <a href="javascript:;" onclick="openUrl('orderList.html',{active:4})">
-                    <img src="../image/icon21.png" alt="" />
-                    <div>待发货</div>
-                </a>
-                <a href="javascript:;" onclick="openUrl('orderList.html',{active:5})">
-                    <img src="../image/icon22.png" alt="" />
-                    <div>待收货</div>
-                </a>
-                <a href="javascript:;" onclick="openUrl('orderList.html',{active:6})">
+                <a href="javascript:;" onclick="openUrl('orderList.html',{active:3})">
                     <img src="../image/icon30.png" alt="" />
                     <div>待评价</div>
                 </a>
-                <a href="javascript:;" onclick="openUrl('orderList.html',{active:8})">
+                <a href="javascript:;" onclick="openUrl('orderList.html',{active:4})">
                     <img src="../image/icon31.png" alt="" />
                     <div>售后</div>
                 </a>
+
             </div>
         </div>
         <ul class="centerNav">

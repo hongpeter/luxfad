@@ -61,7 +61,7 @@
                                 </div>
                                 <template #right>
                                     <div class="cartDeleteBox">
-                                        <a href="javascript:;" class="cartDelete">
+                                        <a href="javascript:;" class="cartDelete" @click="DeleteCart(i.id)">
                                             <img src="../image/icon17.png" alt="" />
                                             <div>删除</div>
                                         </a>
@@ -124,10 +124,11 @@
                 totalFreight: 0,
                 subtotal: 0,
                 isLoading: false,
+                isOne: true,
             };
         },
         created() {
-            //this.getCart();
+            this.getCart();
         },
         methods: {
             onRefresh() {
@@ -230,6 +231,36 @@
                         //_this.cartList = data.data;
                     }
                 })
+            },
+            DeleteCart(id) {
+                let _this = this;
+                console.log('DeleteCart', id);
+                let d = {
+                    cart_id: [id]
+                };
+                this.$dialog.confirm({
+                    title: '标题',
+                    message: '确定从购物车中移除此商品吗？',
+                })
+                    .then(() => {
+                        // on confirm
+                        if (this.isOne) {
+                            this.isOne = false;
+                            request("POST", requestUrl + "/App/Product/DeleteCart", JSON.stringify(d), function (data) {
+                                console.log('DeleteCart', JSON.stringify(data));
+                                _this.isOne = true;
+                                if (data.success) {
+                                    _this.$toast.success('删除成功！');
+                                    _this.getCart();
+                                }
+                            })
+                        } else {
+                            this.$toast('删除商品中，请勿重复操作！');
+                        }
+                    })
+                    .catch(() => {
+                        // on cancel
+                    });
             },
         },
     });

@@ -27,10 +27,10 @@
 		<div class="clear orderListNav">
 			<a href="javascript:;" :class="[active==-1?'active':'']" @click="tabChange(-1)">全部</a>
 			<a href="javascript:;" :class="[active==0?'active':'']" @click="tabChange(0)">待付款</a>
-			<a href="javascript:;" :class="[active==4?'active':'']" @click="tabChange(4)">待发货</a>
-			<a href="javascript:;" :class="[active==5?'active':'']" @click="tabChange(5)">待收货</a>
-			<a href="javascript:;" :class="[active==6?'active':'']" @click="tabChange(6)">待评价</a>
-			<a href="javascript:;" :class="[active==8?'active':'']" @click="tabChange(8)">售后</a>
+			<a href="javascript:;" :class="[active==1?'active':'']" @click="tabChange(1)">待发货</a>
+			<a href="javascript:;" :class="[active==2?'active':'']" @click="tabChange(2)">待收货</a>
+			<a href="javascript:;" :class="[active==3?'active':'']" @click="tabChange(3)">待评价</a>
+			<a href="javascript:;" :class="[active==4?'active':'']" @click="tabChange(4)">售后</a>
 		</div>
 		<div class="clear box1">
 			<input type="text" class="orderInput" placeholder="搜索所有订单" v-model="order_sn" @input="searchInput" />

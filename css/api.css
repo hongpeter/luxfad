@@ -2279,6 +2279,9 @@ a.c7d7d7d,
 /*评论--end*/
 
 /*收货地址--start*/
+.addressTop{
+	display:flex;justify-content:space-between;
+}
 .addressList {
 	min-height: 90vh;
 }
@@ -2291,7 +2294,7 @@ a.c7d7d7d,
 .addressLink {
 	position: absolute;
 	right: 4%;
-	top: 0;
+	top: 11vw;
 	line-height: 11vw;
 	font-size: 0.875rem;
 }

@@ -47,7 +47,7 @@
 					<div>{{data.name}}</div>
 					<div class="clear">
 						<div class="cc9c9c9 fl"><span v-for="v in data.sku">{{v}}&nbsp;&nbsp;</span></div>
-						<div class="cc9c9c9 fr">X{{data.count}}</div>
+						<!-- <div class="cc9c9c9 fr">X{{data.count}}</div> -->
 					</div>
 					<div class="cc9c9c9">收货方式：{{data.receive_way}}</div>
 					<div class="clear">
@@ -211,7 +211,7 @@
 					if (data.success) {
 						_this.data = data.data;
 						console.log('订单明细详情', _this.data);
-						console.log('订单明细详情', JSON.stringify(_this.data.express_info));
+						//console.log('订单明细详情', JSON.stringify(_this.data.express_info));
 					}
 				})
 			},
