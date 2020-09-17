@@ -37,7 +37,7 @@
         <div class="bgfff mgt2vw clear">
             <div class="ta-c c434343 goodRecommendation">好货推荐</div>
             <ul class="collectionList clear">
-                <li v-for="item in data.products" @click="openUrl('productDetail.html',{})">
+                <li v-for="item in data.products" @click="openUrl('productDetail.html',{id:i.id})">
                     <!-- <img src="../image/productImg8.jpg" alt="" class="productImg" /> -->
                     <van-image class="productImg" height="65vw" fit="cover" :src="item.main_photo"
                         style="display: block;">
