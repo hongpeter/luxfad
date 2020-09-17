@@ -18,6 +18,7 @@
 		<div class="clear box1 bgfff shopCartTop" id="header">
 			<a href="javascript:;" class="fl searchBack apdBack" onclick="api.closeWin();"></a>
 			<div class="ta-c">地址列表</div>
+			<a href="javascript:;" class="fr addressLink" onclick="openUrl('addAddress.html',{})">+ 新增</a>
 		</div>
 		<van-pull-refresh v-model="isLoading" @refresh="onRefresh">
 			<div class="addressList">
