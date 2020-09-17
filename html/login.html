@@ -226,6 +226,10 @@
               value: data.data.fToken
             });
             api.closeWin();
+            api.sendEvent({
+              name: 'refreshData',
+              extra: {}
+            });
           } else {
             alert(data.msg);
           }
