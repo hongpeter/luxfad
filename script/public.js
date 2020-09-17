@@ -2,7 +2,7 @@
 // new_element.setAttribute("type", "text/javascript");
 // new_element.setAttribute("src", "/script/api.js");
 // document.body.appendChild(new_element);
-const requestUrl = 'http://192.168.1.97:8010/';
+const requestUrl = 'http://api.luxfad.com/';
 
 function request(type, url, data, callback) {
     $.ajax({
