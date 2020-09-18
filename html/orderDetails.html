@@ -293,7 +293,8 @@
 						//6002：网络连接出错
 						//6004：支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
 						if (ret.code == 9000) {
-							openUrl('orderList.html', { type: -1 })
+							//openUrl('orderList.html', { type: -1 })
+							goBack({ type: -1 });
 						} else {
 							alert(ret.code);
 						}
