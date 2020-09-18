@@ -19,7 +19,7 @@
 <body>
     <div id="app" v-cloak>
         <div class="clear box1 bgfff shopCartTop" id="header">
-            <a href="javascript:;" class="fl searchBack apdBack" onclick="api.closeWin();"></a>
+            <a href="javascript:;" class="fl searchBack apdBack" onclick="goBack({})"></a>
             <a href="javascript:;" class="homeMsg centerMsg fr" onclick="openUrl('messageBox.html',{})">
                 <img src="../image/icon1.png" alt="" class="icon1" style="margin-top:4vw;">
                 <span class="redBlock"></span>
@@ -127,6 +127,11 @@
                 app.getPosterDetail();
             }
         }, 500);
+        api.addEventListener({
+            name: 'refreshData'
+        }, function(ret, err) {
+            app.getPosterDetail();
+        });
     };
     // function openUrl(url, pageParam) {
     //     console.log('url', url);

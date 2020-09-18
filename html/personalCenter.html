@@ -149,21 +149,26 @@
     });
     //vant.Toast('提示');
     apiready = function () {
-        var header = $api.byId('header');
-        //适配iOS 7+，Android 4.4+状态栏
-        //$api.fixStatusBar(header);
+      var header = $api.byId('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      //$api.fixStatusBar(header);
+      api.addEventListener({
+  				name: 'refreshData'
+  		}, function(ret, err) {
+  				getUserInfo();
+  		});
     };
     function getUserInfo() {
-        request("GET", requestUrl + "/App/Users/UserInfo", '', function (data) {
-            console.log('getUserInfo', JSON.stringify(data));
-            let html = '';
-            if (data.success) {
-                $("#userName").html(data.data.nick_name);
-                $("#userId").html(data.data.username);
-                $(".headImg").attr('src', data.data.head);
-                app.type = data.data.type;
-            }
-        })
+      request("GET", requestUrl + "/App/Users/UserInfo", '', function (data) {
+          console.log('getUserInfo', JSON.stringify(data));
+          let html = '';
+          if (data.success) {
+              $("#userName").html(data.data.nick_name);
+              $("#userId").html(data.data.username);
+              $(".headImg").attr('src', data.data.head);
+              app.type = data.data.type;
+          }
+      })
     };
     getUserInfo()
 </script>

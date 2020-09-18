@@ -189,6 +189,11 @@
 			}
 			app.getList();
 		}, 500);
+		api.addEventListener({
+				name: 'refreshData'
+		}, function(ret, err) {
+				app.getList();
+		});
 	};
 
 </script>

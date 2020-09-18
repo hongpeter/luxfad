@@ -19,7 +19,7 @@
 <body class="bgeee">
     <div class="" id="app" v-cloak>
         <div class="shopCartTop productTop clear bgfff" id="header">
-            <a href="javascript:;" class="productBack fl" onclick="api.closeWin();">
+            <a href="javascript:;" class="productBack fl" onclick="goBack({})">
                 <img src="../image/icon32.png" alt="" />
             </a>
             <div class="productTabs fl">
@@ -526,6 +526,11 @@
                 app.getDetail(id);
             }
         }, 500);
+        api.addEventListener({
+    				name: 'refreshData'
+    		}, function(ret, err) {
+    				app.getDetail(id);
+    		});
     };
 </script>
 

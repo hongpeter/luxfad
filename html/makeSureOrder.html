@@ -19,7 +19,7 @@
 <body>
     <div id="app" v-cloak>
         <div class="clear box1 bgfff shopCartTop" id="header">
-            <a href="javascript:;" class="fl searchBack apdBack" onclick="api.closeWin();"></a>
+            <a href="javascript:;" class="fl searchBack apdBack" onclick="goBack({})"></a>
             <div class="ta-c">确认订单</div>
         </div>
         <div class="box1 clear mso_noAddress" v-show="noAddress">
@@ -442,21 +442,26 @@
     });
     var wxPay = null, wx = null;
     apiready = function () {
-        var header = $api.byId('header');
-        //适配iOS 7+，Android 4.4+状态栏
-        $api.fixStatusBar(header);
-        wxPay = api.require('wxPay');
-        wx = api.require('wx');
-        setTimeout(() => {
-            var pageParam = api.pageParam;
-            console.log('pageParam', JSON.stringify(pageParam));
-            console.log(typeof pageParam.obj)
-            if (pageParam.obj) {
-                console.log('pageParam.obj', JSON.stringify(pageParam.obj))
-                obj = pageParam.obj;
-                app.getPayDetail();
-            }
-        }, 500);
+      var header = $api.byId('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+      wxPay = api.require('wxPay');
+      wx = api.require('wx');
+      setTimeout(() => {
+          var pageParam = api.pageParam;
+          console.log('pageParam', JSON.stringify(pageParam));
+          console.log(typeof pageParam.obj)
+          if (pageParam.obj) {
+              console.log('pageParam.obj', JSON.stringify(pageParam.obj))
+              obj = pageParam.obj;
+              app.getPayDetail();
+          }
+      }, 500);
+      api.addEventListener({
+  				name: 'refreshData'
+  		}, function(ret, err) {
+  				app.getPayDetail();
+  		});
     }
 </script>
 

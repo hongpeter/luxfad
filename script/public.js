@@ -119,3 +119,12 @@ function param(json) {
             encodeURIComponent(json[key])
     })).join('&')
 }
+
+
+function goBack(extra){
+  api.closeWin();
+  api.sendEvent({
+    name: 'refreshData',
+    extra: extra
+  });
+};

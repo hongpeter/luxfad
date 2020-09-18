@@ -141,6 +141,11 @@
 	//vant.Toast('提示');
 	apiready = function () {
 		var header = $api.byId('header');
+		api.addEventListener({
+				name: 'refreshData'
+		}, function(ret, err) {
+				app.getCollectList();
+		});
 		//适配iOS 7+，Android 4.4+状态栏
 		//$api.fixStatusBar(header);
 	};

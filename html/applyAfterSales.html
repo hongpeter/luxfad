@@ -16,7 +16,7 @@
 <body>
 	<div class="" id="app" v-cloak>
 		<div class="clear box1 bgfff shopCartTop" id="header">
-			<a href="javascript:;" class="fl searchBack apdBack" onclick="api.closeWin();"></a>
+			<a href="javascript:;" class="fl searchBack apdBack" onclick="goBack({})"></a>
 			<div class="ta-c">申请售后</div>
 		</div>
 		<div class="aas_top clear box">
@@ -101,6 +101,11 @@
 				app.getItemDetail(id);
 			}
 		}, 500);
+		api.addEventListener({
+				name: 'refreshData'
+		}, function(ret, err) {
+				app.getItemDetail(id);
+		});
 	};
 </script>
 

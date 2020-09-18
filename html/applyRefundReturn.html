@@ -16,7 +16,7 @@
 <body>
 	<div class="" id="app" v-cloak>
 		<div class="clear box1 bgfff shopCartTop" id="header">
-			<a href="javascript:;" class="fl searchBack apdBack" onclick="api.closeWin();"></a>
+			<a href="javascript:;" class="fl searchBack apdBack" onclick="goBack({})"></a>
 			<div class="ta-c">申请退款退货</div>
 		</div>
 		<div class="aas_top clear box">
@@ -180,7 +180,7 @@
 				_this.file_name = file.name;
 				var imgUrlBase64;
 				if (file) {
-					//将文件以Data URL形式读入页面  
+					//将文件以Data URL形式读入页面
 					imgUrlBase64 = reader.readAsDataURL(file);
 					reader.onload = function (e) {
 						//var ImgFileSize = reader.result.substring(reader.result.indexOf(",") + 1).length;//截取base64码部分（可选可不选，需要与后台沟通）
@@ -237,6 +237,12 @@
 				app.getItemDetail(id);
 			}
 		}, 500);
+		api.addEventListener({
+				name: 'refreshData'
+		}, function(ret, err) {
+				app.getItemDetail(id);
+				app.getAfterSaleChangeReason();
+		});
 	};
 </script>
 

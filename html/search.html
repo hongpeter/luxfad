@@ -17,7 +17,7 @@
 <body>
     <div id="app" v-cloak>
         <div class="clear box1 mgt2vw" id="header">
-            <a href="javascript:;" class="fl searchBack" onclick="api.closeWin();"></a>
+            <a href="javascript:;" class="fl searchBack" onclick="goBack({})"></a>
             <div class="fl searchInputBox">
                 <input type="text" class="searchInput" v-model="value" />
                 <a href="javascript:;" class="searchResBtn" @click="search"><img src="../image/icon2.png" alt="" /></a>
@@ -100,6 +100,15 @@
         var header = $api.byId('header');
         //适配iOS 7+，Android 4.4+状态栏
         $api.fixStatusBar(header);
+        api.addEventListener({
+    				name: 'refreshData'
+    		}, function(ret, err) {
+          if (localStorage.getItem('searchCach')) {
+              app.recentSearch = JSON.parse(localStorage.getItem('searchCach'));
+          } else {
+              localStorage.setItem('searchCach', JSON.stringify(app.recentSearch));
+          }
+    		});
     };
 </script>
 

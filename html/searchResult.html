@@ -20,7 +20,7 @@
             <van-loading size="24px" vertical style="margin-top:10vh;">加载中...</van-loading>
         </van-overlay>
         <div class="clear box1 mgt2vw" id="header">
-            <a href="javascript:;" class="fl searchBack" onclick="api.closeWin();"></a>
+            <a href="javascript:;" class="fl searchBack" onclick="goBack({})"></a>
             <div class="fl searchInputBox" style="width:74vw">
                 <input type="text" class="searchInput" v-model="value" />
                 <a href="javascript:;" class="searchResBtn" @click="search"><img src="../image/icon2.png" alt="" /></a>
@@ -471,6 +471,15 @@
                 app.webId = pageParam.webId;
             }
         }, 500);
+        api.addEventListener({
+    				name: 'refreshData'
+    		}, function(ret, err) {
+          app.getPlatformAndCategory();
+          app.getBrand('');
+          app.getPrice();
+          app.getDiscount();
+          app.getList(app.pageNum, app.pageSize);
+    		});
     };
 </script>
 
